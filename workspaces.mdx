@@ -1,0 +1,70 @@
+---
+title: "Workspaces"
+description: "Isolated development environments for AI agent sessions"
+icon: "folder-grid"
+---
+
+A workspace is an isolated development environment linked to a Git repository. Each workspace gets its own Git worktree, so multiple sessions can run in parallel on the same codebase without file conflicts.
+
+## **Creating a Workspace**
+
+Press **Cmd+N** or click **Add Workspace** in the sidebar. You can import a repository in two ways:
+
+- **Remote URL** -- paste a Git remote URL and Jinzo clones the repo and creates a worktree
+- **Local path** -- select an existing local repository and Jinzo creates a worktree from it
+
+Jinzo automatically groups workspaces into [projects](/projects) based on the repository's remote origin. If no project exists for the remote, one is created automatically.
+
+## **Workspace Status**
+
+Each workspace has a status that tracks where it is in your development workflow:
+
+| **Status**      | **Description**                                      |
+| --------------- | ---------------------------------------------------- |
+| **Backlog**     | Queued for future work                               |
+| **Todo**        | Ready to start (default for new workspaces)          |
+| **In Progress** | Agent is actively working or changes are being made  |
+| **In Review**   | Changes are ready for review                         |
+| **Done**        | Work is complete and merged                          |
+| **Canceled**    | Work was abandoned                                   |
+| **Duplicate**   | Workspace duplicates another                         |
+
+You can update the status manually from the workspace sidebar. Some transitions happen automatically -- for example, starting an agent run moves the workspace to **In Progress**.
+
+## **Workspace Components**
+
+Each workspace provides access to:
+
+| **Component**                         | **Description**                                                  |
+| ------------------------------------- | ---------------------------------------------------------------- |
+| **Agent input**                       | Send prompts to Claude Code or Copilot                           |
+| [**File explorer**](/file-explorer)   | Browse and select files to include in agent context              |
+| [**Diff viewer**](/diff-viewer)       | Review all changes made by the agent                             |
+| [**Terminal**](/terminal)             | Built-in shell for manual commands                               |
+| [**Linked tasks**](/linked-tasks)     | Connect issues from GitHub, Linear, Jira, Asana, GitLab         |
+| [**Reviews**](/reviews)               | Structured code review with findings                             |
+
+## **Git Worktree Isolation**
+
+Each workspace creates a separate Git worktree from the repository. This means:
+
+- Every workspace has its own working directory and branch
+- Changes in one workspace don't affect any other
+- All worktrees share Git history and remote connections
+- You can run multiple agent sessions on the same repo simultaneously
+
+When worktrees are enabled (the default), Jinzo manages worktree creation and cleanup automatically. You can disable worktrees in **Settings** if you prefer to manage branches manually.
+
+## **Archiving**
+
+When you're done with a workspace, archive it from the workspace menu. Archiving:
+
+- Hides the workspace from the sidebar
+- Cleans up the Git worktree to free disk space
+- Preserves all workspace data (runs, diffs, reviews) in the database
+
+Archived workspaces can be restored later if you need to revisit them.
+
+## **Deleting**
+
+Deleting a workspace permanently removes it along with all associated data. This is irreversible -- use archiving if you might need the workspace later.

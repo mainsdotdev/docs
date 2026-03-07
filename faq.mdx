@@ -44,7 +44,7 @@ icon: "circle-question"
 
 <AccordionGroup>
   <Accordion title="Which services can I connect?">
-    GitHub, GitLab, Linear, Jira, Asana
+    Jinzo supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), and [Asana](/asana). Each connection syncs issues or tasks into Jinzo's local entity store for use as agent context.
   </Accordion>
 
   <Accordion title="How are my credentials stored?">
@@ -57,4 +57,48 @@ icon: "circle-question"
 </AccordionGroup>
 
 ## **Troubleshooting**
+
+<AccordionGroup>
+  <Accordion title="Claude Code agent is not available">
+    Make sure the Claude CLI is installed and authenticated. Run `claude /login` in your terminal to verify. Jinzo requires the Claude CLI binary to be accessible from your system PATH.
+  </Accordion>
+
+  <Accordion title="GitHub Copilot agent is not available">
+    Verify your GitHub CLI authentication with `gh auth status` and ensure you have an active Copilot subscription. The Copilot CLI binary must be accessible from your system PATH.
+  </Accordion>
+
+  <Accordion title="Workspace worktree creation fails">
+    This can happen if the repository already has a worktree at the target path, or if there are uncommitted changes in the source repo that conflict. Try running `git worktree list` in your terminal to check existing worktrees, and `git worktree prune` to clean up stale entries.
+  </Accordion>
+
+  <Accordion title="Agent run is stuck or unresponsive">
+    You can abort a running session from the workspace UI. If the agent is waiting for tool approval, check for a pending approval dialog in the workspace. If the run remains stuck, try restarting the app -- active runs are tracked and can be recovered.
+  </Accordion>
+
+  <Accordion title="MCP server tools are not showing up">
+    MCP servers must be registered before starting a session. Add servers via `claude mcp add` and verify with `claude mcp list`. Restart the workspace session after adding new servers.
+  </Accordion>
+
+  <Accordion title="Synced issues are not appearing">
+    Go to **Settings > Apps** and verify your connection is active. Check that you've selected the correct repositories, teams, or projects to sync. Trigger a manual sync to refresh data.
+  </Accordion>
+
+  <Accordion title="Database reset">
+    If you need to reset the local database, delete the file at `~/Library/Application Support/jinzo/jinzo.db` and restart Jinzo. This removes all local data including workspaces, runs, and connection credentials.
+  </Accordion>
+
+  <Accordion title="macOS security warning on first launch">
+    macOS may block Jinzo since it's downloaded from the internet. Go to **System Settings > Privacy & Security** and click **Open Anyway**, or right-click the app and select **Open** to bypass the warning.
+  </Accordion>
+
+  <Accordion title='macOS Keychain prompt: "jinzo wants to use your confidential information"'>
+    On launch, macOS may show a dialog saying **jinzo wants to use your confidential information stored in "jinzo Safe Storage" in your keychain**. This is expected -- Jinzo uses Electron's `safeStorage` API to encrypt sensitive data like connection tokens and API keys. macOS requires your permission before an app can access its own Keychain entry.
+
+    - Click **Allow** to grant access for this session
+    - Click **Always Allow** to stop the prompt from appearing again
+    - Clicking **Deny** will prevent Jinzo from reading encrypted credentials, which may cause connection features to fail
+
+    This prompt typically appears once after installation or after a macOS update resets Keychain permissions.
+  </Accordion>
+</AccordionGroup>
 

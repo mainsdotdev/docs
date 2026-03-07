@@ -1,0 +1,35 @@
+---
+title: "File Explorer"
+description: "Browse your codebase and build agent context"
+icon: "folder-tree"
+---
+
+The file explorer lets you browse your workspace's repository and select files to include in the agent's context. Instead of describing which files to look at, you can point the agent directly to the relevant code.
+
+## **Browsing Files**
+
+The file explorer shows your workspace's directory tree with lazy-loading -- directories are expanded on demand, so large repositories stay responsive. You can navigate the full project structure and preview file contents.
+
+## **Building Context**
+
+Select files from the explorer to add them to the agent's context before starting a run. The agent receives the contents of selected files alongside your prompt, giving it a targeted view of the codebase.
+
+You can combine file selections with [linked tasks](/linked-tasks) to provide both the requirements and the relevant code in a single context:
+
+- **Select source files** -- pick implementation files the agent should read or modify
+- **Select test files** -- include tests for the agent to understand expected behavior
+- **Select config files** -- provide configuration context when relevant
+- **Link a task** -- add an issue or task description from your PM tool
+
+## **Security**
+
+The file explorer enforces security boundaries to prevent unauthorized access:
+
+| **Protection**            | **Description**                                              |
+| ------------------------- | ------------------------------------------------------------ |
+| **Path traversal**        | Blocks attempts to access files outside the workspace root   |
+| **Symlink escapes**       | Detects symlinks that point outside the workspace boundary   |
+| **File size limit**       | Files larger than 2 MB are not loaded into context           |
+| **Binary detection**      | Binary files are identified and excluded from text preview   |
+
+These protections ensure agents only access files within the workspace's repository.

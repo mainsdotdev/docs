@@ -41,6 +41,10 @@
           {
             "group": "Core Concepts",
             "pages": [
+              "workspaces",
+              "projects",
+              "runs",
+              "file-explorer",
               "multi-session",
               "mcp-servers",
               "skills",
@@ -64,7 +68,8 @@
             "pages": [
               "stats",
               "privacy",
-              "terminal"
+              "terminal",
+              "keyboard-shortcuts"
             ]
           },
           "faq"
