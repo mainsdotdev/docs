@@ -1,0 +1,48 @@
+---
+title: "Install"
+description: "How to install Jinzo on macOS"
+---
+
+Download and install Jinzo on your Mac in under a minute.
+
+## **Download for Mac**
+
+<Steps>
+  <Step title="Download">
+    Head to [**<u>jinzo.dev</u>**](http://jinzo.dev) and click the **Download for Mac** button to get the latest `.dmg` file.
+  </Step>
+  <Step title="Install the app">
+    Open the downloaded `.dmg` file and drag **Jinzo** into your **Applications** folder.
+  </Step>
+  <Step title="Launch Jinzo">
+    Open Jinzo from your Applications folder. On first launch, macOS may ask you to confirm since the app is downloaded from the internet — click **Open** to continue.
+  </Step>
+</Steps>
+
+<Note>
+  Jinzo is currently available for macOS only. Windows and Linux support is coming soon.
+</Note>
+
+## **Prerequisites**
+
+Some features require additional tools to be installed on your system. You can use Jinzo without them, but the corresponding features won't be available.
+
+### **Claude CLI (for Claude Agent)**
+
+If you want to use Claude Code as your agent runtime in workspaces, you need the Claude CLI installed and authenticated.
+
+If you already have Claude Code set up, you're good to go. Otherwise, follow the [**<u>Anthropic setup guide</u>**](https://docs.anthropic.com/en/docs/claude-code) and run:
+
+```
+claude /login
+```
+
+### **GitHub Copilot CLI (for Copilot )**
+
+If you want to use GitHub Copilot as your agent runtime, you need the Copilot CLI and an active GitHub Copilot subscription.
+
+Verify your GitHub authentication:
+
+```
+gh auth status
+```

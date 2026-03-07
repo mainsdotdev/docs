@@ -1,0 +1,61 @@
+---
+title: "Stats"
+icon: "chart-mixed"
+---
+
+The stats dashboard gives you an overview of your agent activity across all workspaces. Track run counts, costs, tool usage, and success rates -- filtered by provider.
+
+## **Summary Cards**
+
+The top of the dashboard shows four key metrics
+
+| **Metric**     | **Description**                            |
+| -------------- | ------------------------------------------ |
+| **Projects**   | Total number of active projects            |
+| **Runs Today** | Agent runs executed today                  |
+| **Sessions**   | Total agent sessions across all time       |
+| **Cost**       | Estimated cost in USD based on token usage |
+
+## **Charts & Analytics**
+
+### **Daily Activity**
+
+A 30-day bar chart showing runs per day, broken down by provider (Claude, Copilot, other). Spot trends in your agent usage over time.
+
+### **Hour Distribution**
+
+A heatmap showing when runs happen throughout the day (0-23 hours). Useful for understanding your work patterns.
+
+### **Cost by Model**
+
+Breaks down estimated costs by LLM model. See which models consume the most tokens and how costs distribute across your work.
+
+### **Tool Usage**
+
+A ranked list of the top 15 most-used tools across all agent sessions. Understand which tools agents rely on most.
+
+### **Success Rate**
+
+A status breakdown showing succeeded, failed, and canceled runs. Track reliability over time with a daily view.
+
+### **Recent Sessions**
+
+A table of the 15 most recent agent runs with details including title, goal, status, provider, model, project, cost, and duration.
+
+### **Code Activity**
+
+Summary of code changes: total diffs generated and total files changed across all runs.
+
+## **Provider Filtering**
+
+Use the tabs at the top of the dashboard to filter stats by provider:
+
+- **All** -- aggregate stats across all providers
+- **Claude** -- Claude Code agent runs only
+- **Copilot** -- GitHub Copilot CLI runs only
+
+The entire dashboard updates when you switch providers.
+
+## **Accessing the Dashboard**
+
+Open the stats dashboard from **Settings \> Dashboard**.

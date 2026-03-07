@@ -1,0 +1,30 @@
+---
+title: "Jira"
+---
+
+The Jira integration syncs issues from your Jira projects into Jinzo's entity store. Jira tickets become searchable locally and available as context in AI chat.
+
+## **Authentication**
+
+Jira uses **OAuth** for authentication. Jinzo will open a browser window to authorize access to your Atlassian account.
+
+## **What Gets Synced**
+
+| **Field**       | **Details**                                                               |
+| --------------- | ------------------------------------------------------------------------- |
+| **Entity kind** | `issue`                                                                   |
+| **Data synced** | Issue summary, description, status, priority, assignee, labels, issue key |
+
+## **Setup**
+
+<Steps>
+  <Step title="Connect Jira">
+    Go to **Settings \> Apps** and click **Connect** next to Jira. Authorize Jinzo through the Atlassian OAuth flow.
+  </Step>
+  <Step title="Select Projects">
+    Choose which Jira projects to sync. Only issues from selected projects will be fetched.
+  </Step>
+  <Step title="Initial Sync">
+    Jinzo fetches existing issues and then syncs incrementally on subsequent runs.
+  </Step>
+</Steps>

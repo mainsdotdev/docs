@@ -1,0 +1,25 @@
+---
+title: "Terminal"
+icon: "terminal"
+---
+
+Jinzo includes a built-in terminal emulator directly in the workspace. You can run shell commands, interact with your development tools, and monitor agent-executed commands -- all without leaving the app.
+
+## **How It Works**
+
+The terminal uses a pseudoterminal (PTY) emulator powered by `node-pty`, providing a full interactive shell experience. On macOS, it defaults to `zsh`.
+
+Each workspace can have its own terminal instance, isolated to the workspace's working directory. The terminal supports:
+
+- **Full shell interaction** -- run any command your system shell supports
+- **Real-time output** -- output streams to the UI as it's produced
+- **Resize support** -- the terminal adapts to panel size changes
+- **Multiple instances** -- open separate terminals for different workspaces
+
+## **Agent Commands**
+
+When an agent runs shell commands during a session, they execute through the workspace's terminal context. You can see the commands and their output in the workspace events timeline. The terminal provides visibility into exactly what the agent is doing.
+
+## **Usage**
+
+The terminal is accessible from the workspace view. Open it from the workspace tabs to start an interactive session in the workspace's root directory.

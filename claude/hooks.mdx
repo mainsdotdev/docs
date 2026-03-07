@@ -1,0 +1,159 @@
+---
+title: "Hooks"
+description: "Run custom logic at key points in the Claude Code agent lifecycle"
+icon: "webhook"
+---
+
+Hooks let you intercept and respond to events during a Claude Code session. They run your custom logic before or after tool calls, when sessions start or end, when the user submits a prompt, and more. Use them to enforce policies, inject context, gate permissions, or integrate with external systems.
+
+## **How Hooks Work**
+
+A hook is a callback function that fires when a specific event occurs during the agent session. Each hook receives event-specific input data and returns an output that can influence the agent's behavior -- for example, allowing or denying a tool call, injecting additional context, or stopping the session.
+
+Hooks are configured in your settings files and passed to the Claude Code SDK at session startup. Jinzo merges hooks from all settings sources (user, project, local) and applies them to every run.
+
+## **Hook Events**
+
+| **Event**              | **When it fires**                                             | **What you can do**                                    |
+| ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------ |
+| **PreToolUse**         | Before a tool executes                                        | Allow, deny, or modify tool input                      |
+| **PostToolUse**        | After a tool executes successfully                            | Inspect output, inject additional context               |
+| **PostToolUseFailure** | After a tool execution fails                                  | Handle errors, add context for recovery                 |
+| **UserPromptSubmit**   | When the user sends a message                                 | Transform or validate user input                        |
+| **Stop**               | When the agent is about to stop                               | Inspect the final message, trigger follow-up actions    |
+| **SessionStart**       | When a session starts, resumes, or restarts                   | Set up context, log session metadata                    |
+| **SessionEnd**         | When a session ends                                           | Clean up resources, log session results                 |
+| **SubagentStart**      | When a subagent is spawned                                    | Inject context into subagent                            |
+| **SubagentStop**       | When a subagent finishes                                      | Inspect subagent results                                |
+| **PreCompact**         | Before conversation history is compacted                      | Add instructions for compaction                         |
+| **Notification**       | When the agent emits a notification (permission, idle, etc.)  | React to agent status changes                           |
+| **PermissionRequest**  | When a tool requests elevated permissions                     | Custom permission decision logic                        |
+| **Setup**              | On initial setup or maintenance triggers                      | Environment initialization                              |
+| **TeammateIdle**       | When a teammate agent goes idle                               | Coordinate team workflows                               |
+| **TaskCompleted**      | When a task is marked complete                                | Trigger downstream actions                              |
+| **ConfigChange**       | When configuration changes during a session                   | React to setting updates                                |
+
+## **Hook Structure**
+
+Each hook event accepts an array of **matchers**. A matcher defines which tools trigger the hook (via a regex pattern) and the callback functions to execute.
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": ["callback"],
+        "timeout": 30
+      }
+    ]
+  }
+}
+```
+
+| **Field**   | **Description**                                                  |
+| ----------- | ---------------------------------------------------------------- |
+| `matcher`   | Regex pattern to match tool names. Omit to match all tools.      |
+| `hooks`     | Array of callback functions to execute when the pattern matches  |
+| `timeout`   | Timeout in seconds (default: 60)                                 |
+
+## **PreToolUse: Controlling Tool Execution**
+
+The most common hook. It fires before every tool call and lets you allow, deny, or modify the operation.
+
+Your callback receives:
+
+| **Field**      | **Type**                     | **Description**                      |
+| -------------- | ---------------------------- | ------------------------------------ |
+| `tool_name`    | `string`                     | Name of the tool being called        |
+| `tool_input`   | `Record<string, unknown>`    | Arguments passed to the tool         |
+| `tool_use_id`  | `string`                     | Unique ID for this tool invocation   |
+
+Your callback can return a `permissionDecision`:
+
+| **Decision** | **Effect**                                                |
+| ------------ | --------------------------------------------------------- |
+| `allow`      | Tool executes immediately, no user prompt                 |
+| `deny`       | Tool is blocked with an optional reason                   |
+| `ask`        | Falls through to the interactive approval dialog          |
+
+You can also return `updatedInput` to modify the tool's arguments before execution, or `additionalContext` to inject a message into the agent's context.
+
+## **Built-in Tool Approval Hook**
+
+Jinzo automatically registers a PreToolUse hook that handles the interactive tool approval flow. When the agent calls a tool that isn't pre-approved, this hook pauses execution and shows an approval dialog in the workspace UI. You can approve or reject the call, and optionally provide an answer for `AskUserQuestion` tool calls.
+
+Pre-approved tools (Bash, Read, Write, Edit, Glob, Grep, and all MCP tools) execute automatically without prompting.
+
+## **PostToolUse: Reacting to Results**
+
+Fires after a tool executes successfully. Useful for logging, auditing, or injecting follow-up context.
+
+Your callback receives the same fields as PreToolUse, plus:
+
+| **Field**        | **Type**   | **Description**                |
+| ---------------- | ---------- | ------------------------------ |
+| `tool_response`  | `unknown`  | The tool's output              |
+
+Return `additionalContext` to append a message to the agent's context after the tool completes.
+
+## **UserPromptSubmit: Transforming Input**
+
+Fires when the user sends a message. Use this to validate, transform, or enrich user prompts before the agent processes them.
+
+Your callback receives:
+
+| **Field** | **Type** | **Description**         |
+| --------- | -------- | ----------------------- |
+| `prompt`  | `string` | The user's prompt text  |
+
+Return `additionalContext` to prepend context to the prompt.
+
+## **Session Lifecycle Hooks**
+
+### SessionStart
+
+Fires when a session begins. The `source` field tells you how:
+
+| **Source**  | **Meaning**                          |
+| ----------- | ------------------------------------ |
+| `startup`   | Fresh session                        |
+| `resume`    | Resumed from a previous session      |
+| `clear`     | Session was cleared and restarted    |
+| `compact`   | Session was compacted and continued  |
+
+### SessionEnd
+
+Fires when a session ends. The `reason` field indicates why:
+
+- `clear` -- user cleared the session
+- `logout` -- user logged out
+- `prompt_input_exit` -- user exited the prompt
+- `bypass_permissions_disabled` -- bypass mode was disabled
+- `other` -- any other reason
+
+## **Common Input Fields**
+
+All hook callbacks receive these base fields:
+
+| **Field**          | **Type** | **Description**                          |
+| ------------------ | -------- | ---------------------------------------- |
+| `session_id`       | `string` | Current session identifier               |
+| `transcript_path`  | `string` | Path to the conversation transcript file |
+| `cwd`              | `string` | Current working directory                |
+
+## **Settings Sources**
+
+Hooks are configured in your settings files and merged in priority order:
+
+| **Source**       | **Path**                     |
+| ---------------- | ---------------------------- |
+| User (global)    | `~/.claude/settings.json`    |
+| Project (shared) | `.jinzo/settings.json`       |
+| Local (personal) | `.jinzo/settings.local.json` |
+
+Run-level hooks (defined per workspace or run) are appended after config-level hooks, so they execute in addition to -- not instead of -- your base hooks.
+
+<Note>
+  Hooks are only available for the **Claude Code** agent runtime. For Copilot, use the [tool permissions](/copilot/configuration) system instead.
+</Note>

@@ -1,0 +1,60 @@
+---
+title: "FAQ & Troubleshooting"
+description: "Common questions and known issues"
+icon: "circle-question"
+---
+
+## **General**
+
+<AccordionGroup>
+  <Accordion title="What platforms does Jinzo support?">
+    Jinzo is currently available for **macOS** only. Windows and Linux support is planned.
+  </Accordion>
+
+  <Accordion title="Which AI agents are supported?">
+    Jinzo supports two agent runtimes: **Claude Code** (via the Anthropic CLI) and **GitHub Copilot** (via the Copilot CLI). You can use either or both in your workspaces.
+  </Accordion>
+
+  <Accordion title="Do I need an API key?">
+    For **Claude Code**, you need an Anthropic API key or a Claude account authenticated via `claude /login`. For **GitHub Copilot**, you need an active Copilot subscription and GitHub CLI authentication (`gh auth status`).
+  </Accordion>
+
+  <Accordion title="Where is my data stored?">
+    All data is stored locally in a SQLite database at `~/Library/Application Support/jinzo/jinzo.db` on macOS. See the [Privacy](/privacy) page for details.
+  </Accordion>
+</AccordionGroup>
+
+## **Workspaces**
+
+<AccordionGroup>
+  <Accordion title="What happens when I create a workspace?">
+    Jinzo creates an isolated Git worktree for the workspace. This gives the workspace its own working directory and branch while sharing Git history with the original repository.
+  </Accordion>
+
+  <Accordion title="Can I run multiple agents at the same time?">
+    Yes. Each workspace has its own Git worktree, so multiple agent sessions can run in parallel without file conflicts. See [Multi Session](/multi-session).
+  </Accordion>
+
+  <Accordion title="What happens when I archive a workspace?">
+    The workspace is hidden from the sidebar and its worktree is cleaned up to free disk space. The workspace data remains in the database and can be restored if needed.
+  </Accordion>
+</AccordionGroup>
+
+## **Connections**
+
+<AccordionGroup>
+  <Accordion title="Which services can I connect?">
+    GitHub, GitLab, Linear, Jira, Asana
+  </Accordion>
+
+  <Accordion title="How are my credentials stored?">
+    API tokens and OAuth credentials are stored encrypted in the local database. They never leave your machine.
+  </Accordion>
+
+  <Accordion title="How often does data sync?">
+    The initial sync fetches existing data. Subsequent syncs are incremental and can be triggered manually or configured on a schedule from **Settings > Schedules**.
+  </Accordion>
+</AccordionGroup>
+
+## **Troubleshooting**
+

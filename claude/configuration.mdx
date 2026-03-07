@@ -1,0 +1,82 @@
+---
+title: "Configuration"
+icon: "gear-code"
+---
+
+The Claude Code agent runtime in Jinzo is configured through a combination of in-app settings and external configuration files. These settings control permission behavior, structured output schemas, MCP server connections, and skills discovery.
+
+## **Permission Modes**
+
+Permission modes determine how the Claude Code agent handles tool approval during a run.
+
+| **Mode**            | **Description**                                                                                                                                                                                |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default`           | Standard approval flow. Pre-approved tools run automatically; all other tools require explicit user approval before execution.                                                                 |
+| `acceptEdits`       | Automatically approve file edit operations (Write, Edit, NotebookEdit) in addition to the pre-approved tool set. Useful when you trust the agent to modify files without confirmation.         |
+| `bypassPermissions` | Skip all approval dialogs entirely. Every tool call executes without user confirmation.                                                                                                        |
+| `plan`              | Planning mode only. The agent reasons about the goal and produces a plan but does not execute any tools. Use this to review what the agent intends to do before granting execution permission. |
+
+<Warning>
+  The `bypassPermissions` mode disables all safety prompts. Only use this mode in isolated environments or when you fully trust the agent's actions against the target repository.[**Structured Outputs**](http://localhost:3000/docs/claude-agent/config#structured-outputs)
+</Warning>
+
+Configure a JSON schema to constrain the agent's final response into a predictable structure. When a schema is provided, the agent's output is validated against it and returned as structured JSON rather than free-form text.
+
+This is useful for automation pipelines where downstream code needs to parse the agent's response programmatically -- for example, extracting a list of changed files, a summary object, or a structured code review.
+
+```json wrap
+{
+  "type": "object",
+  "properties": {
+    "summary": { "type": "string" },
+    "filesChanged": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "confidence": { "type": "number" }
+  },
+  "required": ["summary"]
+}
+```
+
+## **Settings Sources**
+
+Claude Code loads settings from multiple files, merged in priority order. Higher-priority sources override lower ones.
+
+<Steps>
+  <Step title="User Settings (Lowest Priority)">
+    **Path:** `~/.claude/settings.json`\
+    Global settings that apply to all projects. Define your default permission mode, preferred tools, and baseline configuration here.
+  </Step>
+  <Step title="Project Settings">
+    **Path:** `.jinzo/settings.json` (in the project root)\
+    Project-level settings shared with the team via version control. Use this for project-specific permission overrides, allowed tools, and MCP server definitions that all contributors should share.
+  </Step>
+  <Step title="Local Settings (Highest Priority)">
+    **Path:** `.jinzo/settings.local.json` (in the project root)\
+    Personal overrides that are not committed to version control. Use this for developer-specific preferences that should not affect teammates -- for example, enabling `bypassPermissions` on a trusted project.
+  </Step>
+</Steps>
+
+<Note>
+  Settings are merged top-down. A field defined in `.jinzo/settings.local.json` takes precedence over the same field in `.jinzo/settings.json`, which in turn overrides `~/.jinzo/settings.json`.
+</Note>
+
+## **MCP Servers**
+
+MCP (Model Context Protocol) servers defined in any of the settings files above are automatically loaded when the Claude Code agent starts. These servers extend the agent's tool capabilities with custom tools, data sources, and integrations.
+
+See [**<u>MCP Servers</u>**](http://localhost:3000/docs/configuration/mcp-servers) for details on configuring MCP server connections.
+
+## **Skills**
+
+Skills are markdown instruction files that the Claude Code agent discovers and loads automatically. They provide domain-specific knowledge and behavioral instructions.
+
+Skills are loaded from two locations:
+
+| **Location**        | **Scope**                                             |
+| ------------------- | ----------------------------------------------------- |
+| `~/.claude/skills/` | Global skills available across all projects           |
+| `.jinzo/skills/`    | Project-specific skills committed with the repository |
+
+Each skill file contains instructions that are injected into the agent's context, giving it specialized knowledge about your codebase, conventions, or workflows.

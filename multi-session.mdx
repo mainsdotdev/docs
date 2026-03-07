@@ -1,0 +1,30 @@
+---
+title: "Multi Session"
+description: "Run multiple agent sessions in parallel using Git worktrees"
+icon: "circle-m"
+---
+
+Jinzo supports running multiple agent sessions at the same time — both Claude Code and Copilot. Each session operates in its own Git worktree, so file changes in one session never conflict with another.
+
+## **How It Works**
+
+Git worktrees let you check out multiple branches from the same repository into separate directories. Each worktree has its own working copy of the files while sharing the same Git history and remotes. Jinzo uses this to isolate parallel sessions completely.
+
+- Each session gets its own working directory — no shared file state
+- Changes in one worktree don't affect others
+- All worktrees share Git history and remote connections
+- Sessions can run different branches simultaneously
+
+## **Creating Workspaces**
+
+Jinzo handles worktree creation automatically. When you click **Add Workspace** and import a repository — either from a remote URL or a local path — Jinzo creates a dedicated Git worktree for that workspace behind the scenes.
+
+Each workspace gets its own isolated working directory, so you can run multiple sessions on the same repo without any file conflicts.
+
+## **When to Use What**
+
+| **Approach**                  | **Best for**                                                          |
+| ----------------------------- | --------------------------------------------------------------------- |
+| **Multi Session** (worktrees) | Independent tasks on separate branches — no coordination needed       |
+| **Agent Teams**               | Coordinated parallel work with shared tasks and inter-agent messaging |
+| **Subagents**                 | Quick, focused sub-tasks within a single session                      |

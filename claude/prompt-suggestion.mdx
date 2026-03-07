@@ -1,0 +1,53 @@
+---
+title: "Prompt Suggestions"
+description: "Get contextual follow-up prompts after each agent turn"
+icon: "lightbulb"
+---
+
+After each agent turn in a Claude Code workspace, Jinzo can display a suggested follow-up prompt based on the conversation context. Click the suggestion to send it instantly, or ignore it and type your own.
+
+## **How It Works**
+
+When prompt suggestions are enabled, the Claude Code agent generates a predicted next user prompt at the end of each turn. The suggestion appears as a clickable chip below the agent's response in the workspace input area.
+
+Suggestions are context-aware -- they take into account the full conversation history, the agent's last action, and the current state of the workspace. Common suggestions include follow-up tasks, test requests, or next steps in a multi-step workflow.
+
+<Note>
+  Prompt suggestions piggyback on the parent turn's prompt cache, making them nearly free in terms of token cost.
+</Note>
+
+## **When Suggestions Appear**
+
+Suggestions follow these delivery rules:
+
+| **Condition**                    | **Suggestion shown?** |
+| -------------------------------- | --------------------- |
+| After a normal agent turn        | Yes                   |
+| First turn of a session          | No                    |
+| After an API error               | No                    |
+| In plan mode                     | No                    |
+| Feature disabled                 | No                    |
+
+At most one suggestion is generated per turn. It arrives after the agent's result, so the full response is always displayed first.
+
+## **Enabling Prompt Suggestions**
+
+Prompt suggestions are configured in the Claude Code agent settings. When enabled, suggestions are generated automatically for all workspace sessions using Claude Code.
+
+The feature can also be controlled via environment variable:
+
+```bash
+CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
+```
+
+Set this to `false` to disable suggestions entirely without changing the in-app setting.
+
+## **Usage Tips**
+
+- **Quick iteration** -- after the agent makes code changes, the suggestion often proposes running tests or reviewing a related file
+- **Workflow continuity** -- suggestions help maintain momentum by proposing logical next steps
+- **Ignore freely** -- suggestions are non-blocking; type your own prompt anytime to override
+
+<Note>
+  Prompt suggestions are only available for the **Claude Code** agent runtime. GitHub Copilot workspaces do not support this feature.
+</Note>

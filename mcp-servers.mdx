@@ -1,0 +1,55 @@
+---
+title: "MCP Servers"
+description: "Connect external tools to Claude and Copilot agents via Model Context Protocol"
+icon: "server"
+---
+
+MCP (Model Context Protocol) is an open standard for connecting AI agents to external tools and data sources. Jinzo supports MCP for both the **Claude Code** and **GitHub Copilot** agent runtimes — add a server once from your terminal, and both agents can use it.
+
+## **Adding an MCP Server**
+
+MCP servers are added through the terminal using the Claude Code CLI. Once registered, the server is available to use inside Jinzo immediately.
+
+```javascript
+# Add a stdio server (local process)
+claude mcp add slack -- npx -y @anthropic-ai/mcp-server-slack
+# Add with environment variables
+claude mcp add github -- npx -y @modelcontextprotocol/server-github \
+  -e GITHUB_TOKEN=ghp_xxxxx
+# Add an HTTP server (remote)
+claude mcp add remote-api --transport http --url https://mcp.example.com/sse
+```
+
+After adding, restart your workspace session — Jinzo picks up the new server and its tools become available to the agent.
+
+## **Agent Support**
+
+Both agent runtimes in Jinzo can use MCP servers, with some differences in how they discover and invoke tools.
+
+### **Claude Code**
+
+Claude Code loads MCP servers from multiple sources, merged by priority:
+
+| **Source**       | **Path**                     |
+| ---------------- | ---------------------------- |
+| User (global)    | `~/.claude/settings.json`    |
+| Project (shared) | `.jinzo/settings.json`       |
+| Local (personal) | `.jinzo/settings.local.json` |
+
+### **GitHub Copilot**
+
+Copilot discovers MCP servers registered through the same CLI. Tools are subject to the [**<u>tool permission rules</u>**](http://localhost:3000/docs/copilot/config) configured in Copilot's config screen. You can allow or deny specific tools before they execute.
+
+## **Popular Servers**
+
+| **Server** | **Install Command**                                                               | **Description**    |
+| ---------- | --------------------------------------------------------------------------------- | ------------------ |
+| GitHub     | `claude mcp add github -- npx -y @modelcontextprotocol/server-github`             | Issues, PRs, repos |
+| Slack      | `claude mcp add slack -- npx -y @anthropic-ai/mcp-server-slack`                   | Channels, messages |
+| Linear     | `claude mcp add linear -- npx -y @linear/mcp-server`                              | Issues, projects   |
+| Filesystem | `claude mcp add fs -- npx -y @modelcontextprotocol/server-filesystem /path`       | Local file access  |
+| Postgres   | `claude mcp add db -- npx -y @modelcontextprotocol/server-postgres $DATABASE_URL` | Database queries   |
+
+<Note>
+  If a server is disconnected when a session starts, its tools won't be available for that run. Check `claude mcp list` to verify server status.
+</Note>

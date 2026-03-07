@@ -1,0 +1,44 @@
+---
+title: "Reviews"
+icon: "comment-code"
+---
+
+Jinzo includes a built-in code review system that lets you capture review notes and findings for each workspace. After an agent completes a run, you can request a structured code review that identifies issues, suggests improvements, and tracks review status.
+
+## **How Reviews Work**
+
+Each workspace can have reviews attached to it. A review contains:
+
+- **Title** -- a summary of what's being reviewed
+- **Status** -- tracks the review lifecycle
+- **Findings** -- individual items with severity, file location, and suggestions
+
+## **Review Status**
+
+Reviews follow a simple workflow:
+
+| **Status**    | **Description**                              |
+| ------------- | -------------------------------------------- |
+| **Open**      | Review has been created, awaiting inspection |
+| **In Review** | Review is actively being inspected           |
+| **Approved**  | Changes passed review                        |
+| **Rejected**  | Changes need further work                    |
+
+## **Review Findings**
+
+Each review can contain multiple findings. A finding pinpoints a specific issue in the code:
+
+| **Field**      | **Description**                                  |
+| -------------- | ------------------------------------------------ |
+| **Severity**   | `critical`, `warning`, or `info`                 |
+| **File**       | The file path where the issue was found          |
+| **Line range** | Start and end line numbers                       |
+| **Message**    | Description of the issue                         |
+| **Reason**     | Why this is a problem                            |
+| **Suggestion** | Recommended fix or improvement                   |
+
+## **Requesting a Review**
+
+After an agent run completes, you can trigger a code review using the `/code-review` skill in the agent input. The agent analyzes the diffs from the run and produces structured findings with severity ratings.
+
+Reviews are displayed in the **Reviews** section of the workspace sidebar, where you can inspect individual findings and navigate directly to the relevant code.

@@ -1,0 +1,40 @@
+---
+title: "Privacy"
+description: "How Jinzo handles your data"
+icon: "shield-halved"
+---
+
+Jinzo is a local-first desktop application. Your data stays on your machine, and agent conversations go directly to your configured provider -- never through Jinzo's servers.
+
+## **What Stays Local**
+
+| **Data**            | **Storage**                                                  |
+| ------------------- | ------------------------------------------------------------ |
+| **Agent sessions**  | Stored locally with full run history                         |
+| **Synced entities** | Issues, tasks, pull requests fetched from connected services |
+| **Workspace files** | Git worktrees on your local filesystem                       |
+
+Your database is stored at:
+
+- **macOS**: `~/Library/Application Support/jinzo/jinzo.db`
+
+## **Credentials**
+
+API tokens and OAuth credentials for connected services (GitHub, Linear, Jira, etc.) are stored encrypted in the local database. Tokens are never sent to Jinzo's infrastructure.
+
+## **No Telemetry**
+
+Jinzo does not include analytics, telemetry, or tracking services. No usage data is collected or transmitted to external services.
+
+## **Agent Communication**
+
+When you run an agent session, messages are sent directly from your machine to the agent provider:
+
+- **Claude Code** -- communicates with Anthropic's API using your API key or Claude account
+- **GitHub Copilot** -- communicates with GitHub's API using your Copilot subscription
+
+Jinzo does not proxy, log, or inspect these communications. Your provider's privacy policy governs how they handle your data.
+
+## **Connected Services**
+
+When you sync data from GitHub, Linear, Jira, or other services, Jinzo fetches content using the credentials you provide and stores it locally. Synced data is used only for local search and agent context -- it is never shared externally.

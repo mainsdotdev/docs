@@ -1,0 +1,121 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Jinzo",
+  "colors": {
+    "primary": "#878580",
+    "light": "#fff",
+    "dark": "#0C0C0C"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "pages": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "introduction",
+              "install",
+              "quickstart",
+              "workflow"
+            ]
+          },
+          {
+            "group": "Claude Agent",
+            "pages": [
+              "claude/agentteams",
+              "claude/slash-commands",
+              "claude/prompt-suggestion",
+              "claude/hooks",
+              "claude/configuration"
+            ]
+          },
+          {
+            "group": "Copilot",
+            "pages": [
+              "copilot/configuration"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "multi-session",
+              "mcp-servers",
+              "skills",
+              "diff-viewer",
+              "linked-tasks",
+              "reviews"
+            ]
+          },
+          {
+            "group": "Connections",
+            "pages": [
+              "github",
+              "linear",
+              "jira",
+              "asana",
+              "gitlab"
+            ]
+          },
+          {
+            "group": "More",
+            "pages": [
+              "stats",
+              "privacy",
+              "terminal"
+            ]
+          },
+          "faq"
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/images/jinzo.png",
+    "dark": "/images/jinzo.png"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:team@truelaurel.app"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+  "contextual": {
+    "options": [
+     "copy",
+     "view",
+     "chatgpt",
+     "claude",
+     "perplexity",
+     "mcp",
+     "cursor",
+     "vscode"
+   ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/OkanBilal/jinzo"
+    }
+  },
+  "description": "A unified desktop workspace for AI agents",
+  "background": {
+    "color": {
+      "dark": "#0C0C0C"
+    }
+  },
+  "appearance": {
+    "default": "system"
+  },
+  "fonts": {
+    "family": "Geist"
+  }
+}

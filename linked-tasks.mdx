@@ -1,0 +1,62 @@
+---
+title: "Linked Tasks"
+icon: "link-horizontal"
+---
+
+Jinzo lets you link issues and tasks from your project management tools directly to a workspace. Instead of copy-pasting task descriptions into the agent, you connect the original item — the agent reads it as context and works from there, all the way to opening a pull request.
+
+## **Supported Sources**
+
+| **Service** | **What you can link**         |
+| ----------- | ----------------------------- |
+| **GitHub**  | Issues, pull requests         |
+| **GitLab**  | Issues, merge requests        |
+| **Linear**  | Issues                        |
+| **Jira**    | Issues, stories, tasks        |
+| **Asana**   | Tasks                         |
+
+## **How It Works**
+
+<Steps>
+  <Step title="Link a task">
+    In your workspace, connect an issue or task from any supported service. Jinzo fetches the title, description, labels, comments, and any other metadata from the source.
+  </Step>
+  <Step title="Add to context">
+    The linked task appears in the file explorer alongside your codebase files. Select it to include its contents in the agent's context — no need to retype or summarize the requirements.
+  </Step>
+  <Step title="Work through it">
+    The agent uses the task description as its goal. It reads the requirements, explores the codebase, and implements the changes.
+  </Step>
+  <Step title="Open a PR">
+    When the work is done, go straight to the [**<u>diff viewer</u>**](http://localhost:3000/docs/diff-viewer) — review the changes, commit, and open a pull request. The PR description is generated from the linked task, so the full context carries through from issue to merge.
+  </Step>
+</Steps>
+
+## **File Explorer Integration**
+
+The file explorer lets you build the agent's context by selecting both the linked task **and** related files from your codebase. Browse your project tree, pick the files that are relevant to the task, and add them to context together with the issue — so the agent starts with the full picture: what needs to be done and the code it needs to work with.
+
+- **Select related files** — pick source files, configs, or tests from the file explorer to include alongside the task
+- **Combine task + code** — the agent sees the issue requirements and the relevant code in a single context
+- **No manual copying** — skip pasting file paths or code snippets into the prompt
+
+<Note>
+  Linking a task doesn't clone or duplicate any data. Jinzo reads from the source in real time, so the agent always sees the latest description and comments.
+</Note>
+
+## **Automatic Status Updates**
+
+When you work through a linked task, Jinzo automatically updates its status in the source service to match your progress. For example, when the agent starts working on a Linear issue it moves to "In Progress", and when you open a PR it moves to "In Review" — following the workflow defined in your project management tool.
+
+This works across all supported services. Jinzo respects the status transitions configured in each tool, so statuses are only moved to valid next states.
+
+## **End-to-End Flow**
+
+A typical workflow looks like this:
+
+1. You pick an issue from Linear (or Jira, GitHub, etc.)
+2. Link it to your workspace
+3. The agent reads the issue, understands the requirements, and implements the changes
+4. You review the diff, commit, and create a PR — with the issue context already filled in
+
+No context switching, no rewriting requirements, no manual PR descriptions.

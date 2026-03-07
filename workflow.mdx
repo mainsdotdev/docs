@@ -1,0 +1,40 @@
+---
+title: "Workflow"
+description: "The complete development lifecycle in Jinzo"
+---
+
+Jinzo is designed around a repeatable workflow: pick a task, spin up an isolated workspace, let an agent implement it, review the changes, and merge. Here's how the pieces fit together.
+
+## **1. Pick a Task**
+
+Start from an issue or task in your project management tool. If you've connected [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), or [Asana](/asana), your issues are already synced and searchable inside Jinzo.
+
+## **2. Create a Workspace**
+
+Press **Cmd+N** to create a new workspace. Import a repository from a remote URL or a local path. Jinzo creates an isolated Git worktree automatically -- your changes won't interfere with other workspaces or branches.
+
+If a [project](/projects) already exists for the repository, the new workspace is added to it. Otherwise, Jinzo creates a project automatically based on the remote origin.
+
+## **3. Link the Task**
+
+[Link the issue](/linked-tasks) to your workspace so the agent has the full context -- title, description, labels, and comments from the source. You can also select files from the [file explorer](/file-explorer) to give the agent a more targeted view of the codebase.
+
+## **4. Run the Agent**
+
+Type your goal in the workspace input and let the agent work. It will read files, run commands, write code, and track every change. You can watch progress in real time through the workspace events timeline.
+
+Both **Claude Code** and **GitHub Copilot** agents are supported. Each workspace session runs in isolation, so you can run [multiple sessions](/multi-session) in parallel.
+
+## **5. Review Changes**
+
+Open the [diff viewer](/diff-viewer) to see every file the agent modified. Green lines show additions, red lines show removals. You can accept or discard individual changes before committing.
+
+For a deeper inspection, request a [code review](/reviews) using the `/code-review` skill. The agent will produce structured findings with severity ratings, file locations, and suggested fixes.
+
+## **6. Commit & Create a PR**
+
+Once you're happy with the changes, commit directly from the diff viewer. Jinzo suggests a commit message based on the session context. Push the branch and open a pull request -- all without leaving the app.
+
+## **7. Archive**
+
+After merging, archive the workspace. Archived workspaces are hidden from the sidebar by default but remain accessible if you need to revisit them later. The worktree is cleaned up to free disk space.

@@ -1,0 +1,34 @@
+---
+title: "Diff Viewer"
+icon: "code-compare"
+---
+
+When an agent modifies files in your workspace, Jinzo captures every change and presents them in a built-in diff viewer. You can review exactly what was added, removed, or modified — then decide what to keep, discard, or edit before syncing with your repository.
+
+## **Reviewing Changes**
+
+After an agent session completes work, open the diff viewer to see all modified files. Changes are displayed in a unified diff format with line-by-line highlighting:
+
+- **Green lines** — newly added code
+- **Red lines** — removed code
+- **File list** — all changed files in a sidebar, grouped by directory
+
+You can navigate between files, expand or collapse context lines, and inspect each change individually.
+
+## **Actions**
+
+The diff viewer guides you through the steps to get your changes merged:
+
+| **Action**    | **Description**                                          |
+| ------------- | -------------------------------------------------------- |
+| **Accept**    | Keep the change as-is                                    |
+| **Discard**   | Revert the file to its original state                    |
+| **Commit**    | Commit staged changes with a generated or custom message |
+| **Push**      | Push commits to the remote branch                        |
+| **Create PR** | Open a pull request directly from the diff viewer        |
+
+## **GitHub Sync**
+
+The diff viewer integrates with GitHub to streamline the merge workflow. After reviewing changes you can commit, push, and open a pull request without leaving Jinzo. Jinzo suggests a commit message based on the changes and the agent's session context.
+
+The diff viewer works with any Git repository — GitHub, GitLab repos. The PR creation shortcut requires a GitHub remote.

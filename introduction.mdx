@@ -1,0 +1,49 @@
+---
+title: "Introduction"
+description: "Jinzo for AI coding agents"
+---
+
+Jinzo is a desktop application for executing autonomous AI coding agents in secure workspaces, link your code repositories, import tasks from your PM tools, and watch agents handle reading, modifying, and submitting code on your behalf.
+
+<Columns cols={2}>
+  <Column>
+    <Card icon="download" href="/install" title="Download">
+      Get latest version of Jinzo for your Mac.
+    </Card>
+  </Column>
+  <Column>
+    <Card icon="star-christmas" href="/quickstart" title="Quickstart">
+      First-time setup walkthrough
+    </Card>
+  </Column>
+</Columns>
+
+## Core Concepts
+
+### **Agent Workspaces**
+
+Run **Claude Code** or **GitHub Copilot** agents inside workspaces linked to git repos. Each workspace gets its own Git worktree, so multiple sessions can run in parallel without conflicts. Agents can read files, run commands, write code, and track diffs.
+
+### [**Linked Tasks**](/linked-tasks)
+
+Connect issues and tasks from **GitHub**, **GitLab**, **Linear**, **Jira**, or **Asana** directly to a workspace. The agent reads the task description as context, and statuses are updated automatically as work progresses.
+
+### [**Diff Viewer**](/diff-viewer)
+
+Review every change an agent makes before committing, then commit and open a pull request -- all without leaving Jinzo.
+
+### [**Code Reviews**](/reviews)
+
+Request structured code reviews after agent runs. Findings are categorized by severity with file locations and suggested fixes.
+
+### [**MCP Servers**](/mcp-servers)
+
+Extend agent capabilities with [Model Context Protocol](/mcp-servers) servers. Add tools for Slack, databases, APIs, and more from the terminal -- both agents can use them.
+
+### [**Skills & Slash Commands**](/skills)
+
+Teach agents domain-specific behavior with [skills](/skills), or create reusable [slash commands](/claude/slash-commands) for common workflows like code review, testing, and PR creation.
+
+### [**Stats Dashboard**](/stats)
+
+Track agent runs, costs, tool usage, and success rates across all your workspaces. Filter by provider to compare Claude and Copilot activity.

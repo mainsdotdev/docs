@@ -1,0 +1,90 @@
+---
+title: "Skills"
+description: "Extend Claude and Copilot agents with reusable, specialized capabilities"
+icon: "s"
+---
+
+Skills are packaged instructions that extend what your agents can do. Both the **Claude Code** and **GitHub Copilot** runtimes in Jinzo support skills — each with its own format, but the same idea: teach the agent domain-specific behavior it can invoke automatically.
+
+## **Claude Code Skills**
+
+Claude Code skills are `SKILL.md` files with YAML frontmatter and Markdown instructions. Claude discovers them at startup and autonomously invokes the right skill based on context.
+
+### **Skill Locations**
+
+| **Location**        | **Scope**                                             |
+| ------------------- | ----------------------------------------------------- |
+| `.jinzo/skills/`    | Project skills — shared with your team via git        |
+| `~/.claude/skills/` | User skills — personal, available across all projects |
+
+### **Creating a Skill**
+
+Create a directory with a `SKILL.md` file inside:
+
+```
+.jinzo/skills/code-review/
+└── SKILL.md
+```
+
+A `SKILL.md` file has YAML frontmatter followed by Markdown instructions:
+
+```
+---
+description: Reviews code changes for security vulnerabilities and best practices
+allowed-tools: ["Read", "Grep", "Glob"]
+---
+# Code Review
+When reviewing code, check for:
+- SQL injection and XSS vulnerabilities
+- Hardcoded credentials or secrets
+- Missing input validation
+- Error handling gaps
+Provide findings as a numbered list with severity ratings.
+```
+
+The `description` field is what Claude uses to decide when to invoke the skill. Make it specific.
+
+### **Invoking Skills**
+
+Claude invokes skills automatically when a user request matches the skill's description. You can also trigger them explicitly with slash commands:
+
+```
+/code-review
+```
+
+## **Copilot Skills**
+
+Copilot skills are directories containing a `skill.json` manifest, prompt files, and optional tool definitions.
+
+### **Structure**
+
+```
+skills/
+└── code-review/
+    ├── skill.json
+    └── prompts/
+        └── system.md
+```
+
+### **skill.json**
+
+```
+{
+  "name": "code-review",
+  "displayName": "Code Review Assistant",
+  "description": "Specialized code review capabilities",
+  "version": "1.0.0",
+  "prompts": ["prompts/system.md"]
+}
+```
+
+### **Loading Skills**
+
+Skills are loaded from configured directories when a Copilot session starts. You can disable specific skills by name if needed.
+
+## **Tips**
+
+- **Write clear descriptions** — the agent uses them to decide when to invoke a skill
+- **Limit tool access** — only grant the tools a skill actually needs
+- **Keep skills focused** — one skill per domain works better than a catch-all
+- **Version project skills** — commit `.claude/skills/` so your whole team benefits

@@ -1,0 +1,23 @@
+---
+title: "Configuration"
+icon: "gear-code"
+---
+
+The GitHub Copilot CLI agent runtime in Jinzo is configured through in-app settings. These options control how the Copilot binary is located, how it communicates with the application, logging verbosity, and automatic recovery behavior.
+
+## **Tool Permissions**
+
+Jinzo exposes the Copilot SDK's hook system to give you fine-grained control over which tools the agent can use. Through the config screen you can set permission rules that run before every tool execution.
+
+Each rule evaluates via the `onPreToolUse` hook and returns one of:
+
+| **Decision** | **Effect**                                                |
+| ------------ | --------------------------------------------------------- |
+| **Allow**    | Tool executes normally                                    |
+| **Deny**     | Tool is blocked; an optional reason is shown to the agent |
+
+This lets you restrict dangerous operations — for example, blocking shell access entirely:
+
+<Note>
+  Jinzo handles hook lifecycle internally — you only need to configure which tools to allow or deny through the config screen.
+</Note>

@@ -1,0 +1,30 @@
+---
+title: "Asana"
+---
+
+The Asana integration syncs tasks from your Asana projects into Jinzo's entity store. Tasks become searchable locally and available as context in AI chat.
+
+## **Authentication**
+
+Asana uses **OAuth** for authentication. Jinzo will open a browser window to authorize access to your Asana account.
+
+## **What Gets Synced**
+
+| **Field**       | **Details**                                                   |
+| --------------- | ------------------------------------------------------------- |
+| **Entity kind** | `task`                                                        |
+| **Data synced** | Task name, notes, completion status, assignee, due date, tags |
+
+## **Setup**
+
+<Steps>
+  <Step title="Connect Asana">
+    Go to **Settings \> Apps** and click **Connect** next to Asana. Authorize Jinzo through the Asana OAuth flow.
+  </Step>
+  <Step title="Select Projects">
+    Choose which Asana projects to sync. Only tasks from selected projects will be fetched.
+  </Step>
+  <Step title="Initial Sync">
+    Jinzo fetches existing tasks and then syncs incrementally on subsequent runs.
+  </Step>
+</Steps>
