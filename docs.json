@@ -78,8 +78,8 @@
     ]
   },
   "logo": {
-    "light": "/images/jinzo.png",
-    "dark": "/images/jinzo.png"
+    "light": "/images/docs.png",
+    "dark": "/images/docs.png"
   },
   "navbar": {
     "links": [
