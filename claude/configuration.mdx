@@ -49,17 +49,17 @@ Claude Code loads settings from multiple files, merged in priority order. Higher
     Global settings that apply to all projects. Define your default permission mode, preferred tools, and baseline configuration here.
   </Step>
   <Step title="Project Settings">
-    **Path:** `.jinzo/settings.json` (in the project root)\
+    **Path:** `.{your_project}/settings.json` (in the project root)\
     Project-level settings shared with the team via version control. Use this for project-specific permission overrides, allowed tools, and MCP server definitions that all contributors should share.
   </Step>
   <Step title="Local Settings (Highest Priority)">
-    **Path:** `.jinzo/settings.local.json` (in the project root)\
+    **Path:** `.{your_project}/settings.local.json` (in the project root)\
     Personal overrides that are not committed to version control. Use this for developer-specific preferences that should not affect teammates -- for example, enabling `bypassPermissions` on a trusted project.
   </Step>
 </Steps>
 
 <Note>
-  Settings are merged top-down. A field defined in `.jinzo/settings.local.json` takes precedence over the same field in `.jinzo/settings.json`, which in turn overrides `~/.jinzo/settings.json`.
+  Settings are merged top-down. A field defined in `.{your_project}/settings.local.json` takes precedence over the same field in `.{your_project}/settings.json`, which in turn overrides `~/.claude/settings.json`.
 </Note>
 
 ## **MCP Servers**
@@ -74,9 +74,9 @@ Skills are markdown instruction files that the Claude Code agent discovers and l
 
 Skills are loaded from two locations:
 
-| **Location**        | **Scope**                                             |
-| ------------------- | ----------------------------------------------------- |
-| `~/.claude/skills/` | Global skills available across all projects           |
-| `.jinzo/skills/`    | Project-specific skills committed with the repository |
+| **Location**              | **Scope**                                             |
+| ------------------------- | ----------------------------------------------------- |
+| `~/.claude/skills/`       | Global skills available across all projects           |
+| `.{your_project}/skills/` | Project-specific skills committed with the repository |
 
 Each skill file contains instructions that are injected into the agent's context, giving it specialized knowledge about your codebase, conventions, or workflows.

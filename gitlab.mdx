@@ -12,24 +12,14 @@ GitLab uses a **Personal Access Token** (PAT) with the `read_api` scope for auth
   Jinzo requires only `read_api` access. No write operations are performed against your GitLab instance.
 </Note>
 
-## **What Gets Synced**
-
-| **Field**         | **Details**                                                                                    |
-| ----------------- | ---------------------------------------------------------------------------------------------- |
-| **Entity kind**   | `issue`, `merge_request`                                                                       |
-| **Resource kind** | `gitlab_project`                                                                               |
-| **Data synced**   | Title, description, state (open/closed/merged), labels, assignee, issue/MR number, draft status |
-
-Both issues and merge requests are synced as separate entity types. Merge requests include draft status detection. Relative image URLs in descriptions are resolved to absolute URLs automatically.
-
 ## **Setup**
 
 <Steps>
   <Step title="Generate a Personal Access Token">
-    In GitLab, go to **Settings > Access Tokens** and create a new token with the `read_api` scope.
+    In GitLab, go to **Settings \> Access Tokens** and create a new token with the `read_api` scope.
   </Step>
   <Step title="Connect GitLab">
-    Go to **Settings > Apps** in Jinzo and click **Connect** next to GitLab. Enter your GitLab domain (defaults to `gitlab.com` for cloud, or enter your self-hosted domain) and paste your access token.
+    Go to **Settings \> Apps** in Jinzo and click **Connect** next to GitLab. Enter your GitLab domain (defaults to `gitlab.com` for cloud, or enter your self-hosted domain) and paste your access token.
   </Step>
   <Step title="Select Projects">
     Choose which GitLab projects to sync. The project list shows the full namespace path and visibility (private or public).

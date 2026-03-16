@@ -8,16 +8,18 @@ Slash commands are shortcuts that start with `/` and perform specific actions in
 
 ## **Built-in Commands**
 
-| **Command** | **Description**                                                |
-| ----------- | -------------------------------------------------------------- |
-| `/compact`  | Summarize and compress conversation history to free up context |
-| `/clear`    | Clear conversation and start a fresh session                   |
-| `/help`     | Show available commands and usage information                  |
-| `/resume`   | Open session picker to resume a previous conversation          |
-| `/rename`   | Give the current session a memorable name                      |
-| `/model`    | Switch model or adjust effort level                            |
-| `/agents`   | View and create subagents                                      |
-| `/config`   | Open configuration settings                                    |
+| **Command**    | **Description**                                                                  |                       |
+| -------------- | -------------------------------------------------------------------------------- | --------------------- |
+| `/compact`     | Summarize and compress conversation history to free up context                   |                       |
+| `/debug`       | Enable debug logging for this session and help diagnose issues (bundled)         |                       |
+| `/config`      | Open configuration settings                                                      |                       |
+| `/simplify`    | Review change code for reuse, quality, and efficiency, then fix any issues found |                       |
+| `/loop`        | Run a prompt or slash command on a reccuring interval.                           |                       |
+| `/context`     | Show current context usage                                                       |                       |
+| `/insights`    | Generate a report analyzinf your Claude Code sessions                            |                       |
+| `/extra-usage` | Configure extra usage to keep working when limits are hit                        |                       |
+| `/review`      | Review a pull request                                                            | Review a pull request |
+| `/heapdump`    | Dump the JS heap to /Desktop                                                     |                       |
 
 ## **Custom Commands**
 
@@ -25,18 +27,18 @@ Custom commands are Markdown files that define reusable prompts. The filename be
 
 ### **Locations**
 
-| **Location**          | **Scope**                                         |
-| --------------------- | ------------------------------------------------- |
-| `.jinzo/commands/`    | Project commands — shared via git                 |
-| `~/.claude/commands/` | Personal commands — available across all projects |
+| **Location**                | **Scope**                                         |
+| --------------------------- | ------------------------------------------------- |
+| `.{your_project}/commands/` | Project commands — shared via git                 |
+| `~/.claude/commands/`       | Personal commands — available across all projects |
 
 ### **Creating a Command**
 
 Create a `.md` file in one of the command directories:
 
-`.jinzo/commands/review.md`:
+`.{your_project}/commands/review.md`:
 
-```
+```text
 ---
 description: Review code changes for issues
 allowed-tools: Read, Grep, Glob
@@ -51,7 +53,7 @@ Provide findings as a numbered list with severity ratings.
 
 Then invoke it in a session:
 
-```
+```text
 /review
 ```
 
@@ -59,9 +61,9 @@ Then invoke it in a session:
 
 Commands support positional arguments with `$1`, `$2`, etc., and `$ARGUMENTS` for the full argument string:
 
-`.jinzo/commands/fix-issue.md`:
+`.{your_project}/commands/fix-issue.md`:
 
-```
+```text
 ---
 argument-hint: [issue-number]
 description: Fix a GitHub issue
@@ -69,7 +71,7 @@ description: Fix a GitHub issue
 Fix issue #$1. Check the issue description and implement the necessary changes.
 ```
 
-```
+```text
 /fix-issue 142
 ```
 
@@ -77,9 +79,9 @@ Fix issue #$1. Check the issue description and implement the necessary changes.
 
 Commands can include file contents with `@` and shell output with `!`:
 
-`.jinzo/commands/commit.md`:
+`.{your_project}/commands/commit.md`:
 
-```
+```text
 ---
 allowed-tools: Bash(git add:*), Bash(git commit:*)
 description: Create a git commit
@@ -96,8 +98,8 @@ Create a commit with an appropriate message based on the changes.
 
 Organize commands in subdirectories:
 
-```
-.jinzo/commands/
+```text
+.{your_project}/commands/
 ├── frontend/
 │   ├── component.md      # /component
 │   └── style-check.md    # /style-check

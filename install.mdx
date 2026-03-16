@@ -9,7 +9,7 @@ Download and install Jinzo on your Mac in under a minute.
 
 <Steps>
   <Step title="Download">
-    Head to [**<u>usejinzo.com</u>**](https://usejinzo.com) and click the **Download for Mac** button to get the latest `.dmg` file.
+    Head to [**<u>usejinzo.com</u>**](https://usejinzo.com) and click the **Download for macOS** button to get the latest `.dmg` file.
   </Step>
   <Step title="Install the app">
     Open the downloaded `.dmg` file and drag **Jinzo** into your **Applications** folder.
@@ -27,21 +27,36 @@ Download and install Jinzo on your Mac in under a minute.
 
 Some features require additional tools to be installed on your system. You can use Jinzo without them, but the corresponding features won't be available.
 
+### **GitHub CLI (for GitHub features)**
+
+Jinzo uses the GitHub CLI (`gh`) for creating pull requests, managing issues, and other GitHub operations. Install it and authenticate:
+
+```
+brew install gh
+gh auth login
+```
+
+Verify your authentication:
+
+```
+gh auth status
+```
+
 ### **Claude CLI (for Claude Agent)**
 
 If you want to use Claude Code as your agent runtime in workspaces, you need the Claude CLI installed and authenticated.
 
 If you already have Claude Code set up, you're good to go. Otherwise, follow the [**<u>Anthropic setup guide</u>**](https://docs.anthropic.com/en/docs/claude-code) and run:
 
-```
+```text
 claude /login
 ```
 
-### **GitHub Copilot CLI (for Copilot )**
+### **GitHub Copilot CLI (for Copilot)**
 
-If you want to use GitHub Copilot as your agent runtime, you need the Copilot CLI and an active GitHub Copilot subscription.
+If you want to use GitHub Copilot as your agent runtime, you need the GitHub CLI authenticated (see above), the Copilot CLI extension, and an active GitHub Copilot subscription.
 
-Verify your GitHub authentication:
+Verify your Copilot access:
 
 ```
 gh auth status

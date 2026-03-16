@@ -12,23 +12,23 @@ Claude Code skills are `SKILL.md` files with YAML frontmatter and Markdown instr
 
 ### **Skill Locations**
 
-| **Location**        | **Scope**                                             |
-| ------------------- | ----------------------------------------------------- |
-| `.jinzo/skills/`    | Project skills — shared with your team via git        |
-| `~/.claude/skills/` | User skills — personal, available across all projects |
+| **Location**              | **Scope**                                             |
+| ------------------------- | ----------------------------------------------------- |
+| `.{your_project}/skills/` | Project skills — shared with your team via git        |
+| `~/.claude/skills/`       | User skills — personal, available across all projects |
 
 ### **Creating a Skill**
 
 Create a directory with a `SKILL.md` file inside:
 
-```
-.jinzo/skills/code-review/
+```text
+.{your_project}/skills/code-review/
 └── SKILL.md
 ```
 
 A `SKILL.md` file has YAML frontmatter followed by Markdown instructions:
 
-```
+```text
 ---
 description: Reviews code changes for security vulnerabilities and best practices
 allowed-tools: ["Read", "Grep", "Glob"]
@@ -48,7 +48,7 @@ The `description` field is what Claude uses to decide when to invoke the skill. 
 
 Claude invokes skills automatically when a user request matches the skill's description. You can also trigger them explicitly with slash commands:
 
-```
+```text
 /code-review
 ```
 
@@ -58,7 +58,7 @@ Copilot skills are directories containing a `skill.json` manifest, prompt files,
 
 ### **Structure**
 
-```
+```text
 skills/
 └── code-review/
     ├── skill.json
@@ -68,7 +68,7 @@ skills/
 
 ### **skill.json**
 
-```
+```text
 {
   "name": "code-review",
   "displayName": "Code Review Assistant",

@@ -12,16 +12,6 @@ Linear uses an **API key** for authentication. You can generate a personal API k
   Jinzo uses the `@linear/sdk` package to communicate with the Linear API, providing typed access to issues, teams, labels, and other resources.
 </Note>
 
-## **What Gets Synced**
-
-| **Field**         | **Details**                                                                       |
-| ----------------- | --------------------------------------------------------------------------------- |
-| **Entity kind**   | `issue`                                                                           |
-| **Resource kind** | `linear_team`                                                                     |
-| **Data synced**   | Issue title, description, state, labels, priority, issue number (e.g., `ABC-123`) |
-
-Issues retain their full metadata including priority levels and team-specific identifiers, making it easy to search and cross-reference with other project management data.
-
 ## **Setup**
 
 <Steps>
@@ -35,6 +25,6 @@ Issues retain their full metadata including priority levels and team-specific id
     Choose which Linear teams to sync. Only issues from selected teams will be fetched.
   </Step>
   <Step title="Initial Sync">
-    Jinzo will perform an initial sync to fetch existing issues. Subsequent syncs happen incrementally.
+    Jinzo will perform an initial sync to fetch existing issues. 
   </Step>
 </Steps>

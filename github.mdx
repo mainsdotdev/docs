@@ -12,16 +12,6 @@ GitHub uses **OAuth** for authentication. When you connect GitHub, Jinzo will op
   Jinzo requests read access to issues and pull requests. Write actions (updating issues, adding comments) go through the outbox system for offline-first reliability.
 </Note>
 
-## **What Gets Synced**
-
-| **Field**         | **Details**                                                                         |
-| ----------------- | ----------------------------------------------------------------------------------- |
-| **Entity kind**   | `issue`                                                                             |
-| **Resource kind** | `github_repo`                                                                       |
-| **Data synced**   | Issue title, body, state (open/closed), labels, assignees, issue number, repository |
-
-Both issues and pull requests are synced as `issue` entities. Each entity retains its full metadata -- state, labels, assignees, and the repository it belongs to -- so you can search and filter precisely.
-
 ## **Setup**
 
 <Steps>
@@ -32,6 +22,6 @@ Both issues and pull requests are synced as `issue` entities. Each entity retain
     After authorization, choose which repositories to sync. Only issues and pull requests from selected repositories will be fetched.
   </Step>
   <Step title="Initial Sync">
-    Jinzo will perform an initial sync to fetch existing issues and pull requests. Subsequent syncs happen incrementally using cursors and ETags.
+    Jinzo will perform an initial sync to fetch existing issues and pull requests.
   </Step>
 </Steps>

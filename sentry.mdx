@@ -12,19 +12,11 @@ Sentry uses an **Auth Token** with an **Organization Slug** for authentication. 
   Jinzo stores your Sentry credentials encrypted in the local database. They never leave your machine.
 </Note>
 
-## **What gets synced**
-
-| **Field**         | **Details**                                                     |
-| ----------------- | --------------------------------------------------------------- |
-| **Entity kind**   | `issue`                                                         |
-| **Resource kind** | `sentry_project`                                                |
-| **Data synced**   | Project name, platform, status, date created, organization info |
-
 ## **Setup**
 
 <Steps>
   <Step title="Connect Sentry">
-    Go to **Settings > Apps** and click **Connect** next to Sentry. Enter your Auth Token and Organization Slug.
+    Go to **Settings \> Apps** and click **Connect** next to Sentry. Enter your Auth Token and Organization Slug.
   </Step>
   <Step title="Select projects">
     After authentication, choose which Sentry projects to sync.
@@ -36,4 +28,4 @@ Sentry uses an **Auth Token** with an **Organization Slug** for authentication. 
 
 ## **Revoking access**
 
-To disconnect Sentry, go to **Settings > Apps** and click **Revoke** next to Sentry. This removes all synced Sentry data and deletes the stored credentials.
+To disconnect Sentry, go to **Settings \> Apps** and click **Revoke** next to Sentry. This removes all synced Sentry data and deletes the stored credentials.
