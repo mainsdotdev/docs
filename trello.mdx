@@ -1,0 +1,41 @@
+---
+title: "Trello"
+---
+
+The Trello integration syncs cards from your selected boards into Jinzo's entity store. Once synced, Trello cards are available as context for AI agent conversations.
+
+## **Authentication**
+
+Trello uses an **API Key + Token** pair for authentication. You can generate these from your Trello account's developer settings.
+
+<Note>
+  Jinzo stores your Trello credentials encrypted in the local database. They never leave your machine.
+</Note>
+
+## **What gets synced**
+
+| **Field**         | **Details**                                                              |
+| ----------------- | ------------------------------------------------------------------------ |
+| **Entity kind**   | `issue`                                                                  |
+| **Resource kind** | `trello_board`                                                           |
+| **Data synced**   | Card name, description, list, labels, members, due dates, board metadata |
+
+Board metadata includes name, description, organization, URL, and closed status.
+
+## **Setup**
+
+<Steps>
+  <Step title="Connect Trello">
+    Go to **Settings > Apps** and click **Connect** next to Trello. Enter your API Key and Token.
+  </Step>
+  <Step title="Select boards">
+    After authentication, choose which boards to sync. Only cards from selected boards will be fetched.
+  </Step>
+  <Step title="Initial sync">
+    Jinzo performs an initial sync to fetch existing cards. Subsequent syncs happen incrementally.
+  </Step>
+</Steps>
+
+## **Revoking access**
+
+To disconnect Trello, go to **Settings > Apps** and click **Revoke** next to Trello. This removes all synced Trello data and deletes the stored credentials.

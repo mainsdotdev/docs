@@ -1,0 +1,47 @@
+---
+title: "Automations"
+description: "Schedule recurring sync jobs for your connected services"
+icon: "clock"
+---
+
+Automations let you schedule recurring sync jobs so your connected services stay up to date without manual intervention.
+
+## **Available actions**
+
+| **Action**       | **Description**                          |
+| ---------------- | ---------------------------------------- |
+| `sync:all`       | Sync all connected providers at once     |
+| `sync:github`    | Sync GitHub repositories                 |
+| `sync:gitlab`    | Sync GitLab projects                     |
+| `sync:linear`    | Sync Linear teams                        |
+| `sync:jira`      | Sync Jira projects                       |
+| `sync:asana`     | Sync Asana projects                      |
+| `sync:trello`    | Sync Trello boards                       |
+| `sync:notion`    | Sync Notion resources                    |
+| `sync:sentry`    | Sync Sentry projects                     |
+
+## **Creating an automation**
+
+<Steps>
+  <Step title="Open settings">
+    Go to **Settings > Connections** and locate the automation options.
+  </Step>
+  <Step title="Choose an action">
+    Select which provider to sync or use `sync:all` to sync everything.
+  </Step>
+  <Step title="Set the interval">
+    Configure how often the automation runs. The minimum interval is one minute.
+  </Step>
+</Steps>
+
+## **Managing automations**
+
+- **Enable / disable** an automation without deleting it -- the schedule pauses but the configuration is preserved
+- **View run history** to see the last 20 executions with timestamps and success/error status
+- **Delete** an automation to remove it permanently
+
+Automations persist across app restarts. When Jinzo launches, all enabled automations resume on their configured schedules automatically.
+
+## **Manual sync**
+
+You can trigger a one-time sync at any time from **Settings > Apps** by clicking the **Sync** button. This fetches the latest data from all connected providers immediately, independent of any automation schedule.

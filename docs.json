@@ -43,6 +43,7 @@
             "pages": [
               "workspaces",
               "projects",
+              "spaces",
               "runs",
               "file-explorer",
               "multi-session",
@@ -60,12 +61,16 @@
               "linear",
               "jira",
               "asana",
-              "gitlab"
+              "gitlab",
+              "trello",
+              "sentry"
             ]
           },
           {
             "group": "More",
             "pages": [
+              "settings",
+              "automations",
               "stats",
               "privacy",
               "terminal",
