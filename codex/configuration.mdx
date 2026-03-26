@@ -1,0 +1,57 @@
+---
+title: "Configuration"
+icon: "gear-code"
+---
+
+The OpenAI Codex agent runtime in Jinzo is configured through in-app settings. These options control sandbox isolation, network access, web search, and structured output behavior.
+
+## **Sandbox Mode**
+
+Controls file and network isolation for the Codex agent during runs.
+
+| **Mode**             | **Description**                                          |
+| -------------------- | -------------------------------------------------------- |
+| **Read Only**        | Agent cannot modify files                                |
+| **Workspace Write**  | Agent can write files within the workspace only (default)|
+| **Full Access**      | No restrictions — agent has full filesystem access        |
+
+<Warning>
+  **Full Access** mode disables all file isolation. Only use this in trusted environments where the agent should have unrestricted access to the filesystem.
+</Warning>
+
+## **Network Access**
+
+Toggle network access within `workspace-write` sandbox mode. When enabled, the agent can make outbound network requests during runs. Disabled by default in `read-only` mode.
+
+## **Web Search**
+
+Allow the agent to search the web during runs. When enabled, the agent can fetch live search results to inform its responses and code generation.
+
+## **Skip Git Check**
+
+By default, Codex requires the workspace directory to be a Git repository. Enable this option to allow running in non-git directories.
+
+## **Structured Outputs**
+
+Configure a JSON schema to constrain the agent's final response into a predictable structure. When a schema is provided, the agent's output is validated against it and returned as structured JSON rather than free-form text.
+
+This is useful for automation pipelines where downstream code needs to parse the agent's response programmatically.
+
+```json wrap
+{
+  "type": "object",
+  "properties": {
+    "summary": { "type": "string" },
+    "filesChanged": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "confidence": { "type": "number" }
+  },
+  "required": ["summary"]
+}
+```
+
+## **Space Visibility**
+
+You can show or hide the Codex space from the sidebar. At least one space must remain visible at all times. If you hide Codex, the active space switches to the next available one.

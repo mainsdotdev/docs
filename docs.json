@@ -33,6 +33,12 @@
             ]
           },
           {
+            "group": "Codex",
+            "pages": [
+              "codex/configuration"
+            ]
+          },
+          {
             "group": "Copilot",
             "pages": [
               "copilot/configuration"
