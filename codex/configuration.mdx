@@ -31,27 +31,3 @@ Allow the agent to search the web during runs. When enabled, the agent can fetch
 
 By default, Codex requires the workspace directory to be a Git repository. Enable this option to allow running in non-git directories.
 
-## **Structured Outputs**
-
-Configure a JSON schema to constrain the agent's final response into a predictable structure. When a schema is provided, the agent's output is validated against it and returned as structured JSON rather than free-form text.
-
-This is useful for automation pipelines where downstream code needs to parse the agent's response programmatically.
-
-```json wrap
-{
-  "type": "object",
-  "properties": {
-    "summary": { "type": "string" },
-    "filesChanged": {
-      "type": "array",
-      "items": { "type": "string" }
-    },
-    "confidence": { "type": "number" }
-  },
-  "required": ["summary"]
-}
-```
-
-## **Space Visibility**
-
-You can show or hide the Codex space from the sidebar. At least one space must remain visible at all times. If you hide Codex, the active space switches to the next available one.
