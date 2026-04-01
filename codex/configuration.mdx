@@ -3,7 +3,7 @@ title: "Configuration"
 icon: "gear-code"
 ---
 
-The OpenAI Codex agent runtime in Jinzo is configured through in-app settings. These options control sandbox isolation, network access, web search, and structured output behavior.
+The OpenAI Codex agent runtime in Jinzo communicates with the Codex app server via JSON-RPC over stdio. These settings control sandbox isolation, network access, code review, and more.
 
 ## **Sandbox Mode**
 
@@ -13,7 +13,7 @@ Controls file and network isolation for the Codex agent during runs.
 | -------------------- | -------------------------------------------------------- |
 | **Read Only**        | Agent cannot modify files                                |
 | **Workspace Write**  | Agent can write files within the workspace only (default)|
-| **Full Access**      | No restrictions — agent has full filesystem access        |
+| **Full Access**      | No restrictions -- agent has full filesystem access       |
 
 <Warning>
   **Full Access** mode disables all file isolation. Only use this in trusted environments where the agent should have unrestricted access to the filesystem.
@@ -31,3 +31,27 @@ Allow the agent to search the web during runs. When enabled, the agent can fetch
 
 By default, Codex requires the workspace directory to be a Git repository. Enable this option to allow running in non-git directories.
 
+## **Code Review**
+
+Codex supports a native review mode. You can request a structured code review that analyzes workspace changes and produces findings with severity ratings.
+
+Review targets:
+
+| **Target**                | **Description**                                          |
+| ------------------------- | -------------------------------------------------------- |
+| **Uncommitted changes**   | Review all unstaged and staged changes                   |
+| **Base branch**           | Review changes relative to the base branch               |
+| **Specific commit**       | Review changes from a specific commit                    |
+| **Custom**                | Review with a custom diff range                          |
+
+Findings are parsed from the Codex output with priority levels (P1 = critical, P2 = warning, P3 = info) and saved as structured [review findings](/reviews).
+
+## **Session Management**
+
+Codex runs support the full session lifecycle:
+
+- **Continue** -- resume a previous session to pick up where you left off
+
+## **Account & Rate Limits**
+
+View your Codex account information and current rate limit status from the settings panel. Rate limits are retrieved from the Codex app server and displayed per-model.

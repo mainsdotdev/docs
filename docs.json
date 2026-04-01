@@ -56,7 +56,8 @@
               "skills",
               "diff-viewer",
               "linked-tasks",
-              "reviews"
+              "reviews",
+              "dependency-guards"
             ]
           },
           {

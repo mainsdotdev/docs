@@ -12,11 +12,11 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Which AI agents are supported?">
-    Jinzo supports two agent runtimes: **Claude Code** (via the Anthropic CLI) and **GitHub Copilot** (via the Copilot CLI). You can use either or both in your workspaces.
+    Jinzo supports three agent runtimes: **Claude Code** (via the Anthropic CLI), **GitHub Copilot** (via the Copilot CLI), and **OpenAI Codex** (via the Codex app server). You can use any combination in your workspaces.
   </Accordion>
 
   <Accordion title="Do I need an API key?">
-    For **Claude Code**, you need an Anthropic API key or a Claude account authenticated via `claude /login`. For **GitHub Copilot**, you need an active Copilot subscription and GitHub CLI authentication (`gh auth status`).
+    For **Claude Code**, you need a Claude account authenticated via `claude /login`. For **GitHub Copilot**, you need an active Copilot subscription and GitHub CLI authentication (`gh auth status`). For **OpenAI Codex**, you need to authenticate via `codex auth login`.
   </Accordion>
 
   <Accordion title="Where is my data stored?">
@@ -44,7 +44,7 @@ icon: "circle-question"
 
 <AccordionGroup>
   <Accordion title="Which services can I connect?">
-    Jinzo supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), and [Sentry](/sentry). Each connection syncs issues or tasks into Jinzo's local entity store for use as agent context.
+    Jinzo supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), [Notion](/notion), and [Sentry](/sentry). Each connection syncs issues or tasks into Jinzo's local entity store for use as agent context.
   </Accordion>
 
   <Accordion title="How are my credentials stored?">
@@ -65,6 +65,10 @@ icon: "circle-question"
 
   <Accordion title="GitHub Copilot agent is not available">
     Verify your GitHub CLI authentication with `gh auth status` and ensure you have an active Copilot subscription. The Copilot CLI binary must be accessible from your system PATH.
+  </Accordion>
+
+  <Accordion title="OpenAI Codex agent is not available">
+    Make sure the Codex CLI is installed and authenticated. Run `codex auth login` in your terminal. The Codex binary must be accessible from your system PATH.
   </Accordion>
 
   <Accordion title="Workspace worktree creation fails">

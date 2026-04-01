@@ -36,12 +36,24 @@ Customize your profile information used across Jinzo:
 | **Bypass permissions**   | Allow Copilot full file and terminal access without requiring approval for each tool call   |
 | **Quick actions**        | Show or hide quick action buttons in the workspace toolbar                                  |
 
+## **Codex settings**
+
+| **Setting**              | **Description**                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| **Sandbox mode**         | File isolation level: read-only, workspace-write (default), or full access                 |
+| **Network access**       | Allow outbound network requests during runs                                                |
+| **Web search**           | Let the agent search the web during runs                                                   |
+| **Skip git check**       | Allow running in non-git directories                                                       |
+
+See [Codex configuration](/codex/configuration) for full details, and [Codex plugins](/codex/plugins) for extending Codex with marketplace tools.
+
 ## **Apps & connections**
 
 Manage your connected services from the **Apps** tab. See which integrations are active, connect new ones, trigger manual syncs, or revoke access. Connections are grouped by category:
 
 - **Developer Tools** -- GitHub, GitLab, Linear, Jira, Asana, Trello, Notion
 - **Monitoring** -- Sentry
+- **Security** -- [Socket.dev](/dependency-guards)
 
 ## **Software updates**
 

@@ -1,0 +1,67 @@
+---
+title: "Dependency Guards"
+description: "Automatic security checks for package installs"
+icon: "shield-check"
+---
+
+Dependency guards intercept package install commands during agent runs and check them against a security service before allowing the install to proceed. If a package is flagged as risky, the install is blocked and the agent is told to use a safer alternative.
+
+## **How It Works**
+
+When an agent runs a package install command (e.g., `npm install`, `pip install`, `cargo add`), Jinzo intercepts the command, extracts the package names, and checks them against the configured guard service. If any package fails the security check, the command is denied before it executes.
+
+This works across all three agent runtimes:
+
+| **Agent**     | **Mechanism**                                            |
+| ------------- | -------------------------------------------------------- |
+| **Claude**    | PreToolUse hook on Bash commands                         |
+| **Copilot**   | Pre-tool-use hook on shell/bash tools                    |
+| **Codex**     | Dynamic tools check before execution                    |
+
+## **Supported Ecosystems**
+
+Guards detect install commands for multiple package managers:
+
+| **Ecosystem** | **Commands detected**                                     |
+| ------------- | --------------------------------------------------------- |
+| **npm**       | `npm install`, `npm add`, `yarn add`, `pnpm add`         |
+| **Python**    | `pip install`, `pip3 install`                             |
+| **Cargo**     | `cargo add`, `cargo install`                              |
+| **Go**        | `go get`, `go install`                                    |
+| **RubyGems**  | `gem install`, `bundle add`                               |
+
+## **Socket.dev**
+
+Jinzo uses [Socket.dev](https://socket.dev) as the guard provider. Socket analyzes packages for supply chain risks, known vulnerabilities, and suspicious behavior.
+
+### **Setup**
+
+<Steps>
+  <Step title="Get an API key">
+    Create a Socket.dev account and generate an API key from your organization settings.
+  </Step>
+  <Step title="Connect in Jinzo">
+    Go to **Settings \> Apps** and click **Connect** next to Socket.dev. Enter your API key.
+  </Step>
+  <Step title="Guards activate automatically">
+    Once connected, guards are active for all agent runs. No per-workspace configuration needed.
+  </Step>
+</Steps>
+
+### **What Gets Checked**
+
+For each package, Socket.dev returns:
+
+| **Field**         | **Description**                                    |
+| ----------------- | -------------------------------------------------- |
+| **Overall score** | 0-1 health score based on multiple risk factors    |
+| **Risk level**    | `critical`, `high`, `medium`, `low`, or `none`     |
+| **Alerts**        | Specific security issues (malware, typosquat, etc) |
+
+Packages below the minimum score threshold are blocked automatically.
+
+{/* ## **Workspace Scanning**
+
+In addition to real-time install interception, you can scan an entire workspace's dependencies at once. This reads manifest files (`package.json`, `requirements.txt`, `Cargo.toml`, etc.) and checks all listed packages against the guard service.
+
+Scan results are logged to the workspace activity feed with a summary of critical, high, and medium risk packages found. */}

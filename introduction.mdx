@@ -26,7 +26,7 @@ Run **Claude Code**, **OpenAI Codex**, or **GitHub Copilot** agents inside [work
 
 ### [**Linked Tasks**](/linked-tasks)
 
-Connect issues and tasks from **GitHub**, **GitLab**, **Linear**, **Jira**, **Trello**, or **Asana** directly to a workspace. The agent reads the task description as context, and statuses are updated automatically as work progresses.
+Connect issues and tasks from **GitHub**, **GitLab**, **Linear**, **Jira**, **Asana**, **Trello**, **Notion**, or **Sentry** directly to a workspace. The agent reads the task description as context, and statuses are updated automatically as work progresses.
 
 ### [**Code Reviews**](/reviews)
 
@@ -34,11 +34,15 @@ Request structured code reviews after agent runs. Findings are categorized by se
 
 ### [**MCP Servers**](/mcp-servers)
 
-Extend agent capabilities with [Model Context Protocol](/mcp-servers) servers. Add tools for Slack, databases, APIs, and more from the terminal -- both agents can use them.
+Extend agent capabilities with [Model Context Protocol](/mcp-servers) servers. Add tools for Slack, databases, APIs, and more from the terminal -- Claude and Copilot agents can use them.
 
 ### [**Skills & Slash Commands**](/skills)
 
 Teach agents domain-specific behavior with [skills](/skills), or create reusable [slash commands](/claude/slash-commands) for common workflows like code review, testing, and PR creation.
+
+### [**Dependency Guards**](/dependency-guards)
+
+Automatically check packages against [Socket.dev](https://socket.dev) before install commands execute. Guards intercept `npm install`, `pip install`, `cargo add`, and more across all three agent runtimes, blocking packages flagged for supply chain risks.
 
 ### [**Runs & Observability**](/runs)
 
@@ -50,4 +54,4 @@ Browse your repository and [select files](/file-explorer) to include in the agen
 
 ### [**Stats Dashboard**](/stats)
 
-Track agent runs, costs, tool usage, and success rates across all your workspaces. Filter by provider to compare Claude, Codex, and Copilot activity.
+Track agent runs, costs, tool usage, and success rates across all workspaces. Filter by provider to compare Claude, Codex, and Copilot activity.

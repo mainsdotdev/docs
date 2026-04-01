@@ -39,6 +39,9 @@ Each review can contain multiple findings. A finding pinpoints a specific issue 
 
 ## **Requesting a Review**
 
-After an agent run completes, you can trigger a code review using the `/code-review` skill in the agent input. The agent analyzes the diffs from the run and produces structured findings with severity ratings.
+There are two ways to get a code review:
+
+- **Claude / Copilot** -- use the `code-review` tool in the agent input. The agent analyzes the diffs from the run and produces structured findings with severity ratings.
+- **Codex** -- use Codex's native review mode, which supports reviewing uncommitted changes, base branch diffs, specific commits, or custom ranges. Findings are parsed with priority levels (P1 = critical, P2 = warning, P3 = info).
 
 Reviews are displayed in the **Reviews** section of the workspace sidebar, where you can inspect individual findings and navigate directly to the relevant code.
