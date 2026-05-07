@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Jinzo",
+  "name": "Mains",
   "colors": {
     "primary": "#878580",
     "light": "#fff",
@@ -94,8 +94,8 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:team@usejinzo.com"
+        "label": "Support", 
+        "href": "mailto:team@mains.dev"
       }
     ],
     "primary": {
@@ -118,7 +118,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/OkanBilal/jinzo"
+      "github": "https://github.com/OkanBilal/mains"
     }
   },
   "description": "A unified desktop workspace for AI agents",

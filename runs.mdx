@@ -4,7 +4,7 @@ description: "Agent run lifecycle, observability, and cost tracking"
 icon: "play"
 ---
 
-A run is a single agent execution within a workspace. When you type a goal and press Enter, Jinzo creates a run, launches the agent, and tracks everything that happens -- tool calls, file changes, token usage, and costs.
+A run is a single agent execution within a workspace. When you type a goal and press Enter, Mains creates a run, launches the agent, and tracks everything that happens -- tool calls, file changes, token usage, and costs.
 
 ## **Run Lifecycle**
 
@@ -20,7 +20,7 @@ Each run progresses through a series of statuses:
 
 ## **Turns**
 
-A run is composed of one or more **turns**. Each turn represents a single interaction cycle -- the agent receives input, reasons about it, calls tools, and produces output. Jinzo tracks per-turn metrics:
+A run is composed of one or more **turns**. Each turn represents a single interaction cycle -- the agent receives input, reasons about it, calls tools, and produces output. Mains tracks per-turn metrics:
 
 | **Metric**        | **Description**                               |
 | ----------------- | --------------------------------------------- |
@@ -32,7 +32,7 @@ A run is composed of one or more **turns**. Each turn represents a single intera
 
 ## **Tool Calls**
 
-Every tool the agent invokes during a run is logged. Jinzo records:
+Every tool the agent invokes during a run is logged. Mains records:
 
 - Tool name and arguments
 - Execution result
@@ -87,7 +87,7 @@ Session resumption preserves the full conversation history and context from the 
 
 ## **Cost Tracking**
 
-Jinzo tracks the estimated cost of each run in microdollars (USD * 1,000,000) to avoid floating-point precision issues. Costs are broken down by:
+Mains tracks the estimated cost of each run in microdollars (USD * 1,000,000) to avoid floating-point precision issues. Costs are broken down by:
 
 - **Model** -- which LLM was used for each turn
 - **Turn** -- per-turn token usage and cost
@@ -97,7 +97,7 @@ View cost data per-run in the workspace sidebar, or see aggregate costs in the [
 
 ## **Workspace Diffs**
 
-At the start of each run, Jinzo captures the Git HEAD SHA. After the run completes, it computes a unified diff against the base ref. This diff shows exactly what the agent changed and is displayed in the [diff viewer](/diff-viewer).
+At the start of each run, Mains captures the Git HEAD SHA. After the run completes, it computes a unified diff against the base ref. This diff shows exactly what the agent changed and is displayed in the [diff viewer](/diff-viewer).
 
 Each diff includes:
 
@@ -107,4 +107,4 @@ Each diff includes:
 
 ## **Sleep Prevention**
 
-When enabled in Settings, Jinzo prevents your Mac from sleeping during active runs using macOS power management. Sleep prevention is released automatically when the run completes or the app quits.
+When enabled in Settings, Mains prevents your Mac from sleeping during active runs using macOS power management. Sleep prevention is released automatically when the run completes or the app quits.

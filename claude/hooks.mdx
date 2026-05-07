@@ -10,7 +10,7 @@ Hooks let you intercept and respond to events during a Claude Code session. They
 
 A hook is a callback function that fires when a specific event occurs during the agent session. Each hook receives event-specific input data and returns an output that can influence the agent's behavior -- for example, allowing or denying a tool call, injecting additional context, or stopping the session.
 
-Hooks are configured in your settings files and passed to the Claude Code SDK at session startup. Jinzo merges hooks from all settings sources (user, project, local) and applies them to every run.
+Hooks are configured in your settings files and passed to the Claude Code SDK at session startup. Mains merges hooks from all settings sources (user, project, local) and applies them to every run.
 
 ## **Hook Events**
 
@@ -81,7 +81,7 @@ You can also return `updatedInput` to modify the tool's arguments before executi
 
 ## **Built-in Tool Approval Hook**
 
-Jinzo automatically registers a PreToolUse hook that handles the interactive tool approval flow. When the agent calls a tool that isn't pre-approved, this hook pauses execution and shows an approval dialog in the workspace UI. You can approve or reject the call, and optionally provide an answer for `AskUserQuestion` tool calls.
+Mains automatically registers a PreToolUse hook that handles the interactive tool approval flow. When the agent calls a tool that isn't pre-approved, this hook pauses execution and shows an approval dialog in the workspace UI. You can approve or reject the call, and optionally provide an answer for `AskUserQuestion` tool calls.
 
 Pre-approved tools (Bash, Read, Write, Edit, Glob, Grep, and all MCP tools) execute automatically without prompting.
 

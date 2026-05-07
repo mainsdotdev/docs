@@ -4,11 +4,11 @@ description: "Connect external tools to Claude and Copilot agents via Model Cont
 icon: "server"
 ---
 
-MCP (Model Context Protocol) is an open standard for connecting AI agents to external tools and data sources. Jinzo supports MCP for the **Claude Code** and **GitHub Copilot** agent runtimes — add a server once from your terminal, and both agents can use it.
+MCP (Model Context Protocol) is an open standard for connecting AI agents to external tools and data sources. Mains supports MCP for the **Claude Code** and **GitHub Copilot** agent runtimes — add a server once from your terminal, and both agents can use it.
 
 ## **Adding an MCP Server**
 
-MCP servers are added through the terminal using the Claude Code CLI. Once registered, the server is available to use inside Jinzo immediately.
+MCP servers are added through the terminal using the Claude Code CLI. Once registered, the server is available to use inside Mains immediately.
 
 ```javascript
 # Add a stdio server (local process)
@@ -20,11 +20,11 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github \
 claude mcp add remote-api --transport http --url https://mcp.example.com/sse
 ```
 
-After adding, restart your workspace session — Jinzo picks up the new server and its tools become available to the agent.
+After adding, restart your workspace session — Mains picks up the new server and its tools become available to the agent.
 
 ## **Agent Support**
 
-Both agent runtimes in Jinzo can use MCP servers, with some differences in how they discover and invoke tools.
+Both agent runtimes in Mains can use MCP servers, with some differences in how they discover and invoke tools.
 
 ### **Claude Code**
 

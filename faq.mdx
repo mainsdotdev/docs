@@ -7,12 +7,12 @@ icon: "circle-question"
 ## **General**
 
 <AccordionGroup>
-  <Accordion title="What platforms does Jinzo support?">
-    Jinzo is currently available for **macOS** only. Windows and Linux support is planned.
+  <Accordion title="What platforms does Mains support?">
+    Mains is currently available for **macOS** only. Windows and Linux support is planned.
   </Accordion>
 
   <Accordion title="Which AI agents are supported?">
-    Jinzo supports three agent runtimes: **Claude Code** (via the Anthropic CLI), **GitHub Copilot** (via the Copilot CLI), and **OpenAI Codex** (via the Codex app server). You can use any combination in your workspaces.
+    Mains supports three agent runtimes: **Claude Code** (via the Anthropic CLI), **GitHub Copilot** (via the Copilot CLI), and **OpenAI Codex** (via the Codex app server). You can use any combination in your workspaces.
   </Accordion>
 
   <Accordion title="Do I need an API key?">
@@ -20,7 +20,7 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Where is my data stored?">
-    All data is stored locally in a SQLite database at `~/Library/Application Support/jinzo/jinzo.db` on macOS. See the [Privacy](/privacy) page for details.
+    All data is stored locally in a SQLite database at `~/Library/Application Support/mains/mains.db` on macOS. See the [Privacy](/privacy) page for details.
   </Accordion>
 </AccordionGroup>
 
@@ -28,7 +28,7 @@ icon: "circle-question"
 
 <AccordionGroup>
   <Accordion title="What happens when I create a workspace?">
-    Jinzo creates an isolated Git worktree for the workspace. This gives the workspace its own working directory and branch while sharing Git history with the original repository.
+    Mains creates an isolated Git worktree for the workspace. This gives the workspace its own working directory and branch while sharing Git history with the original repository.
   </Accordion>
 
   <Accordion title="Can I run multiple agents at the same time?">
@@ -44,7 +44,7 @@ icon: "circle-question"
 
 <AccordionGroup>
   <Accordion title="Which services can I connect?">
-    Jinzo supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), [Notion](/notion), and [Sentry](/sentry). Each connection syncs issues or tasks into Jinzo's local entity store for use as agent context.
+    Mains supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), [Notion](/notion), and [Sentry](/sentry). Each connection syncs issues or tasks into Mains's local entity store for use as agent context.
   </Accordion>
 
   <Accordion title="How are my credentials stored?">
@@ -60,7 +60,7 @@ icon: "circle-question"
 
 <AccordionGroup>
   <Accordion title="Claude Code agent is not available">
-    Make sure the Claude CLI is installed and authenticated. Run `claude /login` in your terminal to verify. Jinzo requires the Claude CLI binary to be accessible from your system PATH.
+    Make sure the Claude CLI is installed and authenticated. Run `claude /login` in your terminal to verify. Mains requires the Claude CLI binary to be accessible from your system PATH.
   </Accordion>
 
   <Accordion title="GitHub Copilot agent is not available">
@@ -88,19 +88,19 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Database reset">
-    If you need to reset the local database, delete the file at `~/Library/Application Support/jinzo/jinzo.db` and restart Jinzo. This removes all local data including workspaces, runs, and connection credentials.
+    If you need to reset the local database, delete the file at `~/Library/Application Support/mains/mains.db` and restart Mains. This removes all local data including workspaces, runs, and connection credentials.
   </Accordion>
 
   <Accordion title="macOS security warning on first launch">
-    macOS may block Jinzo since it's downloaded from the internet. Go to **System Settings > Privacy & Security** and click **Open Anyway**, or right-click the app and select **Open** to bypass the warning.
+    macOS may block Mains since it's downloaded from the internet. Go to **System Settings > Privacy & Security** and click **Open Anyway**, or right-click the app and select **Open** to bypass the warning.
   </Accordion>
 
-  <Accordion title='macOS Keychain prompt: "jinzo wants to use your confidential information"'>
-    On launch, macOS may show a dialog saying **jinzo wants to use your confidential information stored in "jinzo Safe Storage" in your keychain**. This is expected -- Jinzo uses Electron's `safeStorage` API to encrypt sensitive data like connection tokens and API keys. macOS requires your permission before an app can access its own Keychain entry.
+  <Accordion title='macOS Keychain prompt: "mains wants to use your confidential information"'>
+    On launch, macOS may show a dialog saying **mains wants to use your confidential information stored in "mains Safe Storage" in your keychain**. This is expected -- Mains uses Electron's `safeStorage` API to encrypt sensitive data like connection tokens and API keys. macOS requires your permission before an app can access its own Keychain entry.
 
     - Click **Allow** to grant access for this session
     - Click **Always Allow** to stop the prompt from appearing again
-    - Clicking **Deny** will prevent Jinzo from reading encrypted credentials, which may cause connection features to fail
+    - Clicking **Deny** will prevent Mains from reading encrypted credentials, which may cause connection features to fail
 
     This prompt typically appears once after installation or after a macOS update resets Keychain permissions.
   </Accordion>

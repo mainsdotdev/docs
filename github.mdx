@@ -2,14 +2,14 @@
 title: "Github"
 ---
 
-The GitHub integration syncs issues and pull requests from your selected repositories into Jinzo's entity store. Once synced, GitHub data is searchable locally and available as context in AI chat conversations.
+The GitHub integration syncs issues and pull requests from your selected repositories into Mains's entity store. Once synced, GitHub data is searchable locally and available as context in AI chat conversations.
 
 ## **Authentication**
 
-GitHub uses **OAuth** for authentication. When you connect GitHub, Jinzo will open a browser window to authorize access. The resulting token is stored encrypted in the local database.
+GitHub uses **OAuth** for authentication. When you connect GitHub, Mains will open a browser window to authorize access. The resulting token is stored encrypted in the local database.
 
 <Note>
-  Jinzo requests read access to issues and pull requests. Write actions (updating issues, adding comments) go through the outbox system for offline-first reliability.
+  Mains requests read access to issues and pull requests. Write actions (updating issues, adding comments) go through the outbox system for offline-first reliability.
 </Note>
 
 ## **Setup**
@@ -22,6 +22,6 @@ GitHub uses **OAuth** for authentication. When you connect GitHub, Jinzo will op
     After authorization, choose which repositories to sync. Only issues and pull requests from selected repositories will be fetched.
   </Step>
   <Step title="Initial Sync">
-    Jinzo will perform an initial sync to fetch existing issues and pull requests.
+    Mains will perform an initial sync to fetch existing issues and pull requests.
   </Step>
 </Steps>

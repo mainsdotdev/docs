@@ -1,10 +1,10 @@
 ---
 title: "Privacy"
-description: "How Jinzo handles your data"
+description: "How Mains handles your data"
 icon: "shield-halved"
 ---
 
-Jinzo is a local-first desktop application. Your data stays on your machine, and agent conversations go directly to your configured provider -- never through Jinzo's servers.
+Mains is a local-first desktop application. Your data stays on your machine, and agent conversations go directly to your configured provider -- never through Mains's servers.
 
 ## **What Stays Local**
 
@@ -16,15 +16,15 @@ Jinzo is a local-first desktop application. Your data stays on your machine, and
 
 Your database is stored at:
 
-- **macOS**: `~/Library/Application Support/jinzo/jinzo.db`
+- **macOS**: `~/Library/Application Support/mains/mains.db`
 
 ## **Credentials**
 
-API tokens and OAuth credentials for connected services (GitHub, Linear, Jira, etc.) are stored encrypted in the local database. Tokens are never sent to Jinzo's infrastructure.
+API tokens and OAuth credentials for connected services (GitHub, Linear, Jira, etc.) are stored encrypted in the local database. Tokens are never sent to Mains's infrastructure.
 
 ## **No Telemetry**
 
-Jinzo does not include analytics, telemetry, or tracking services. No usage data is collected or transmitted to external services.
+Mains does not include analytics, telemetry, or tracking services. No usage data is collected or transmitted to external services.
 
 ## **Agent Communication**
 
@@ -34,8 +34,8 @@ When you run an agent session, messages are sent directly from your machine to t
 - **GitHub Copilot** -- communicates with GitHub's API using your Copilot subscription
 - **OpenAI Codex** -- communicates with OpenAI's API using your Codex account
 
-Jinzo does not proxy, log, or inspect these communications. Your provider's privacy policy governs how they handle your data.
+Mains does not proxy, log, or inspect these communications. Your provider's privacy policy governs how they handle your data.
 
 ## **Connected Services**
 
-When you sync data from GitHub, Linear, Jira, or other services, Jinzo fetches content using the credentials you provide and stores it locally. Synced data is used only for local search and agent context -- it is never shared externally.
+When you sync data from GitHub, Linear, Jira, or other services, Mains fetches content using the credentials you provide and stores it locally. Synced data is used only for local search and agent context -- it is never shared externally.

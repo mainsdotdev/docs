@@ -1,19 +1,19 @@
 ---
 title: "Workflow"
-description: "The complete development lifecycle in Jinzo"
+description: "The complete development lifecycle in Mains"
 ---
 
-Jinzo is designed around a repeatable workflow: pick a task, spin up an isolated workspace, let an agent implement it, review the changes, and merge. Here's how the pieces fit together.
+Mains is designed around a repeatable workflow: pick a task, spin up an isolated workspace, let an agent implement it, review the changes, and merge. Here's how the pieces fit together.
 
 ## **1. Pick a Task**
 
-Start from an issue or task in your project management tool. If you've connected [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), or [Sentry](/sentry), your issues are already synced and searchable inside Jinzo.
+Start from an issue or task in your project management tool. If you've connected [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), or [Sentry](/sentry), your issues are already synced and searchable inside Mains.
 
 ## **2. Create a Workspace**
 
-Press **Cmd+N** to create a new workspace. Import a repository from a remote URL or a local path. Jinzo creates an isolated Git worktree automatically -- your changes won't interfere with other workspaces or branches.
+Press **Cmd+N** to create a new workspace. Import a repository from a remote URL or a local path. Mains creates an isolated Git worktree automatically -- your changes won't interfere with other workspaces or branches.
 
-If a [project](/projects) already exists for the repository, the new workspace is added to it. Otherwise, Jinzo creates a [project](/projects) automatically based on the remote origin.
+If a [project](/projects) already exists for the repository, the new workspace is added to it. Otherwise, Mains creates a [project](/projects) automatically based on the remote origin.
 
 ## **3. Link the Task**
 
@@ -33,7 +33,7 @@ For a deeper inspection, request a [code review](/reviews). The agent will produ
 
 ## **6. Commit & Create a PR**
 
-Once you're happy with the changes, commit directly from the diff viewer. Jinzo suggests a commit message based on the session context. Push the branch and open a pull request -- all without leaving the app.
+Once you're happy with the changes, commit directly from the diff viewer. Mains suggests a commit message based on the session context. Push the branch and open a pull request -- all without leaving the app.
 
 ## **7. Archive**
 

@@ -2,14 +2,14 @@
 title: "Linear"
 ---
 
-The Linear integration syncs issues from your selected teams into Jinzo's entity store. Linear issues -- with their identifiers like `ABC-123` -- become searchable locally and available as context in AI chat.
+The Linear integration syncs issues from your selected teams into Mains's entity store. Linear issues -- with their identifiers like `ABC-123` -- become searchable locally and available as context in AI chat.
 
 ## **Authentication**
 
 Linear uses an **API key** for authentication. You can generate a personal API key from your Linear account settings. The key is stored encrypted in the local database.
 
 <Note>
-  Jinzo uses the `@linear/sdk` package to communicate with the Linear API, providing typed access to issues, teams, labels, and other resources.
+  Mains uses the `@linear/sdk` package to communicate with the Linear API, providing typed access to issues, teams, labels, and other resources.
 </Note>
 
 ## **Setup**
@@ -19,12 +19,12 @@ Linear uses an **API key** for authentication. You can generate a personal API k
     In Linear, go to **Settings \> API** and create a new personal API key.
   </Step>
   <Step title="Connect Linear">
-    Go to **Settings \> Apps** in Jinzo and click **Connect** next to Linear. Paste your API key when prompted.
+    Go to **Settings \> Apps** in Mains and click **Connect** next to Linear. Paste your API key when prompted.
   </Step>
   <Step title="Select Teams">
     Choose which Linear teams to sync. Only issues from selected teams will be fetched.
   </Step>
   <Step title="Initial Sync">
-    Jinzo will perform an initial sync to fetch existing issues. 
+    Mains will perform an initial sync to fetch existing issues. 
   </Step>
 </Steps>

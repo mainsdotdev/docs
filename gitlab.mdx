@@ -2,14 +2,14 @@
 title: "GitLab"
 ---
 
-The GitLab integration syncs issues and merge requests from your selected projects into Jinzo's entity store. GitLab data becomes searchable locally and available as context in AI chat. Both **gitlab.com** and **self-hosted** instances are supported.
+The GitLab integration syncs issues and merge requests from your selected projects into Mains's entity store. GitLab data becomes searchable locally and available as context in AI chat. Both **gitlab.com** and **self-hosted** instances are supported.
 
 ## **Authentication**
 
 GitLab uses a **Personal Access Token** (PAT) with the `read_api` scope for authentication. The token is stored encrypted in the local database.
 
 <Note>
-  Jinzo requires only `read_api` access. No write operations are performed against your GitLab instance.
+  Mains requires only `read_api` access. No write operations are performed against your GitLab instance.
 </Note>
 
 ## **Setup**
@@ -19,16 +19,16 @@ GitLab uses a **Personal Access Token** (PAT) with the `read_api` scope for auth
     In GitLab, go to **Settings \> Access Tokens** and create a new token with the `read_api` scope.
   </Step>
   <Step title="Connect GitLab">
-    Go to **Settings \> Apps** in Jinzo and click **Connect** next to GitLab. Enter your GitLab domain (defaults to `gitlab.com` for cloud, or enter your self-hosted domain) and paste your access token.
+    Go to **Settings \> Apps** in Mains and click **Connect** next to GitLab. Enter your GitLab domain (defaults to `gitlab.com` for cloud, or enter your self-hosted domain) and paste your access token.
   </Step>
   <Step title="Select Projects">
     Choose which GitLab projects to sync. The project list shows the full namespace path and visibility (private or public).
   </Step>
   <Step title="Initial Sync">
-    Jinzo fetches existing issues and merge requests from selected projects. Subsequent syncs happen incrementally.
+    Mains fetches existing issues and merge requests from selected projects. Subsequent syncs happen incrementally.
   </Step>
 </Steps>
 
 ## **Self-Hosted Instances**
 
-Jinzo supports self-hosted GitLab installations. During setup, replace `gitlab.com` with your instance domain (e.g., `gitlab.mycompany.com`). The token and API calls will target your custom domain.
+Mains supports self-hosted GitLab installations. During setup, replace `gitlab.com` with your instance domain (e.g., `gitlab.mycompany.com`). The token and API calls will target your custom domain.

@@ -3,7 +3,7 @@ title: "Linked Tasks"
 icon: "link-horizontal"
 ---
 
-Jinzo lets you link issues and tasks from your project management tools directly to a workspace. Instead of copy-pasting task descriptions into the agent, you connect the original item — the agent reads it as context and works from there, all the way to opening a pull request.
+Mains lets you link issues and tasks from your project management tools directly to a workspace. Instead of copy-pasting task descriptions into the agent, you connect the original item — the agent reads it as context and works from there, all the way to opening a pull request.
 
 ## **Supported Sources**
 
@@ -21,7 +21,7 @@ Jinzo lets you link issues and tasks from your project management tools directly
 
 <Steps>
   <Step title="Link a task">
-    In your workspace, connect an issue or task from any supported service. Jinzo fetches the title, description, labels, comments, and any other metadata from the source.
+    In your workspace, connect an issue or task from any supported service. Mains fetches the title, description, labels, comments, and any other metadata from the source.
   </Step>
   <Step title="Add to context">
     The linked task appears in the file explorer alongside your codebase files. Select it to include its contents in the agent's context — no need to retype or summarize the requirements.
@@ -43,14 +43,14 @@ The file explorer lets you build the agent's context by selecting both the linke
 - **No manual copying** — skip pasting file paths or code snippets into the prompt
 
 <Note>
-  Linking a task doesn't clone or duplicate any data. Jinzo reads from the source in real time, so the agent always sees the latest description and comments.
+  Linking a task doesn't clone or duplicate any data. Mains reads from the source in real time, so the agent always sees the latest description and comments.
 </Note>
 
 ## **Automatic Status Updates**
 
-When you work through a linked task, Jinzo automatically updates its status in the source service to match your progress. For example, when the agent starts working on a Linear issue it moves to "In Progress", and when you open a PR it moves to "In Review" — following the workflow defined in your project management tool.
+When you work through a linked task, Mains automatically updates its status in the source service to match your progress. For example, when the agent starts working on a Linear issue it moves to "In Progress", and when you open a PR it moves to "In Review" — following the workflow defined in your project management tool.
 
-This works across all supported services. Jinzo respects the status transitions configured in each tool, so statuses are only moved to valid next states.
+This works across all supported services. Mains respects the status transitions configured in each tool, so statuses are only moved to valid next states.
 
 ## **End-to-End Flow**
 

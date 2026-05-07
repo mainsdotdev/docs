@@ -10,10 +10,10 @@ A workspace is an isolated development environment linked to a Git repository. E
 
 Press **Cmd+N** or click **Add Workspace** in the sidebar. You can import a repository in two ways:
 
-- **Remote URL** -- paste a Git remote URL and Jinzo clones the repo and creates a worktree
-- **Local path** -- select an existing local repository and Jinzo creates a worktree from it
+- **Remote URL** -- paste a Git remote URL and Mains clones the repo and creates a worktree
+- **Local path** -- select an existing local repository and Mains creates a worktree from it
 
-Jinzo automatically groups workspaces into [projects](/projects) based on the repository's remote origin. If no project exists for the remote, one is created automatically.
+Mains automatically groups workspaces into [projects](/projects) based on the repository's remote origin. If no project exists for the remote, one is created automatically.
 
 ## **Workspace Status**
 
@@ -53,7 +53,7 @@ Each workspace creates a separate Git worktree from the repository. This means:
 - All worktrees share Git history and remote connections
 - You can run multiple agent sessions on the same repo simultaneously
 
-When worktrees are enabled (the default), Jinzo manages worktree creation and cleanup automatically. You can disable worktrees in **Settings** if you prefer to manage branches manually.
+When worktrees are enabled (the default), Mains manages worktree creation and cleanup automatically. You can disable worktrees in **Settings** if you prefer to manage branches manually.
 
 ## **Archiving**
 
