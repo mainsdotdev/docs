@@ -1,0 +1,63 @@
+---
+title: "Subagents"
+description: "Codex subagents in OpenAI’s model and how Mains shows collab runs"
+icon: "diagram-project"
+---
+
+Codex supports [subagent workflows](https://developers.openai.com/codex/subagents): spawn specialized agents (often in parallel), then merge results. You usually **ask explicitly** for delegation—each sub-agent does its own model and tool work, so these runs use more tokens than a single-agent path. For context tradeoffs and model choice, see OpenAI’s [Subagent concepts](https://developers.openai.com/codex/concepts/subagents).
+
+Built-in profiles include `default`, `worker`, and `explorer`. Custom agents live as TOML under `~/.codex/agents/` (personal) or `.codex/agents/` (project); required fields and options are documented in the same [Subagents](https://developers.openai.com/codex/subagents) guide.
+
+Each sub-agent runs in its own thread with its own context; the parent coordinates via the five variants below.
+
+Mains surfaces every collab event in the workspace timeline so you can see when sub-agents spawn, receive input, complete, or close.
+
+## **The Five Collab Variants**
+
+Codex emits one of five tool calls when interacting with a sub-agent:
+
+| **Variant**   | **What it does**                                                           | **Timeline label**          |
+| ------------- | -------------------------------------------------------------------------- | -------------------------- |
+| `spawnAgent`  | Start a new sub-agent thread with an initial prompt and (optionally) a model | "Spawned `<role>`"         |
+| `sendInput`   | Push more user input into a running sub-agent                              | "Sent input to `<role>`"   |
+| `wait`        | Block until one or more sub-agents complete the current turn               | "Waited for `<role>`"      |
+| `closeAgent`  | Terminate sub-agent threads                                                 | "Closed `<role>`"         |
+| `resumeAgent` | Reactivate a previously closed sub-agent                                    | "Resumed `<role>`"         |
+
+Each variant carries the same shape: a sender thread id, one or more receiver thread ids, an optional prompt, and the current `agents_states` map.
+
+## **In the Workspace UI**
+
+Sub-agent activity appears as standalone groups in the run timeline -- a dedicated **CollabAgentDisplay** renders the prompt, the model used, the receiver threads, and the resolved nicknames/roles for each sub-agent.
+
+```text
+[spawnAgent] research-codebase → spawned (gpt-5.5)
+  prompt: "Find all callers of parseConfig and summarize…"
+[wait] research-codebase → completed
+  result: 3 callers in src/config/, 1 in scripts/migrate.ts
+[closeAgent] research-codebase → closed
+```
+
+Mains skips the in-flight `start` events for `sendInput`, `wait`, `closeAgent`, and `resumeAgent` to keep the timeline readable -- only the completed snapshots are shown. `spawnAgent` keeps its start event so you see "Spawning agent…" immediately.
+
+## **Sub-Agent Metadata**
+
+When a sub-agent is spawned, Mains captures its **nickname** and **role** from the upstream Codex response. These labels are reused in every subsequent collab event so the timeline reads naturally rather than as raw thread ids.
+
+| **Field**  | **Description**                                                 |
+| ---------- | --------------------------------------------------------------- |
+| `nickname` | Short human-readable name (e.g. `research-codebase`)          |
+| `role`     | Free-form description of the sub-agent's purpose                |
+| `status`   | Live state from `agents_states` (running, completed, failed, …) |
+
+## **Prompting for sub-agents**
+
+Ask Codex clearly when you want fan-out—for example parallel review axes on a PR, or a research sub-agent while the parent keeps planning. The parent still handles spawn, wait, and close orchestration.
+
+## **Permissions & Sandbox**
+
+Sub-agents inherit the parent run's [sandbox mode](/codex/configuration#sandbox-mode) and approval policy, matching OpenAI’s behavior for nested agents. A sub-agent in `read-only` mode cannot escalate to write files just because the parent allowed it elsewhere -- the sandbox boundary is enforced for every thread.
+
+<Note>
+  Failed collab calls are surfaced inline with a per-variant error label (`Spawn agent failed`, `Send input failed`, `Wait failed`, `Close agent failed`, `Resume agent failed`) so you can tell exactly which step broke without digging through logs.
+</Note>

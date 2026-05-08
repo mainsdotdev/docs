@@ -23,19 +23,20 @@
             ]
           },
           {
-            "group": "Claude Agent",
+            "group": "Claude Code",
             "pages": [
+              "claude/configuration",
               "claude/agentteams",
               "claude/slash-commands",
-              "claude/prompt-suggestion",
-              "claude/hooks",
-              "claude/configuration"
+              "claude/prompt-suggestion"
             ]
           },
           {
             "group": "Codex",
             "pages": [
-              "codex/configuration"
+              "codex/configuration",
+              "codex/subagents",
+              "codex/computer-use"
             ]
           },
           {
@@ -45,14 +46,21 @@
             ]
           },
           {
+            "group": "Cursor",
+            "pages": [
+              "cursor/configuration"
+            ]
+          },
+          {
             "group": "Core Concepts",
             "pages": [
               "workspaces",
-              "projects",
-              "runs",
-              "file-explorer",
+              "pulse",
               "multi-session",
+              "file-explorer",
+              "browser",
               "mcp-servers",
+              "plugins",
               "skills",
               "diff-viewer",
               "linked-tasks",

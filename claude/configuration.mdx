@@ -5,39 +5,6 @@ icon: "gear-code"
 
 The Claude Code agent runtime in Mains is configured through a combination of in-app settings and external configuration files. These settings control permission behavior, structured output schemas, MCP server connections, and skills discovery.
 
-## **Permission Modes**
-
-Permission modes determine how the Claude Code agent handles tool approval during a run.
-
-| **Mode**            | **Description**                                                                                                                                                                                |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `default`           | Standard approval flow. Pre-approved tools run automatically; all other tools require explicit user approval before execution.                                                                 |
-| `acceptEdits`       | Automatically approve file edit operations (Write, Edit, NotebookEdit) in addition to the pre-approved tool set. Useful when you trust the agent to modify files without confirmation.         |
-| `bypassPermissions` | Skip all approval dialogs entirely. Every tool call executes without user confirmation.                                                                                                        |
-| `plan`              | Planning mode only. The agent reasons about the goal and produces a plan but does not execute any tools. Use this to review what the agent intends to do before granting execution permission. |
-
-<Warning>
-  The `bypassPermissions` mode disables all safety prompts. Only use this mode in isolated environments or when you fully trust the agent's actions against the target repository.[**Structured Outputs**](http://localhost:3000/docs/claude-agent/config#structured-outputs)
-</Warning>
-
-Configure a JSON schema to constrain the agent's final response into a predictable structure. When a schema is provided, the agent's output is validated against it and returned as structured JSON rather than free-form text.
-
-This is useful for automation pipelines where downstream code needs to parse the agent's response programmatically -- for example, extracting a list of changed files, a summary object, or a structured code review.
-
-```json wrap
-{
-  "type": "object",
-  "properties": {
-    "summary": { "type": "string" },
-    "filesChanged": {
-      "type": "array",
-      "items": { "type": "string" }
-    },
-    "confidence": { "type": "number" }
-  },
-  "required": ["summary"]
-}
-```
 
 ## **Settings Sources**
 

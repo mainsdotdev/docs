@@ -1,0 +1,91 @@
+---
+title: "Browser Panel"
+description: "An embedded browser inside Mains for web-aware agent runs"
+icon: "globe"
+---
+
+Mains ships an embedded browser that slides in from the right edge of any workspace. It runs as a real Chromium **WebContentsView** -- not an iframe -- so you get full navigation, JavaScript, cookies, and devtools-grade page capture. The browser is most useful as a **context source**: you can highlight an element on a live page and drop it into the agent's prompt as a screenshot + selector pair.
+
+## **Opening & Closing**
+
+The panel toggles from the workspace toolbar. When it opens it animates in over your editor area; when it closes the agent loses access to the page but its captures stay in the run context.
+
+| **State**     | **Behavior**                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| `closed`      | Panel hidden, WebContentsView detached, no resources used                     |
+| `opening`     | Panel is animating in -- the WebContentsView is being attached and bounded   |
+| `open`        | Live page rendered; navigation, capture, and select mode all available       |
+| `closing`     | Panel animates out and the WebContentsView is detached on completion         |
+
+The panel auto-closes when you navigate to the **Plugins** or **Settings** routes -- those screens take over the full viewport.
+
+## **Where It's Available**
+
+| **Workspace**     | **Browser panel** |
+| ----------------- | ----------------- |
+| **Codex**         | Yes               |
+| **Cursor**        | Yes               |
+| **Claude Code**   | Yes               |
+| **Copilot**       | Yes               |
+
+Use it whenever an agent task touches a web app -- staging dashboards, design tools, vendor portals, etc.
+
+## **Navigation Controls**
+
+The toolbar exposes the controls you'd expect:
+
+| **Control**     | **Action**                                              |
+| --------------- | ------------------------------------------------------- |
+| URL bar         | Type or paste any HTTP/HTTPS URL                        |
+| Back / Forward  | Walk through history (disabled at boundaries)           |
+| Reload          | Refresh the current page                                |
+| Stop            | Cancel an in-flight navigation                          |
+| Close           | Detach the WebContentsView and hide the panel           |
+
+The renderer tracks `did-navigate` and `did-navigate-in-page` events, so the URL and title in the toolbar stay live even when single-page apps update history without a full reload.
+
+## **Select Mode**
+
+Select Mode is the headline feature -- it lets you click any element on the page and capture both the element and its surroundings as agent context.
+
+<Steps>
+  <Step title="Toggle Select Mode">
+    Click the **Crop** icon in the panel toolbar. The cursor changes to a crosshair and elements highlight as you hover.
+  </Step>
+  <Step title="Click an element">
+    Mains captures the element's bounding box, computes a robust CSS selector, takes a tight screenshot, and also captures the surrounding region for visual context.
+  </Step>
+  <Step title="Selection lands in your prompt">
+    A new **ContextBrowserSelection** chip appears in the workspace input. The agent receives both screenshots plus the selector when you send the next message.
+  </Step>
+</Steps>
+
+Each selection includes:
+
+| **Field**                          | **Description**                                                          |
+| ---------------------------------- | ------------------------------------------------------------------------ |
+| `selector`                         | A CSS selector targeting the clicked element                             |
+| `screenshotCaptureName`            | Filename of the tight element screenshot                                 |
+| `surroundingScreenshotCaptureName` | Filename of a wider screenshot for context                               |
+| `url` / `title`                    | Page URL and document title at capture time                              |
+
+Captures are stored under the user data dir in `browser-captures/`. Mains keeps the directory below a byte budget using LRU eviction, so old captures get pruned automatically as new ones arrive.
+
+## **What the Agent Sees**
+
+When you submit a message that includes a browser selection, the agent receives the two screenshots and the selector as part of the prompt. This is enough to reason about the element ("the button labeled 'Export' inside the report card"), draft DOM-aware code, or generate a Playwright/cypress selector.
+
+The panel itself isn't an agent tool -- you control navigation. Codex's [Computer Use plugin](/codex/computer-use) is the right pick if you want the agent to drive a browser autonomously.
+
+## **Troubleshooting**
+
+| **Symptom**                                     | **Likely cause / fix**                                                  |
+| ----------------------------------------------- | ----------------------------------------------------------------------- |
+| Panel won't open                                | Switch to a workspace route -- the panel closes on Settings/Plugins     |
+| Select mode highlights nothing                  | Some sites disable hover via CSS; try scrolling or using devtools first |
+| Captures fail silently                          | Disk pressure or OS quota; restart the app and retry                    |
+| Page renders without scripts                    | Site blocks Electron's user agent -- there is no UA override yet        |
+
+<Note>
+  The browser panel is a **navigation tool for you**, not a sandbox for the agent. Pages opened here use a shared Mains profile -- they can read cookies you set during browsing, but they cannot reach into the agent's filesystem or workspace.
+</Note>

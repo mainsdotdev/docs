@@ -1,0 +1,98 @@
+---
+title: "Plugins"
+description: "Browse and install Codex plugins and Skills directly from Mains"
+icon: "puzzle-piece"
+---
+
+The **Plugins** page is a single browsing surface for two related but distinct ecosystems:
+
+- **Plugins** -- official Codex plugins published through the OpenAI marketplace (GitHub, Linear, Jira, Asana, Trello, Sentry, Computer Use, and more)
+- **Skills** -- third-party reusable agent skills from [skills.sh](https://skills.sh), installable via `npx skills add <url>`
+
+Both are managed from the same page using a tab switcher. Open it from the sidebar at any time -- it's a top-level destination, not a settings panel.
+
+## **Plugins (Codex Marketplace)**
+
+Plugins extend Codex with curated integrations -- each one bundles together skills, MCP servers, and apps that target a specific platform or capability. Browsing them inside Mains uses the same marketplace API as the Codex VS Code extension, so the catalog is always in sync.
+
+### **Browsing**
+
+| **Element**         | **What it shows**                                                                         |
+| ------------------- | ----------------------------------------------------------------------------------------- |
+| Plugin card         | Logo, brand color, display name, short description, install button                        |
+| Detail page         | Long description, screenshots, included items (skills, apps, MCP servers), install policy |
+| Connected badge     | Green pill on apps that are already authenticated and ready to use                        |
+| Install policy      | `NOT_AVAILABLE` plugins are disabled with a tooltip explaining why                        |
+
+### **Installing**
+
+<Steps>
+  <Step title="Pick a plugin">
+    Click any card to open the detail view. You'll see screenshots, a long description, and the list of items the plugin includes.
+  </Step>
+  <Step title="Click Add">
+    Mains forwards the install request to your Codex account. Plugins that need OAuth open the connector flow in a browser window.
+  </Step>
+  <Step title="Use it in a Codex run">
+    The plugin's tools become available to the Codex agent on the next run. You can also see it listed under **Installed plugins** in Settings.
+  </Step>
+</Steps>
+
+To remove a plugin, click **Uninstall** on its detail page. Mains revokes the install and refreshes the catalog automatically.
+
+### **What's Inside a Plugin**
+
+Plugins compose three primitives:
+
+| **Type**       | **Description**                                                              |
+| -------------- | ---------------------------------------------------------------------------- |
+| **Skills**     | Markdown-defined behaviors the agent can invoke (e.g. "address PR comments") |
+| **Apps**       | OAuth-connected services (e.g. GitHub, Linear) that expose actions and data  |
+| **MCP servers**| MCP-compatible servers that ship with the plugin                             |
+
+The detail page shows every included item with a status pill -- `Connected`, `Disabled`, or a link to install the underlying app if it's missing.
+
+## **Skills (skills.sh)**
+
+The **Skills** tab browses third-party skills published on [skills.sh](https://skills.sh). Unlike Codex plugins, skills are not tied to OpenAI's marketplace -- anyone can publish one, and they install via a CLI command.
+
+### **Views**
+
+| **View**     | **What it shows**                                                              |
+| ------------ | ------------------------------------------------------------------------------ |
+| **Curated**  | Editor-picked groupings (e.g. "Daily standups", "Release management")          |
+| **Trending** | Skills with the most installs in the last 24 hours                             |
+| **Hot**      | Recent skills with strong engagement                                           |
+| **All-time** | Most-installed skills overall                                                  |
+
+A search bar at the top filters across all views.
+
+### **Installing a Skill**
+
+Skills install through the standalone `skills` CLI -- Mains shows you the exact command to copy:
+
+```bash
+npx skills add https://skills.sh/<owner>/<slug>
+```
+
+Open the skill detail page to see its description, owner, install URL, and a one-click copy button for the install command. Run it in your terminal -- the skill appears in your `~/.claude/skills/` (or `.{your_project}/skills/`) directory and is picked up on the next agent run.
+
+<Note>
+  Skills installed via `npx skills add` work with both Claude Code and Cursor runtimes. See [**<u>Skills</u>**](/skills) for the directory layout and frontmatter format.
+</Note>
+
+## **Plugins vs. Skills -- Quick Reference**
+
+| **Feature**         | **Plugins**                                  | **Skills**                                  |
+| ------------------- | -------------------------------------------- | ------------------------------------------- |
+| **Catalog**         | OpenAI Codex marketplace                     | skills.sh community                         |
+| **Runtime**         | Codex only                                   | Claude Code + Cursor                        |
+| **Install flow**    | One-click from the UI                        | Copy `npx skills add` command and run it    |
+| **Includes**        | Skills + apps + MCP servers (bundled)        | Single SKILL.md or skill folder             |
+| **Auth**            | OAuth handled by the marketplace             | None (local files only)                     |
+
+## **Related**
+
+- [**Skills**](/skills) -- skill file format and how the agents discover them
+- [**MCP Servers**](/mcp-servers) -- adding MCP servers manually outside the marketplace
+- [**Computer Use**](/codex/computer-use) -- one of the most-used Codex plugins

@@ -1,0 +1,75 @@
+---
+title: "Computer Use"
+description: "Let Codex control a virtual computer to complete tasks that require a UI"
+icon: "display"
+---
+
+Codex's **Computer Use** is an OpenAI plugin that gives the agent a sandboxed virtual computer it can drive with screenshots, mouse, and keyboard. Inside Mains it works exactly like in the official Codex experience -- you install the plugin once from the Plugins marketplace and Codex picks it up on the next run.
+
+<Note>
+  Computer Use is delivered as an official OpenAI plugin, not a built-in Codex tool. See the [**OpenAI Codex Computer Use docs**](https://developers.openai.com/codex/app/computer-use) for the full reference and supported tasks.
+</Note>
+
+## **What It Does**
+
+When Computer Use is enabled, Codex can:
+
+- Open and navigate web apps in a managed browser
+- Click, type, scroll, and drag inside the virtual machine
+- Take screenshots and reason over the visible UI
+- Run command-line tools inside the sandbox
+- Complete multi-step tasks that mix browsing, file manipulation, and shell commands
+
+The virtual computer is isolated from your local machine -- Codex cannot interact with your real apps, browser tabs, or filesystem through this plugin. Use it for tasks like "log into our admin dashboard and export the latest CSV" or "browse this design tool and report the asset layer order."
+
+## **Installing the Plugin**
+
+<Steps>
+  <Step title="Open the Plugins page">
+    Click **Plugins** in the sidebar. The page opens on the **Plugins** tab (Codex marketplace).
+  </Step>
+  <Step title="Find Computer Use">
+    Search for `computer-use` in the marketplace, or browse the curated list and pick it from the OpenAI plugins.
+  </Step>
+  <Step title="Add the plugin">
+    Click **Add** on the plugin detail page. Mains forwards the install request to your Codex account, which provisions the plugin and reports back when it's ready.
+  </Step>
+  <Step title="Open a Codex workspace">
+    Start a new Codex run -- the agent now has the Computer Use tool available and will use it when the task calls for a UI.
+  </Step>
+</Steps>
+
+After install, the plugin appears with a green **Connected** badge in the marketplace. To remove it, open the detail page and click **Uninstall**.
+
+## **Using It in a Run**
+
+Computer Use is invoked like any other Codex tool -- the agent decides when it's needed. You can also nudge it explicitly:
+
+```text
+Use the computer to log into the admin dashboard at https://internal.example.com,
+go to the Reports page, and export the last 7 days as CSV.
+```
+
+In the workspace timeline you'll see Computer Use entries showing the action (`click`, `type`, `screenshot`) and a thumbnail of the virtual screen at each step.
+
+## **Permissions & Safety**
+
+| **Layer**               | **Effect**                                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------------------- |
+| Sandbox isolation       | The virtual machine has no access to your local files, real browser sessions, or keychain  |
+| [Sandbox mode](/codex/configuration#sandbox-mode) | Still applies to filesystem operations Codex performs locally -- Computer Use does not bypass it |
+| Approval policy         | Per-call approvals still fire for sensitive actions like form submissions                   |
+
+<Warning>
+  Computer Use can take destructive actions inside the virtual environment (delete records in a connected admin tool, post messages, send emails). Treat it like giving a contractor temporary credentials -- only point it at sandboxes or staging environments unless you fully trust the prompt.
+</Warning>
+
+## **When Not to Use It**
+
+Computer Use is the right tool when there is **no API or CLI** for what you need. If a job can be done with HTTP, gh, kubectl, or another command-line tool, prefer that path -- it's faster, cheaper, and more reliable. Reach for Computer Use only when the only way to complete the task is through a UI.
+
+## **Related**
+
+- [**Plugins marketplace**](/plugins) -- browse, install, and manage all Codex plugins (Computer Use is one of many)
+- [**Codex Configuration**](/codex/configuration) -- sandbox modes, approval policy, model selection
+- [**Subagents**](/codex/subagents) -- delegate the UI work to a focused sub-agent while the parent keeps coding

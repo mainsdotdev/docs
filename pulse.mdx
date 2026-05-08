@@ -1,0 +1,89 @@
+---
+title: "Pulse"
+description: "Run agent prompts on a recurring schedule -- without supervision"
+icon: "wave-pulse"
+---
+
+**Pulse** is Mains' scheduled agent runner. You pick a workspace, write a prompt (or start from a template), set a frequency, and Mains runs the agent at the scheduled time -- analyzing the repo, drafting reports, or kicking off recurring chores while you're not watching.
+
+Pulse is **time-based**. For event-based work (sync on push, react to a webhook), use [Automations](/automations) instead.
+
+## **Pulse vs. Automations**
+
+| **Concept**       | **Pulse**                                          | **Automations**                              |
+| ----------------- | -------------------------------------------------- | -------------------------------------------- |
+| **Trigger**       | Schedule (hourly, daily, weekdays, weekly)         | Connection events (e.g. `sync:github`)       |
+| **Runs**          | A full agent run in a workspace                    | A backend sync job, no agent involvement     |
+| **Output**        | Run with messages, tool calls, and findings        | Refreshed entities in your databases         |
+| **Best for**      | Status reports, release prep, periodic audits      | Keeping connected services in sync           |
+
+## **Building a Pulse**
+
+<Steps>
+  <Step title="Open Pulse">
+    Click **Pulse** in the sidebar. The page lists your existing pulses and a button to create a new one.
+  </Step>
+  <Step title="Pick a starting point">
+    Choose a [template](#templates) or click **Blank** to write your own prompt from scratch. Templates pre-fill the title, prompt, frequency, and time -- you can change any of them.
+  </Step>
+  <Step title="Configure">
+    Set a workspace, provider, model, schedule, and (optionally) thinking mode and effort level. See the fields below.
+  </Step>
+  <Step title="Activate">
+    Toggle the pulse on. Mains computes the next run time and queues it. You'll see runs appear in the workspace history exactly like manual runs.
+  </Step>
+</Steps>
+
+## **Schedule Options**
+
+| **Field**            | **Description**                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| `frequency`          | `hourly`, `daily`, `weekdays`, or `weekly`                                            |
+| `hour` / `minute`    | Time of day to run (24-hour clock)                                                    |
+| `dayOfWeek`          | Used with `weekly` -- 0 = Sunday, 6 = Saturday                                        |
+| `timezone`           | IANA timezone (e.g. `Europe/Istanbul`) so DST is handled correctly                    |
+| `isActive`           | Toggle without deleting -- keep the configuration but pause the schedule              |
+
+Mains tracks `nextRunAt` per pulse and atomically claims the slot when the time arrives, so a pulse never double-fires even if the app restarts mid-tick.
+
+## **Run Options**
+
+| **Field**         | **Description**                                                                          |
+| ----------------- | ---------------------------------------------------------------------------------------- |
+| `workspaceId`     | Which workspace the run executes in (cwd, git state, MCP servers, etc.)                  |
+| `providerId`      | Which agent runtime to use -- `claude`, `codex`, `copilot`, or `cursor`                  |
+| `model`           | Specific model id (overrides the workspace default)                                      |
+| `prompt`          | The instruction sent to the agent at run time                                            |
+| `thinkingMode`    | (Claude / Codex) Enable extended thinking for the run                                    |
+| `effortLevel`     | (Codex) `low`, `medium`, or `high` -- maps to `modelReasoningEffort`                     |
+
+<Note>
+  Pulse always forces Cursor's mode to `agent` regardless of the workspace default -- a scheduled run cannot block on a confirmation dialog.
+</Note>
+
+## **Templates**
+
+Mains ships 16 ready-made templates in 4 categories. Each one is a real prompt designed to work without human supervision -- they lean on git history, repo state, and lockfiles rather than asking the agent to make calls it can't verify.
+
+| **Category**                      | **Examples**                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------- |
+| **Standups & summaries**          | Daily standup digest, Weekly engineering update, Merge & integration digest, Branch vs default brief |
+| **Shipping & releases**           | Release notes, Pre-release checklist, Changelog updates                               |
+| **Risk & stability**              | CI review, QA brief, Bug triage from recent activity                                  |
+| **Repo hygiene**                  | Dependency audit, README & docs check, Stale branch report                            |
+
+Each template carries a default frequency and time -- the standup digest defaults to **weekdays at 09:00**, the weekly engineering update to **Friday at 17:00**, and so on.
+
+## **Run History**
+
+Every pulse run shows up in the workspace's run list, tagged with the pulse that produced it. From the Pulse page you can see:
+
+- **Last run** -- timestamp + status of the most recent execution
+- **Last error** -- captured if the run failed (e.g. provider unavailable, sandbox denied)
+- **Next run** -- the upcoming `nextRunAt` so you know exactly when it'll fire
+
+## **When to Use Pulse**
+
+Reach for Pulse when the answer is **always the same kind of report** and you don't want to ask for it. Standups, weekly engineering updates, dependency audits, "is anything on fire?" briefs -- those benefit hugely from a fixed cadence.
+
+Don't use Pulse for one-off questions or for things that need fresh context every time -- a manual run with a focused prompt is faster.

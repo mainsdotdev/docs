@@ -42,7 +42,7 @@ Verify your authentication:
 gh auth status
 ```
 
-### **Claude CLI (for Claude Agent)**
+### **Claude CLI (for Claude Code)**
 
 If you want to use Claude Code as your agent runtime in workspaces, you need the Claude CLI installed and authenticated.
 
@@ -70,3 +70,19 @@ Verify your Copilot access:
 ```
 gh auth status
 ```
+
+### **Cursor Agent CLI (for Cursor)**
+
+If you want to use Cursor as your agent runtime, install the **Cursor Agent CLI** and sign in with your Cursor account:
+
+```
+curl https://cursor.com/install -fsS | bash
+```
+
+Run the CLI once so it can open a browser login flow:
+
+```
+agent
+```
+
+After authentication, Mains reuses those credentials for Cursor workspaces. See [**Cursor configuration**](/cursor/configuration) and the [**Cursor CLI overview**](https://docs.cursor.com/en/cli/overview) for details.

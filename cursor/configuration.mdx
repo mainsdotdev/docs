@@ -1,0 +1,76 @@
+---
+title: "Configuration"
+icon: "gear-code"
+---
+
+The Cursor agent runtime in Mains uses the **Cursor Agent CLI** (the `agent` binary) and communicates with it over the **Agent Client Protocol (ACP)** via stdio. These settings control authentication, model selection, and how the agent operates during runs.
+
+## **Installation & Authentication**
+
+Mains drives the Cursor Agent CLI as a subprocess. You must install and authenticate the CLI before using it inside Mains.
+
+<Steps>
+  <Step title="Install the Cursor Agent CLI">
+    Run the official installer in your terminal:
+
+    ```bash
+    curl https://cursor.com/install -fsS | bash
+    ```
+  </Step>
+  <Step title="Authenticate">
+    Launch the CLI once to log in with your Cursor account:
+
+    ```bash
+    agent
+    ```
+
+    Follow the browser prompt to complete authentication. Mains reuses these credentials automatically.
+  </Step>
+  <Step title="Open Mains">
+    Open a Cursor workspace from the sidebar. Mains spawns the CLI on demand and connects via ACP.
+  </Step>
+</Steps>
+
+<Note>
+  Need help with the CLI itself? See the official [**Cursor CLI Setup Guide**](https://docs.cursor.com/en/cli/overview).
+</Note>
+
+## **Mode**
+
+The mode controls how Cursor behaves during runs. You set it once in **Settings > Cursor**, and Mains applies it to every session.
+
+| **Mode**  | **Description**                                                                                       |
+| --------- | ----------------------------------------------------------------------------------------------------- |
+| `agent`   | Full autonomous agent mode -- Cursor plans and executes tool calls automatically (default).           |
+| `plan`    | Plan first, then execute -- Cursor produces a plan and pauses for confirmation before taking action.  |
+| `ask`     | Answer-only mode -- Cursor responds to questions but does not invoke tools or modify files.           |
+
+See [**<u>Modes</u>**](/cursor/modes) for guidance on which mode to pick for which task.
+
+<Note>
+  Pulse-driven runs always force `agent` mode regardless of your default. This guarantees scheduled tasks can complete autonomously without human input.
+</Note>
+
+## **Model Selection**
+
+Cursor exposes the list of available models through ACP after a session starts. Mains picks them up automatically and lets you choose a default model in settings.
+
+When you start a run, Mains sends `session/set_config_option` with your preferred model. If the model is unavailable, the session falls back to Cursor's default for your account.
+
+| **Behavior**       | **Description**                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------- |
+| **Default model**  | Applied to every new session unless overridden per run.                               |
+| **Per-run model**  | Set on individual runs to test different models without changing your default.        |
+| **Resume**         | When you continue a previous session, Mains re-applies your model and mode settings. |
+
+## **MCP Tools**
+
+Cursor sessions automatically receive Mains' bundled MCP tools at startup -- these include git operations, package safety checks, and workspace utilities. You can also add your own MCP servers; see [**<u>MCP Servers</u>**](/mcp-servers) for setup.
+
+Cursor extensions like `update_todos`, `generate_image`, and the [task subagent](/cursor/subagents) are exposed as native ACP capabilities, not MCP tools.
+
+## **Tool Approval**
+
+Cursor sends a `session/request_permission` ACP request when it wants to invoke a tool that requires user confirmation. Mains shows an interactive approval dialog in the workspace UI -- you can allow once, deny, or remember the decision for the session.
+
+See [**<u>Permissions</u>**](/cursor/permissions) for the full approval flow and how to pre-approve tools.
