@@ -1,0 +1,63 @@
+---
+title: "Image Generation"
+description: "Generate and edit images in Codex runs via the official Image Generation plugin"
+icon: "image"
+---
+
+Codex's **Image Generation** plugin adds image creation and editing to the agent's tool surface -- useful for icons, UI mockups, marketing assets, and quick visual iterations. Inside Mains you install it from the same [**Plugins**](/plugins) marketplace as **Computer Use**; on the next Codex run the bundled workflow becomes available automatically.
+
+<Note>
+  Like other Codex marketplace plugins, Image Generation ships as a curated bundle (skills and tooling), not as a permanently built-in Codex feature. Browse the marketplace in Mains under **Plugins** and search for **image** or **Image Generation** to install the official OpenAI listing.
+</Note>
+
+## **What It Does**
+
+Once the plugin is installed, Codex can:
+
+- Generate new images from a text brief (style, composition, branding constraints)
+- Edit or remix existing assets when you reference files in the workspace or attach images to the conversation
+- Produce simple graphics for READMEs, landing pages, or in-app placeholders
+
+Exact capabilities follow OpenAI's current image tools bundled with that plugin -- they evolve with marketplace updates.
+
+## **Installing the Plugin**
+
+<Steps>
+  <Step title="Open Plugins">
+    Click **Plugins** in the sidebar, stay on the **Plugins** tab (Codex marketplace).
+  </Step>
+  <Step title="Find Image Generation">
+    Search for `image` or **Image Generation** and open the official OpenAI plugin card.
+  </Step>
+  <Step title="Add it">
+    Click **Add** on the detail page. Mains forwards the install to your Codex account; when it finishes, the plugin shows as installed.
+  </Step>
+  <Step title="Run Codex">
+    Start a Codex workspace run. Mention what you want visually -- the agent invokes the plugin's tools when your task fits.
+  </Step>
+</Steps>
+
+To remove the plugin later, open its detail page in the marketplace and click **Uninstall**.
+
+## **Using It in a Run**
+
+Describe the outcome you want; you can scope the workflow with **`@`** plugin or skill mentions where your Codex surface supports them ([Plugins](https://developers.openai.com/codex/plugins)).
+
+Example prompts:
+
+```text
+Generate a 1024×1024 app icon for a dark-mode notes app named "Scribble".
+Flat vector style, no text in the glyph.
+```
+
+```text
+Take assets/logo.png and give me a wide hero banner variant with the same palette and softened gradient background.
+```
+
+Generated outputs show up in Codex responses and your run timeline with other tool activity. Paths on disk follow your Codex install (upstream docs often describe a generated-images location under `$CODEX_HOME`).
+
+## **Related**
+
+- [**Plugins**](/plugins) -- browse and install Codex marketplace plugins from Mains
+- [**Codex configuration**](/codex/configuration) -- sandbox, approvals, network
+- [**Computer Use**](/codex/computer-use) -- UI automation via another official plugin

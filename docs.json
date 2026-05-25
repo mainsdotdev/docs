@@ -36,7 +36,8 @@
             "pages": [
               "codex/configuration",
               "codex/subagents",
-              "codex/computer-use"
+              "codex/computer-use",
+              "codex/image-generation"
             ]
           },
           {
