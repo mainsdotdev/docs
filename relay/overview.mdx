@@ -1,0 +1,74 @@
+---
+title: "Relay Overview"
+description: "Drive a Mains on another machine, or expose this one for another device to control"
+icon: "tower-broadcast"
+---
+
+By default Mains is a single desktop app: the UI and all execution -- git, terminals, agent CLIs, the local database -- run in the same process on the same machine. **Relay** adds a second mode. The UI can point at a Mains backend running on a *different* machine, while the interface stays local.
+
+Two sides of the same feature:
+
+| **Side** | **What it does** |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| **Share this machine**  | Expose the running app so a phone, a LAN device, or another Mains can drive it |
+| **Connect to a backend**| Point this app at a remote backend over an SSH tunnel or a direct WebSocket URL |
+
+<Note>
+  Local mode is the zero-config default. Relay is opt-in, and only one backend is active at a time -- switching is instant and never touches your local data.
+</Note>
+
+## **How It Works**
+
+Every call in Mains -- queries, run events, terminal streams, tool approvals -- already flows through one uniform seam (`window.api`). Relay swaps the transport behind that seam from in-process IPC to a **WebSocket**, so the entire app surface works against a remote backend with no feature loss.
+
+```
+Local mode    UI ──IPC──▶ backend (same machine)
+Remote mode   UI ──WS───▶ backend (other machine)
+```
+
+When a remote backend is active, **everything runs on that machine**:
+
+| **Runs on the backend** | **Stays local** |
+| ----------------------------------------------------- | --------------------------- |
+| Provider CLIs (`claude`, `codex`, `copilot`, `cursor`) and their login state | The renderer / UI |
+| Git, worktrees, and the workspace files | The browser panel and inputs |
+| Terminals (`node-pty`) | Settings UI |
+| The SQLite database and encrypted connection secrets | -- |
+
+<Warning>
+  Because agents run on the backend, the provider CLIs must be **installed and authenticated on the remote machine** (`claude login`, `codex auth login`, etc.) -- not on the laptop you watch from.
+</Warning>
+
+## **Connection Status**
+
+The active backend shows a live status dot:
+
+| **Status** | **Meaning** |
+| ---------------- | ----------------------------------------------- |
+| `connected`      | The WebSocket is open and the UI is live         |
+| `connecting`     | First connection in progress                     |
+| `reconnecting`   | Link dropped -- backing off and retrying         |
+| `offline`        | No connection (local mode is always `connected`) |
+
+Durable state lives in the backend's database, so a reconnect simply refetches it -- runs, diffs, and history come back automatically. Only in-flight streaming events emitted *during* a disconnect are lost.
+
+## **Web Client**
+
+A backend that exposes itself can also be opened in a plain browser -- a phone or tablet loads the same Mains UI over the network. See [Share This Machine](/relay/share-this-machine) for enabling it. In the web client, you're already connected to the backend that served the page; adding or switching backends is a desktop-app concern.
+
+## **Where To Start**
+
+<Steps>
+  <Step title="Watch a remote dev box from your laptop">
+    Use an [SSH tunnel](/relay/ssh-tunnel) -- the secure, zero-infrastructure path. Nothing is exposed on the network.
+  </Step>
+  <Step title="Reach your desktop from a phone or another device">
+    [Share this machine](/relay/share-this-machine) over LAN or Tailscale HTTPS, then open the web URL or connect [directly](/relay/direct-connection).
+  </Step>
+</Steps>
+
+## **Security Model**
+
+- **SSH tunnel** -- traffic is encrypted and authenticated by SSH; the backend only listens on `127.0.0.1`. No ports on the network.
+- **Direct / LAN / Tailscale** -- guarded by a **pairing token**. Never expose a tokenless backend on a routable interface.
+- **Local-only controls** -- the toggles that expose a machine are registered on local IPC only, so a connected remote client can't change the exposure it's riding on.

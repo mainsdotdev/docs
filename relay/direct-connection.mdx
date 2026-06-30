@@ -1,0 +1,63 @@
+---
+title: "Direct Connection"
+description: "Connect to a backend by WebSocket URL, or open it in a browser"
+icon: "link"
+---
+
+When a backend exposes itself on the network -- over [LAN or Tailscale HTTPS](/relay/share-this-machine) -- you can connect to it directly by its WebSocket URL, with no SSH tunnel. This is the simplest path on a trusted network or a tailnet.
+
+<Note>
+  A direct connection rides an exposed network port, so it's always **token-gated**. On an untrusted network, prefer an [SSH tunnel](/relay/ssh-tunnel) instead.
+</Note>
+
+## **From Another Mains Desktop App**
+
+Open **Settings → Relay → Add** and choose **Direct URL**.
+
+<Steps>
+  <Step title="Name the backend">
+    A label for your client list.
+  </Step>
+  <Step title="Paste the WebSocket URL">
+    Copy it from the host's **This machine** panel:
+
+    | **Exposure** | **URL shape** |
+    | -------------------- | ----------------------------------------- |
+    | LAN / loopback       | `ws://<host>:8787`                        |
+    | Tailscale HTTPS      | `wss://<machine>.<tailnet>.ts.net`        |
+  </Step>
+  <Step title="Enter the pairing token">
+    The token shown in the host's panel (or printed by `npm run serve`). Required whenever the backend was started with one.
+  </Step>
+  <Step title="Add, then Connect">
+    The status dot turns `connected` and the UI drives the remote backend.
+  </Step>
+</Steps>
+
+## **From A Phone Or Browser**
+
+Every exposed address has a **browser link** that loads the full Mains UI in a web browser, with the token already embedded:
+
+```
+http://<host>:8787/?token=<token>          # LAN
+https://<machine>.<tailnet>.ts.net/?token=<token>   # Tailscale HTTPS
+```
+
+Open it on a phone, tablet, or any browser. In the web client you're already connected to the backend that served the page -- adding or switching backends stays a desktop-app feature.
+
+<Warning>
+  The browser UI must be built once on the host with `npm run build:web`. Until then the panel shows a *"Web UI not built"* notice and only the `ws://` / `wss://` endpoint (for another Mains desktop client) is available.
+</Warning>
+
+## **Managing Backends**
+
+Saved backends live under **Settings → Relay**, alongside **Local (this machine)**:
+
+| **Action** | **Effect** |
+| ---------------- | --------------------------------------------------------- |
+| **Connect**      | Point the whole UI at this backend (one active at a time)  |
+| **Disconnect / Use local** | Return to the local in-process backend           |
+| **Rename**       | Change the label                                          |
+| **Remove**       | Forget the saved backend                                  |
+
+Switching is instant and non-destructive -- your local data is untouched while a remote backend is active.

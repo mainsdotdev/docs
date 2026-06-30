@@ -70,6 +70,15 @@
             ]
           },
           {
+            "group": "Relay",
+            "pages": [
+              "relay/overview",
+              "relay/share-this-machine",
+              "relay/ssh-tunnel",
+              "relay/direct-connection"
+            ]
+          },
+          {
             "group": "Connections",
             "pages": [
               "github",

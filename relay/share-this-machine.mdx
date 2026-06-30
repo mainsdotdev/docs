@@ -1,0 +1,83 @@
+---
+title: "Share This Machine"
+description: "Expose the running Mains app so another device can drive it"
+icon: "tower-cell"
+---
+
+The **This machine** panel turns the *running* desktop app into a backend other clients can control -- a phone browser, a LAN device, or another Mains over an SSH tunnel. There's no separate server process and no second copy of your repos: an in-process WebSocket host routes to the same handlers, the same database, and the same agents you already use.
+
+Find it under **Settings → Relay** (or the top-level **Relay** route).
+
+## **Access Levels**
+
+The host listens on a fixed port (`8787`) so SSH tunnels have a stable target. Three independent toggles control who can reach it:
+
+| **Toggle** | **Binds** | **Who can reach it** |
+| ----------------------- | --------------------- | ------------------------------------------------------------ |
+| **Allow remote access** | `127.0.0.1` (loopback) | SSH tunnels only -- nothing on the network |
+| **Network access (LAN)**| `0.0.0.0` (all interfaces) | Devices on your LAN and your Tailscale IP, token-gated |
+| **Tailscale HTTPS**     | `127.0.0.1` + `tailscale serve` | Any tailnet peer, over an HTTPS MagicDNS URL |
+
+<Note>
+  **Network access** requires **Allow remote access** to be on first -- it widens the same host from loopback to every interface. Turning remote access off also disables LAN access.
+</Note>
+
+### **Allow remote access (loopback)**
+
+The safest level. The backend binds `127.0.0.1` only, so nothing is reachable over the network -- but an [SSH tunnel](/relay/ssh-tunnel) can forward into it. This is the right setting when you'll connect from another machine over SSH.
+
+When it's on, the panel lists copyable addresses and the pairing token:
+
+| **Address** | **Value** |
+| ---------------- | --------------------------------------- |
+| This machine     | `http://127.0.0.1:8787`                 |
+| Local network    | `http://<lan-ip>:8787` *(LAN on)*       |
+| Tailscale IP     | `http://<tailscale-ip>:8787` *(LAN on)* |
+
+### **Network access (LAN)**
+
+Also binds `0.0.0.0`, so your LAN IP and Tailscale IP accept connections directly -- no SSH needed. It's less private (the port is visible on the network), so every connection is gated by the pairing token.
+
+### **Tailscale HTTPS**
+
+Exposes the loopback backend over your tailnet's HTTPS endpoint using `tailscale serve`. Tailscale provisions a TLS certificate for the MagicDNS name automatically, so peers reach a clean `https://<machine>.<tailnet>.ts.net` URL over `wss://` -- with no port-forwarding and no manual certificates. The backend itself keeps listening only on `127.0.0.1`.
+
+<Warning>
+  Requires the **Tailscale app installed and logged in**, with **HTTPS enabled** for your tailnet. If HTTPS or Serve isn't enabled, the toggle fails and rolls itself back with the enable-here URL Tailscale prints.
+</Warning>
+
+## **Pairing Token**
+
+A token is generated automatically the first time you expose the machine. It's appended to web URLs as `?token=…` and required on every WebSocket connection. Copy it into the connecting client's **Pairing token** field, or hand out the web URL that already embeds it.
+
+## **Opening In A Browser**
+
+Each address has a **browser link** (`http://<host>:8787/?token=…`) that loads the full Mains UI in a web browser -- ideal for a phone or tablet.
+
+The web interface has to be built once:
+
+```bash
+npm run build:web
+```
+
+Until it is, the panel shows a *"Web UI not built"* notice and only the WebSocket endpoint (for another Mains desktop client) works.
+
+## **Persistence & Teardown**
+
+- Exposure toggles are **remembered across launches** -- Tailscale Serve is re-applied off the startup critical path so cert provisioning never delays launch.
+- On quit, the host is torn down and `tailscale serve` is stopped, so nothing keeps proxying to a closed app.
+- The exposure controls run on **local IPC only** -- a connected remote client can never toggle the access it's connected through.
+
+## **Next Steps**
+
+<Steps>
+  <Step title="From another Mains desktop app">
+    Copy the `ws://` or `wss://` URL and paste it into a [Direct connection](/relay/direct-connection).
+  </Step>
+  <Step title="From a phone or browser">
+    Open the browser link (web UI must be built).
+  </Step>
+  <Step title="Over SSH instead">
+    Leave only **Allow remote access** on and connect with an [SSH tunnel](/relay/ssh-tunnel).
+  </Step>
+</Steps>

@@ -1,0 +1,73 @@
+---
+title: "SSH Tunnel"
+description: "Connect to a remote backend securely over SSH, with zero hosted infrastructure"
+icon: "lock"
+---
+
+The SSH tunnel is the recommended way to drive a remote backend. The `ssh` client on your **local** machine forwards a loopback port to a Mains backend on the remote host, so the UI connects to `ws://127.0.0.1:<localPort>` and every byte is tunneled -- encrypted and authenticated by SSH. The remote backend never has to listen on a routable interface, and there's **no hosted infrastructure** to set up.
+
+This is the classic "run agents on my powerful dev box, watch and approve from my laptop" setup.
+
+## **Prerequisites**
+
+- SSH access to the remote host (an `~/.ssh/config` alias or `user@host`).
+- The agent CLIs **installed and authenticated on the remote** (`claude login`, `codex auth login`, …) -- that's where they run.
+- A Mains backend reachable on the remote, either already running or auto-launched by the tunnel (below).
+
+## **Connecting**
+
+Open **Settings → Relay → Add** and choose **SSH tunnel**.
+
+<Steps>
+  <Step title="Name the backend">
+    A label like `Dev box` -- how it'll appear in your client list.
+  </Step>
+  <Step title="Enter the SSH host">
+    An alias from `~/.ssh/config` or `user@host`. Detected hosts from your SSH config and known_hosts appear below the field with an **Add host** shortcut.
+  </Step>
+  <Step title="Set the remote port">
+    The loopback port the backend listens on, on the remote (default `8787`).
+  </Step>
+  <Step title="Optionally auto-launch the backend">
+    Provide a launch command and the tunnel starts the backend for you, e.g.
+
+    ```bash
+    cd ~/mains && npm run serve -- --port=8787
+    ```
+
+    Leave it blank to attach to a backend that's already running (`ssh -N`).
+  </Step>
+  <Step title="Add, then Connect">
+    The backend is saved to your client list. Click **Connect** -- the status dot turns `connected` and the whole UI is now driving the remote.
+  </Step>
+</Steps>
+
+## **Pairing Token**
+
+| **Setup** | **Token** |
+| --------------------------------------- | ------------------------------------------------- |
+| Launch command set | Generated automatically -- leave the field blank |
+| Attaching to an already-running backend | Paste the token that backend printed on startup  |
+
+## **Starting The Backend On The Remote**
+
+If you aren't auto-launching it, start a headless backend on the remote host:
+
+```bash
+npm run serve -- --port=8787
+```
+
+It prints a pairing token and listens on `127.0.0.1:8787`. Reuse that token and port when adding the tunnel.
+
+## **Reliability**
+
+The tunnel sets `ExitOnForwardFailure=yes` (so a blocked forward fails fast instead of silently) and keepalives (`ServerAliveInterval=30`, `ServerAliveCountMax=3`) so a dropped link is detected quickly. The transport then reconnects with backoff and refetches durable state from the remote database.
+
+## **Troubleshooting**
+
+| **Symptom** | **Likely cause / fix** |
+| ------------------------------------------- | ------------------------------------------------------------------- |
+| Connect fails immediately                   | Remote port already in use, or no backend listening -- set a launch command |
+| `connected` but no workspaces               | The backend's database lives on the remote -- check it's the right machine  |
+| Agents error with "not logged in"           | Provider CLIs must be authenticated **on the remote**, not locally          |
+| Tunnel drops repeatedly                     | Check the SSH connection itself; keepalives surface a dead link as `offline` |
