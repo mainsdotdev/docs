@@ -55,9 +55,11 @@
           {
             "group": "Core Concepts",
             "pages": [
+              "projects",
               "workspaces",
               "pulse",
               "multi-session",
+              "context-injection",
               "file-explorer",
               "browser",
               "mcp-servers",

@@ -1,0 +1,68 @@
+---
+title: "Context Injection"
+description: "Attach files, diffs, selections, issues, and errors to an agent run"
+icon: "paperclip"
+---
+
+An agent is only as good as what it can see. Mains lets you attach precise context to a run -- files, diffs, terminal output, a highlighted element, a linked ticket, a Sentry error -- so the agent starts with exactly the material it needs instead of hunting for it.
+
+Everything you attach appears as a **chip** in the workspace input and travels with your next message.
+
+## **Adding Context**
+
+The fastest way is the context picker in the workspace input. It groups everything you can pull in:
+
+| **Section** | **What it attaches** |
+| ------------- | ------------------------------------------------------------- |
+| **Files**     | Any file from the workspace, by fuzzy path search             |
+| **Issues**    | Tickets linked to the project, from your connected trackers   |
+| **Skills**    | A [skill](/skills) to run                                     |
+| **Plugins**   | A [plugin](/plugins) capability                               |
+| **Commands**  | A provider [slash command](/claude/slash-commands)           |
+
+Other sources attach from where they live:
+
+| **Source** | **How** |
+| -------------------- | -------------------------------------------------------------------- |
+| **Diff**             | Send the workspace's current change set -- see the [Diff Viewer](/diff-viewer) |
+| **Browser selection**| Highlight an element in the [Browser Panel](/browser) -- screenshot + selector |
+| **Terminal output**  | Capture output from the built-in [Terminal](/terminal)              |
+| **Signals**          | A [Sentry](/sentry) error with its stack trace                      |
+
+## **Context Kinds**
+
+Under the hood each attachment is recorded against the run with a kind, so the agent receives structured material rather than a blob of text:
+
+| **Kind** | **Holds** |
+| ------------ | ------------------------------------------------ |
+| `file`       | A file path and its contents                     |
+| `selection`  | A selected region of code or a captured element  |
+| `diff`       | A change set                                     |
+| `git`        | A commit or branch reference                     |
+| `terminal`   | Captured command output                          |
+| `note`       | Freeform text you typed                          |
+
+Small items are stored inline; large ones are saved once and linked by hash, so re-attaching the same file doesn't duplicate it.
+
+## **The Context Window Meter**
+
+Every attachment -- and every turn of the conversation -- spends tokens. The circular **Context window** indicator in the workspace shows how full the agent's window is:
+
+| **State** | **Meaning** |
+| ------------- | -------------------------------------------------- |
+| Green arc     | Plenty of room                                     |
+| Amber         | Nearing the auto-compact threshold                 |
+| Red           | The window is nearly full                          |
+
+Hover it for the exact used / total token counts. Use it to decide when to start a fresh run instead of piling more context onto a saturated one.
+
+<Note>
+  Attaching context is additive and reviewable -- chips show exactly what the agent will receive, and you can remove any of them before sending. Nothing is sent until your next message.
+</Note>
+
+## **Related**
+
+- [Diff Viewer](/diff-viewer) -- review and attach change sets
+- [Browser Panel](/browser) -- capture page elements as context
+- [Linked Tasks](/linked-tasks) -- pull issues from connected trackers
+- [Sentry](/sentry) -- attach errors as signals

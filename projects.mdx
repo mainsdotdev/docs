@@ -1,0 +1,83 @@
+---
+title: "Projects"
+description: "Group workspaces by repository and share setup scripts, commit rules, and linked issues"
+icon: "diagram-project"
+---
+
+A **project** is the layer above workspaces. Every workspace belongs to a project, and the project holds everything that's true for *all* workspaces of the same repository -- where worktrees live, what to run after setup, how to write commits and PRs, and which issue trackers feed it.
+
+Workspaces are throwaway and per-task; the project is the durable home they share.
+
+## **How Projects Are Created**
+
+You rarely create a project by hand. When you add a workspace -- by cloning a URL, picking a local folder, or initializing a repo -- Mains finds or creates its project automatically, deduplicated by the repository's **normalized remote origin**:
+
+| **Source** | **Grouped by** |
+| --------------------------- | -------------------------------------------------- |
+| Repo with a remote origin   | The normalized origin URL -- same repo, same project |
+| Local-only repo (no origin) | The repository root path                            |
+
+So three workspaces cloned from the same GitHub repo land in one project and share its configuration. A project also tracks its `defaultBranch` and the **workspaces path** -- the directory its worktrees are created under.
+
+## **Anatomy**
+
+| **Field** | **Purpose** |
+| ----------------- | ------------------------------------------------------------- |
+| Name & Icon       | Display label and an `icon:` or `emoji:` glyph                 |
+| Root path         | The original clone/source repository                          |
+| Workspaces path   | Where this project's Git worktrees are created                |
+| Default branch    | The branch new workspaces start from                         |
+| Setup / Archive scripts | Shell commands run on workspace lifecycle events       |
+| Commit / PR instructions | Project-specific rules handed to agents              |
+| Linked resources  | Issue-tracker resources whose issues surface in the project   |
+
+Manage all of these under **Settings → Projects**.
+
+## **Scripts**
+
+Projects can run a shell command at two points in a workspace's lifecycle. Both run **in the background** (fire-and-forget) in the workspace's root directory.
+
+| **Script** | **Runs when** | **Typical use** |
+| ----------- | ------------------------------- | -------------------------------- |
+| **Setup**   | After a new workspace is created | `npm i && npm run build`         |
+| **Archive** | When a workspace is archived     | `rm -rf node_modules`            |
+
+Because Setup runs on **every** new workspace of the project, it's the right place for dependency installs and build steps you'd otherwise repeat by hand.
+
+## **Commit & PR Instructions**
+
+Projects carry **Commit Instructions** and **PR Template Instructions** that shape how agents finish their work. These aren't passive notes -- they're delivered to the agent through Mains' built-in git tools:
+
+<Steps>
+  <Step title="Agent calls CommitChanges or CreatePR">
+    On the **first** call -- before it has written a message or PR body -- the tool returns the project's instructions instead of acting.
+  </Step>
+  <Step title="Agent follows the rules, then calls again">
+    Now with a message/body that conforms to your conventions (commit format, PR template, checklists).
+  </Step>
+</Steps>
+
+<Note>
+  Project-level commit and PR instructions **override** the global Git settings when present, so different repos can enforce different conventions.
+</Note>
+
+## **Linked Resources & Issues**
+
+A project can be linked to **connection resources** -- a GitHub repository, a Linear team, a Jira project, and so on (see [Connections](/github)). Once linked, the issues from those resources surface against the project, so a workspace can pull in the right tickets as run context without searching every tracker.
+
+Add or remove links from the project's **Linked resources** section in Settings.
+
+## **Managing Projects**
+
+Open **Settings → Projects** and pick a project from the sidebar to edit its icon, paths, default branch, scripts, instructions, and linked resources. The **Danger Zone** lets you remove a project or its underlying repository.
+
+## **Projects vs. Workspaces**
+
+| | **Project** | **Workspace** |
+| -------------- | ------------------------------------- | ------------------------------------- |
+| Scope          | One repository                        | One task / branch                     |
+| Lifetime       | Durable                               | Created and archived freely           |
+| Holds          | Scripts, commit/PR rules, linked issues | A worktree, a status, agent runs     |
+| Count          | One per repo (by origin)              | Many per project                      |
+
+See [Workspaces](/workspaces) for the per-task layer and [Multi Session](/multi-session) for running several workspaces of the same project in parallel.

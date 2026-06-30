@@ -13,7 +13,6 @@
 - Run `mint broken-links` to check links
 
 ## Terminology
-
 <!-- Add product-specific terms and preferred usage -->
 <!-- Example: Use "workspace" not "project", "member" not "user" -->
 
