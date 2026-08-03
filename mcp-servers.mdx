@@ -1,10 +1,30 @@
 ---
 title: "MCP Servers"
-description: "Connect external tools to Claude and Copilot agents via Model Context Protocol"
+description: "The tools Mains gives agents, and how to connect your own"
 icon: "server"
 ---
 
-MCP (Model Context Protocol) is an open standard for connecting AI agents to external tools and data sources. Mains supports MCP for the **Claude Code** and **GitHub Copilot** agent runtimes — add a server once from your terminal, and both agents can use it.
+MCP (Model Context Protocol) is an open standard for connecting AI agents to external tools and data sources. Mains uses it in two directions: it **exposes its own tools** to every agent runtime, and it lets you **register external servers** that agents can call.
+
+## **Built-in Mains Tools**
+
+Mains runs an in-process MCP server and attaches it to every session, so agents can reach into the app itself -- no setup, nothing to install.
+
+| **Tool** | **What it does** | **Available to** |
+| ---------------------- | ----------------------------------------------------------------------- | -------------------------- |
+| `GetWorkspaceDiff`     | Read the workspace's captured git [diff](/diff-viewer), for the current run or a specific one | Claude, Copilot, Cursor |
+| `SaveReview`           | Open a [review](/reviews) record against the workspace                   | Claude, Copilot, Cursor    |
+| `SaveFinding`          | Record one review finding                                               | Claude, Copilot, Cursor    |
+| `SaveFindings`         | Record several findings at once                                         | Claude, Copilot, Cursor    |
+| `CommitChanges`        | Stage and commit -- the same path the [git actions panel](/git-actions) uses | All four                |
+| `CreatePR`             | Open a pull request with `gh`                                           | All four                   |
+| `CheckPackage`         | Score a package against the [dependency guard](/dependency-guards) before installing it | Codex, Cursor   |
+
+<Note>
+  The review tools are withheld from Codex, whose flow in Mains is code-writing rather than review. `CheckPackage` is the mirror image: Claude and Copilot guard packages through a pre-tool hook on `Bash`, so they never need to call it explicitly -- Codex and Cursor can't hook that path, so they get the tool instead.
+</Note>
+
+`CommitChanges` and `CreatePR` pick up your [commit and PR instructions](/settings#git) automatically. When instructions are configured and the agent calls the tool without a message or body, the tool returns those instructions first so the agent can follow them before committing.
 
 ## **Adding an MCP Server**
 
@@ -38,7 +58,7 @@ Claude Code loads MCP servers from multiple sources, merged by priority:
 
 ### **GitHub Copilot**
 
-Copilot discovers MCP servers registered through the same CLI. Tools are subject to the [**<u>tool permission rules</u>**](http://localhost:3000/docs/copilot/config) configured in Copilot's config screen. You can allow or deny specific tools before they execute.
+Copilot discovers MCP servers registered through the same CLI. Tools are subject to the tool permission rules in [**<u>Copilot configuration</u>**](/copilot/configuration). You can allow or deny specific tools before they execute.
 
 ## **Popular Servers**
 

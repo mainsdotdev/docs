@@ -12,11 +12,11 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Which AI agents are supported?">
-    Mains supports three agent runtimes: **Claude Code** (via the Anthropic CLI), **GitHub Copilot** (via the Copilot CLI), and **OpenAI Codex** (via the Codex app server). You can use any combination in your workspaces.
+    Mains supports four agent runtimes: **Claude Code** (via the Anthropic CLI), **GitHub Copilot** (via the Copilot CLI), **OpenAI Codex** (via the Codex app server), and **Cursor** (via the Cursor Agent CLI over ACP). You can use any combination in your workspaces -- the [space picker](/spaces) switches between them.
   </Accordion>
 
   <Accordion title="Do I need an API key?">
-    For **Claude Code**, you need a Claude account authenticated via `claude /login`. For **GitHub Copilot**, you need an active Copilot subscription and GitHub CLI authentication (`gh auth status`). For **OpenAI Codex**, you need to authenticate via `codex auth login`.
+    For **Claude Code**, you need a Claude account authenticated via `claude /login`. For **GitHub Copilot**, you need an active Copilot subscription and GitHub CLI authentication (`gh auth status`). For **OpenAI Codex**, you need to authenticate via `codex auth login`. For **Cursor**, run the `agent` CLI once and sign in with your Cursor account.
   </Accordion>
 
   <Accordion title="Where is my data stored?">
@@ -44,7 +44,7 @@ icon: "circle-question"
 
 <AccordionGroup>
   <Accordion title="Which services can I connect?">
-    Mains supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), [Notion](/notion), and [Sentry](/sentry). Each connection syncs issues or tasks into Mains's local entity store for use as agent context.
+    Mains supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), and [Sentry](/sentry) for issues and tasks -- each syncs into Mains's local entity store for use as agent context. [Socket.dev](/dependency-guards) connects separately as the supply-chain guard provider.
   </Accordion>
 
   <Accordion title="How are my credentials stored?">
@@ -84,7 +84,7 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Synced issues are not appearing">
-    Go to **Settings > Apps** and verify your connection is active. Check that you've selected the correct repositories, teams, or projects to sync. Trigger a manual sync to refresh data.
+    Go to **Settings \> Connections** and verify your connection is active. Check that you've selected the correct repositories, teams, or projects to sync. Trigger a manual sync to refresh data.
   </Accordion>
 
   <Accordion title="Database reset">

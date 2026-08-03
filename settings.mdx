@@ -4,61 +4,95 @@ description: "Configure Mains's behavior and personalization"
 icon: "gear"
 ---
 
-Access settings with **Cmd+S** or from the sidebar footer.
+Access settings with **Cmd+S** or from the sidebar footer. Each section is also reachable directly at `/settings?section=<id>`.
+
+| **Section** | **What it covers** |
+| ----------------- | ------------------------------------------------------------------ |
+| **General**       | Run detail, appearance, active agents, notifications, updates       |
+| **Git**           | Worktrees, commit and PR generation instructions                    |
+| **Connections**   | External services -- connect, sync, revoke                          |
+| **Dashboard**     | [Usage statistics](/stats) across workspaces and providers          |
+| **Claude / Codex / Copilot / Cursor** | Per-provider agent configuration                |
+
+<Note>
+  [Relay](/relay/overview) used to live in Settings. It's now a top-level route -- open **Relay** from the sidebar.
+</Note>
 
 ## **General**
 
-| **Setting**             | **Description**                                                                                   |
-| ----------------------- | ------------------------------------------------------------------------------------------------- |
-| **Run detail level**    | Control how much detail is shown during agent runs -- toggle visibility of tool calls and outputs  |
-| **Prevent sleep**       | Keep your Mac awake while an agent run is active                                                  |
-| **Theme**               | Choose between Light, Dark, or System (follows your macOS appearance)                             |
+### Run
 
-## **Notifications**
+| **Setting**          | **Description**                                                       |
+| -------------------- | --------------------------------------------------------------------- |
+| **Run Detail**       | How much detail run output shows -- toggles tool calls and outputs     |
+| **Prevent Sleep**    | Keep your Mac awake while a run is active                             |
 
-| **Setting**              | **Description**                                                  |
-| ------------------------ | ---------------------------------------------------------------- |
-| **Run complete**         | Show a notification when an agent run finishes                   |
-| **Tool approval**        | Show a notification when an agent is waiting for tool approval   |
+### Appearance
 
-## **Personalization**
+| **Setting** | **Description**                                                    |
+| ----------- | ------------------------------------------------------------------ |
+| **Theme**   | Light, Dark, or Auto (follows your macOS appearance)               |
 
-Customize your profile information used across Mains:
+Per-workspace background colors are set separately -- see [Spaces](/spaces).
 
-- **Display name**, **email**, **company**, **job title**
-- **Website URL** and **avatar URL**
-- **Bio** / description
+### Agents
 
-## **Copilot settings**
+| **Setting**        | **Description**                                                                 |
+| ------------------ | ------------------------------------------------------------------------------- |
+| **Active agents**  | Enable or disable agent runtimes. Disabled agents disappear from the space picker |
 
-| **Setting**              | **Description**                                                                            |
-| ------------------------ | ------------------------------------------------------------------------------------------ |
-| **Bypass permissions**   | Allow Copilot full file and terminal access without requiring approval for each tool call   |
-| **Quick actions**        | Show or hide quick action buttons in the workspace toolbar                                  |
+### Menu Bar
 
-## **Codex settings**
+| **Setting**        | **Description**                                |
+| ------------------ | ---------------------------------------------- |
+| **Menu Bar Icon**  | Show the Mains icon in the macOS menu bar      |
 
-| **Setting**              | **Description**                                                                            |
-| ------------------------ | ------------------------------------------------------------------------------------------ |
-| **Sandbox mode**         | File isolation level: read-only, workspace-write (default), or full access                 |
-| **Network access**       | Allow outbound network requests during runs                                                |
-| **Web search**           | Let the agent search the web during runs                                                   |
-| **Skip git check**       | Allow running in non-git directories                                                       |
+### Notifications
 
-See [Codex configuration](/codex/configuration) for full details, and [Codex plugins](/plugins) for extending Codex with marketplace tools.
+| **Setting**          | **Description**                                          |
+| -------------------- | -------------------------------------------------------- |
+| **Run Complete**     | Notify when an agent run finishes                        |
+| **Tool Approval**    | Notify when an agent is waiting for tool approval        |
 
-## **Apps & connections**
+### Software Updates
 
-Manage your connected services from the **Apps** tab. See which integrations are active, connect new ones, trigger manual syncs, or revoke access. Connections are grouped by category:
+Mains checks for updates automatically. This section shows the current version and lets you check for, download, and install a new one with progress tracking.
 
-- **Developer Tools** -- GitHub, GitLab, Linear, Jira, Asana, Trello, Notion
-- **Monitoring** -- Sentry
+## **Git**
+
+Settings that shape how [git actions](/git-actions) behave.
+
+| **Setting**                   | **Description**                                                                                                          |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Worktrees**                 | Work in an isolated copy of the repo so several tasks run at once. When off, Mains uses the active branch directly         |
+| **Commit Instructions**       | Appended to commit-message generation prompts -- e.g. *"use conventional commits, keep under 72 chars"*                    |
+| **PR Template Instructions**  | Appended to pull-request generation prompts -- e.g. *"include a test plan, link related issues"*                           |
+
+<Note>
+  Both instruction fields can also be set **per project** (**Settings → Projects**). A project's instructions win over the app-level ones.
+</Note>
+
+## **Connections**
+
+Manage connected services: see which integrations are active, connect new ones, trigger a manual sync, or revoke access. Connections are grouped by category:
+
+- **Issues** -- [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello)
+- **Monitoring** -- [Sentry](/sentry)
 - **Security** -- [Socket.dev](/dependency-guards)
 
-## **Software updates**
+Credentials are encrypted at rest -- see [Privacy](/privacy).
 
-Mains checks for updates automatically. From the General settings tab you can:
+## **Provider settings**
 
-- View the current version
-- Check for new updates
-- Download and install updates with progress tracking
+Each agent runtime has its own section. They're not in the Settings nav: open one from the space picker, or from the customizer on an empty workspace (see [Spaces](/spaces)).
+
+| **Provider** | **Key settings**                                                                                          |
+| ------------ | ----------------------------------------------------------------------------------------------------------- |
+| **Claude**   | Permission mode, structured output, MCP servers, skills, agents, slash commands -- see [Claude configuration](/claude/configuration) |
+| **Codex**    | Approval policy, sandbox mode, network access, personality, web search, skip git check, structured output -- see [Codex configuration](/codex/configuration) |
+| **Copilot**  | Agents and skills -- see [Copilot configuration](/copilot/configuration)                                    |
+| **Cursor**   | Mode -- see [Cursor configuration](/cursor/configuration)                                                   |
+
+## **Projects**
+
+Per-project overrides: root path, worktree directory, setup/run/archive scripts, and project-scoped commit and PR instructions. See [Projects](/projects).

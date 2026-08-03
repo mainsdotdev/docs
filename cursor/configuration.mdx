@@ -45,8 +45,6 @@ The mode controls how Cursor behaves during runs. You set it once in **Settings 
 | `plan`    | Plan first, then execute -- Cursor produces a plan and pauses for confirmation before taking action.  |
 | `ask`     | Answer-only mode -- Cursor responds to questions but does not invoke tools or modify files.           |
 
-See [**<u>Modes</u>**](/cursor/modes) for guidance on which mode to pick for which task.
-
 <Note>
   Pulse-driven runs always force `agent` mode regardless of your default. This guarantees scheduled tasks can complete autonomously without human input.
 </Note>
@@ -67,10 +65,8 @@ When you start a run, Mains sends `session/set_config_option` with your preferre
 
 Cursor sessions automatically receive Mains' bundled MCP tools at startup -- these include git operations, package safety checks, and workspace utilities. You can also add your own MCP servers; see [**<u>MCP Servers</u>**](/mcp-servers) for setup.
 
-Cursor extensions like `update_todos`, `generate_image`, and the [task subagent](/cursor/subagents) are exposed as native ACP capabilities, not MCP tools.
+Cursor extensions like `update_todos`, `generate_image`, and the task subagent are exposed as native ACP capabilities, not MCP tools.
 
 ## **Tool Approval**
 
 Cursor sends a `session/request_permission` ACP request when it wants to invoke a tool that requires user confirmation. Mains shows an interactive approval dialog in the workspace UI -- you can allow once, deny, or remember the decision for the session.
-
-See [**<u>Permissions</u>**](/cursor/permissions) for the full approval flow and how to pre-approve tools.

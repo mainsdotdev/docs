@@ -12,19 +12,19 @@ When a backend exposes itself on the network -- over [LAN or Tailscale HTTPS](/r
 
 ## **From Another Mains Desktop App**
 
-Open **Settings → Relay → Add** and choose **Direct URL**.
+Open **Relay** in the sidebar, go to **Add**, and choose **Direct URL**.
 
 <Steps>
   <Step title="Name the backend">
     A label for your client list.
   </Step>
-  <Step title="Paste the WebSocket URL">
-    Copy it from the host's **This machine** panel:
+  <Step title="Enter the WebSocket URL">
+    The host's **This machine** panel lists its addresses as `http://…` links. The WebSocket URL is the same address with the scheme swapped:
 
-    | **Exposure** | **URL shape** |
-    | -------------------- | ----------------------------------------- |
-    | LAN / loopback       | `ws://<host>:8787`                        |
-    | Tailscale HTTPS      | `wss://<machine>.<tailnet>.ts.net`        |
+    | **Exposure** | **Shown on the host** | **Paste this** |
+    | -------------------- | --------------------------------------- | ----------------------------------- |
+    | LAN / loopback       | `http://<host>:8787`                    | `ws://<host>:8787`                  |
+    | Tailscale HTTPS      | `https://<machine>.<tailnet>.ts.net`    | `wss://<machine>.<tailnet>.ts.net`  |
   </Step>
   <Step title="Enter the pairing token">
     The token shown in the host's panel (or printed by `npm run serve`). Required whenever the backend was started with one.
@@ -45,13 +45,13 @@ https://<machine>.<tailnet>.ts.net/?token=<token>   # Tailscale HTTPS
 
 Open it on a phone, tablet, or any browser. In the web client you're already connected to the backend that served the page -- adding or switching backends stays a desktop-app feature.
 
-<Warning>
-  The browser UI must be built once on the host with `npm run build:web`. Until then the panel shows a *"Web UI not built"* notice and only the `ws://` / `wss://` endpoint (for another Mains desktop client) is available.
-</Warning>
+<Note>
+  The installed Mains app already ships the web UI -- there is nothing to build. The `npm run build:web` step only applies when the *host* is running Mains from source (`npm start` / `npm run serve`), where the interface is served by the Vite dev server rather than from a build on disk. See [Share this machine](/relay/share-this-machine#opening-in-a-browser).
+</Note>
 
 ## **Managing Backends**
 
-Saved backends live under **Settings → Relay**, alongside **Local (this machine)**:
+Saved backends live under **Relay**, alongside **Local (this machine)**:
 
 | **Action** | **Effect** |
 | ---------------- | --------------------------------------------------------- |

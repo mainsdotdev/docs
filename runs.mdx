@@ -1,0 +1,65 @@
+---
+title: "Runs & Observability"
+description: "Every agent session, recorded — tool calls, tokens, cost, and the diff it produced"
+icon: "activity"
+---
+
+A **run** is one agent session in a workspace: a goal, the turns that followed, every tool the agent called, and the changes it left behind. Runs are recorded as they happen, so nothing about a session is reconstructed after the fact.
+
+Each run opens as a tab in the workspace. Multiple runs can be open at once -- see [multiple sessions](/multi-session).
+
+## **What A Run Records**
+
+| **Recorded** | **Detail** |
+| ------------------ | -------------------------------------------------------------------------- |
+| **Goal**           | The prompt that started the run                                            |
+| **Provider & model** | Snapshotted at start, so a later settings change never rewrites history  |
+| **Status**         | `queued` → `running` → `succeeded` / `failed` / `canceled`                  |
+| **Turns**          | Each exchange, with its own token counts and cost                          |
+| **Tool calls**     | Every invocation with arguments, output, and status -- nested calls included |
+| **Artifacts**      | Files and outputs the agent produced                                       |
+| **Diff**           | The working-tree change the run produced, captured against the run's start  |
+
+The system prompt, config, and tool policy in force are snapshotted too, so an old run stays reproducible.
+
+## **Reading The Transcript**
+
+### Turn rail
+
+Once a run has more than a few exchanges, a rail of ticks appears down the left edge -- one per user message. It's a map of the whole conversation, not a scrollbar: hovering a tick previews what was asked and how the answer opened, and clicking scrolls the transcript there.
+
+### Context usage ring
+
+A circular indicator shows how much of the model's context window the session has consumed. Hovering breaks it down. It turns amber as the auto-compact threshold approaches and red once the window is nearly full.
+
+### Usage tooltip
+
+Each response is stamped with how long it took. Hovering that duration shows the turn's input, output, cache-read, and cache-write tokens, plus its cost.
+
+### Run detail level
+
+**Settings → General → Run Detail** controls how much of this the transcript shows -- collapse tool calls and their outputs down to a summary, or expand everything.
+
+## **Resuming And Forking**
+
+| **Action** | **What happens** |
+| ---------------- | ------------------------------------------------------------------------- |
+| **Continue**     | Send another message -- Mains resumes the provider session by its session id, so the agent keeps its context |
+| **Fork**         | Branch a new run from any response in the transcript                        |
+
+Fork is the ⑂ button next to a response. It starts a fresh run seeded from that point, leaving the original untouched -- useful for trying a second approach without losing the first.
+
+<Note>
+  Fork is available for Claude, Codex, and Cursor. Copilot runs don't support it.
+</Note>
+
+## **Beyond A Single Run**
+
+| **Surface** | **Scope** |
+| ---------------------------------- | ------------------------------------------------------ |
+| [Changes / diff viewer](/diff-viewer) | What the run wrote, per file                        |
+| [Reviews](/reviews)                | Findings raised against the workspace                  |
+| [Pulse](/pulse)                    | Runs on a schedule you define                          |
+| [Dashboard](/stats)                | Runs, cost, tool usage, and success rate across workspaces |
+
+Runs can be **archived** when you're done with them -- they leave the tab strip but stay queryable.

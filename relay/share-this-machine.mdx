@@ -6,7 +6,7 @@ icon: "tower-cell"
 
 The **This machine** panel turns the *running* desktop app into a backend other clients can control -- a phone browser, a LAN device, or another Mains over an SSH tunnel. There's no separate server process and no second copy of your repos: an in-process WebSocket host routes to the same handlers, the same database, and the same agents you already use.
 
-Find it under **Settings → Relay** (or the top-level **Relay** route).
+Find it under **Relay** in the sidebar.
 
 ## **Access Levels**
 
@@ -52,15 +52,19 @@ A token is generated automatically the first time you expose the machine. It's a
 
 ## **Opening In A Browser**
 
-Each address has a **browser link** (`http://<host>:8787/?token=…`) that loads the full Mains UI in a web browser -- ideal for a phone or tablet.
+Each address has a **Copy browser link** button (`http://<host>:8787/?token=…`) that loads the full Mains UI in a web browser -- ideal for a phone or tablet.
 
-The web interface has to be built once:
+The installed Mains app bundles the web interface, so this works out of the box: the same renderer the desktop window uses is served over HTTP on the exposure port.
 
-```bash
-npm run build:web
-```
+<Note>
+  **Running Mains from source?** In development the interface comes from the Vite dev server, so there's no build on disk to serve. Build it once in the repo:
 
-Until it is, the panel shows a *"Web UI not built"* notice and only the WebSocket endpoint (for another Mains desktop client) works.
+  ```bash
+  npm run build:web
+  ```
+
+  Until you do, the panel shows a *"Web UI not built"* notice and only the WebSocket endpoint (for another Mains desktop client) works.
+</Note>
 
 ## **Persistence & Teardown**
 
@@ -72,10 +76,10 @@ Until it is, the panel shows a *"Web UI not built"* notice and only the WebSocke
 
 <Steps>
   <Step title="From another Mains desktop app">
-    Copy the `ws://` or `wss://` URL and paste it into a [Direct connection](/relay/direct-connection).
+    Take the address shown here, swap `http`/`https` for `ws`/`wss`, and paste it into a [Direct connection](/relay/direct-connection).
   </Step>
   <Step title="From a phone or browser">
-    Open the browser link (web UI must be built).
+    Copy the browser link and open it -- the token is already embedded.
   </Step>
   <Step title="Over SSH instead">
     Leave only **Allow remote access** on and connect with an [SSH tunnel](/relay/ssh-tunnel).

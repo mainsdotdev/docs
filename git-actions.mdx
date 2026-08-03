@@ -1,0 +1,118 @@
+---
+title: "Git Actions"
+description: "Review, commit, push, and open a pull request without leaving the session"
+icon: "git-branch"
+---
+
+The **session panel** is the deterministic counterpart to asking an agent to "commit this". It stages, commits, pushes, and opens pull requests directly -- no chat round-trip, no agent deciding whether it ran `git` correctly.
+
+Open it with the **☰** button in the top-right toolbar of a workspace. It shows the live state of the working tree and stays in sync during a run: whenever a file-touching tool finishes, the counts update in place.
+
+## **The Rows**
+
+| **Row** | **What it does** |
+| ------------------------- | ------------------------------------------------------------------- |
+| **Changes**               | Working-tree diff, per file, with `+`/`-` counts                     |
+| **`<branch>`**            | The current branch -- expand to switch                               |
+| **Commit or push**        | Stage, commit, and optionally push in one action                     |
+| **Create pull request**   | Push the branch and open a PR with `gh`                              |
+| **Publish repository**    | Shown instead of push/PR when the repo has no `origin` remote        |
+
+Rows open their form in place, so more than one can be open at a time.
+
+## **Changes**
+
+Expand the row to list every changed file with its own `+`/`-` counts. Clicking a file opens **its diff** -- the same view the [Changes tab](/diff-viewer) shows -- rather than the whole current file.
+
+The counts include untracked files in full, which a plain `git diff HEAD` would omit, so the number here matches the one on the workspace item in the sidebar.
+
+| **Control** | **Effect** |
+| ----------------------------- | ------------------------------------------------------------- |
+| Icon click (**Refresh**)      | Re-read git state and re-persist the workspace diff            |
+| **Undo** on a file row        | Restore that file to its committed state                       |
+| **Undo** on the Changes row   | Revert every change in the working tree                        |
+
+<Warning>
+  Undo asks first, and the confirmation names the real outcome. Reverting a **committed** file restores it from git. A file that was **never committed** is deleted -- that can't be undone.
+</Warning>
+
+## **Switching Branches**
+
+The branch row expands into the project's branch list (a worktree shares its repo's refs, so the names are the same either way). Click one to check it out.
+
+A clean tree switches immediately. A dirty one asks first -- uncommitted work travels with a checkout, or blocks it when the target branch touches the same files. If git refuses, its own message explains why (a common case: the branch is already checked out in another worktree).
+
+## **Commit**
+
+| **Field** | **Behavior** |
+| ------------------------ | ----------------------------------------------------------------------- |
+| **Commit message**       | Leave blank to generate one                                             |
+| **Include unstaged**     | On by default -- stages everything before committing                     |
+| **Commit**               | Commit only                                                             |
+| **Commit and push**      | Commit, then push the current branch                                    |
+| **Push**                 | Push without committing (enabled when the branch is ahead or has no upstream) |
+
+A blank message triggers a **single headless model call** -- one shot, off to the side, not a chat turn. It reads the staged diff and your [commit instructions](/settings#git) and returns a message. The provider and model are the ones selected for the workspace.
+
+Committing from a detached `HEAD` is rejected, and a commit with nothing staged fails rather than creating an empty one.
+
+## **Create Pull Request**
+
+| **Field** | **Behavior** |
+| ---------------- | ------------------------------------------------------------------- |
+| **PR title**     | Leave blank to generate title *and* description                     |
+| **Description**  | Optional -- generated alongside the title when both are blank        |
+| **Draft**        | Opens the PR as a draft                                             |
+
+The action is deterministic, in this order:
+
+<Steps>
+  <Step title="Verify the remote">
+    `origin` must still match the project's recorded remote. A drifted remote aborts here -- **before** anything is pushed.
+  </Step>
+  <Step title="Resolve the base branch">
+    The workspace's base branch, falling back to the project's default branch. A PR from a branch to itself is rejected.
+  </Step>
+  <Step title="Push the head branch">
+    `gh pr create` needs the branch to exist on the remote.
+  </Step>
+  <Step title="Create the PR">
+    `gh pr create` runs with an explicit `--head`, since worktrees often have no upstream tracking for `gh` to infer.
+  </Step>
+</Steps>
+
+The created PR opens in your browser and is recorded in the workspace [activity log](/workspaces).
+
+<Note>
+  Requires the [GitHub CLI](https://cli.github.com) (`gh`) installed and authenticated. When `gh` fails, Mains surfaces its stderr verbatim rather than a generic error.
+</Note>
+
+The action is disabled while you're on the default branch -- there's nothing to open a PR from.
+
+## **Publish Repository**
+
+When a workspace's repo has no `origin` remote, push and PR are impossible, so the panel offers **Publish repository** in their place. It creates the GitHub repo and wires up the remote.
+
+| **Field** | **Default** |
+| ------------------- | ------------------------------------------------------------ |
+| **owner/repo**      | Your authenticated `gh` login plus a sanitized repo name      |
+| **Visibility**      | Private                                                       |
+| **Remote name**     | `origin`                                                      |
+| **Protocol**        | HTTPS (SSH available under advanced options)                  |
+
+A preflight checks that `gh` is installed and authenticated before the form is usable. Once published, the repo opens in your browser and the push/PR rows take the publish row's place.
+
+## **Instructions**
+
+Generation prompts pick up your writing conventions from two places, project-level first:
+
+| **Scope** | **Where** |
+| ----------------- | ----------------------------------------------- |
+| Project           | **Settings → Projects → \<project\>**            |
+| App-wide          | **Settings → Git**                              |
+
+Examples: *"use conventional commits, keep the subject under 72 chars"* for commits, *"include a test plan and link the related issue"* for PRs.
+
+## **Agents Do The Same Thing**
+
+The `CommitChanges` and `CreatePR` [tools](/mcp-servers) available to agents delegate to this same code, so a commit made by an agent and one made from this panel are identical in behavior -- same staging rules, same remote check, same activity log entry.
