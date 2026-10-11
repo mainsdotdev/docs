@@ -1,75 +1,73 @@
 ---
-title: "MCP Servers"
-description: "The tools Mains gives agents, and how to connect your own"
+title: "MCP servers"
+description: "Connect provider tools and understand the built-in Mains tool surface"
 icon: "server"
 ---
 
-MCP (Model Context Protocol) is an open standard for connecting AI agents to external tools and data sources. Mains uses it in two directions: it **exposes its own tools** to every agent runtime, and it lets you **register external servers** that agents can call.
+Model Context Protocol servers expose tools and data to agents. Configure an external server for the provider that should use it.
 
-## **Built-in Mains Tools**
+Mains also supplies built-in tools for supported modes. Tool availability is based on both the provider and the run's mode.
 
-Mains runs an in-process MCP server and attaches it to every session, so agents can reach into the app itself -- no setup, nothing to install.
+## Claude servers
 
-| **Tool** | **What it does** | **Available to** |
-| ---------------------- | ----------------------------------------------------------------------- | -------------------------- |
-| `GetWorkspaceDiff`     | Read the workspace's captured git [diff](/diff-viewer), for the current run or a specific one | Claude, Copilot, Cursor |
-| `SaveReview`           | Open a [review](/reviews) record against the workspace                   | Claude, Copilot, Cursor    |
-| `SaveFinding`          | Record one review finding                                               | Claude, Copilot, Cursor    |
-| `SaveFindings`         | Record several findings at once                                         | Claude, Copilot, Cursor    |
-| `CommitChanges`        | Stage and commit -- the same path the [git actions panel](/git-actions) uses | All four                |
-| `CreatePR`             | Open a pull request with `gh`                                           | All four                   |
-| `CheckPackage`         | Score a package against the [dependency guard](/dependency-guards) before installing it | Codex, Cursor   |
+Claude configuration is read from:
 
-<Note>
-  The review tools are withheld from Codex, whose flow in Mains is code-writing rather than review. `CheckPackage` is the mirror image: Claude and Copilot guard packages through a pre-tool hook on `Bash`, so they never need to call it explicitly -- Codex and Cursor can't hook that path, so they get the tool instead.
-</Note>
+- `~/.claude/settings.json` and `~/.claude.json`.
+- Project `.claude/settings.json` and `.mcp.json`.
+- Project `.claude/settings.local.json`.
 
-`CommitChanges` and `CreatePR` pick up your [commit and PR instructions](/settings#git) automatically. When instructions are configured and the agent calls the tool without a message or body, the tool returns those instructions first so the agent can follow them before committing.
+Local settings take precedence when server names overlap.
 
-## **Adding an MCP Server**
+A project `.mcp.json` can define a remote server:
 
-MCP servers are added through the terminal using the Claude Code CLI. Once registered, the server is available to use inside Mains immediately.
-
-```javascript
-# Add a stdio server (local process)
-claude mcp add slack -- npx -y @anthropic-ai/mcp-server-slack
-# Add with environment variables
-claude mcp add github -- npx -y @modelcontextprotocol/server-github \
-  -e GITHUB_TOKEN=ghp_xxxxx
-# Add an HTTP server (remote)
-claude mcp add remote-api --transport http --url https://mcp.example.com/sse
+```json
+{
+  "mcpServers": {
+    "mintlify": {
+      "type": "http",
+      "url": "https://index.mintlify.com/mcp"
+    }
+  }
+}
 ```
 
-After adding, restart your workspace session — Mains picks up the new server and its tools become available to the agent.
+Start a new session after changing server configuration.
 
-## **Agent Support**
+## Codex servers
 
-Both agent runtimes in Mains can use MCP servers, with some differences in how they discover and invoke tools.
+Configure Codex servers through its CLI or native configuration. Mains uses the installed runtime's MCP configuration and plugin capabilities.
 
-### **Claude Code**
+For example:
 
-Claude Code loads MCP servers from multiple sources, merged by priority:
+```bash
+codex mcp add mintlify --url https://index.mintlify.com/mcp
+```
 
-| **Source**       | **Path**                              |
-| ---------------- | ------------------------------------- |
-| User (global)    | `~/.claude/settings.json`             |
-| Project (shared) | `.{your_project}/settings.json`       |
-| Local (personal) | `.{your_project}/settings.local.json` |
+A server requiring authentication must be connected before its protected tools are usable. [Plugins](/plugins) can bundle these connections.
 
-### **GitHub Copilot**
+## Cursor servers
 
-Copilot discovers MCP servers registered through the same CLI. Tools are subject to the tool permission rules in [**<u>Copilot configuration</u>**](/copilot/configuration). You can allow or deny specific tools before they execute.
+Cursor's ACP runtime reads project or user `.cursor/mcp.json` configuration. Start a new session after changing it and approve servers when the runtime asks. Team-level servers from the Cursor dashboard are not available through ACP; see the [official ACP guide](https://cursor.com/docs/cli/acp).
 
-## **Popular Servers**
+Copilot uses its own runtime configuration. Adding a server to Claude's settings is not a universal installation for all providers.
 
-| **Server** | **Install Command**                                                               | **Description**    |
-| ---------- | --------------------------------------------------------------------------------- | ------------------ |
-| GitHub     | `claude mcp add github -- npx -y @modelcontextprotocol/server-github`             | Issues, PRs, repos |
-| Slack      | `claude mcp add slack -- npx -y @anthropic-ai/mcp-server-slack`                   | Channels, messages |
-| Linear     | `claude mcp add linear -- npx -y @linear/mcp-server`                              | Issues, projects   |
-| Filesystem | `claude mcp add fs -- npx -y @modelcontextprotocol/server-filesystem /path`       | Local file access  |
-| Postgres   | `claude mcp add db -- npx -y @modelcontextprotocol/server-postgres $DATABASE_URL` | Database queries   |
+## Built-in Mains tools
 
-<Note>
-  If a server is disconnected when a session starts, its tools won't be available for that run. Check `claude mcp list` to verify server status.
-</Note>
+| Tool | Providers | Mode |
+| --- | --- | --- |
+| `AtlasReadPage` | Claude, Codex | Code, Work, Chat |
+| `AtlasCreatePage`, `AtlasUpdatePage` | Claude, Codex | Work |
+| `SaveReview`, `SaveFinding`, `SaveFindings` | Claude, Copilot, Cursor | Code |
+| `CheckPackage` | Codex, Cursor | Code |
+
+Claude and Copilot use a pre-tool hook for [package guards](/dependency-guards), so they do not need the explicit CheckPackage tool.
+
+Voice has a separate, session-scoped coordination bridge for its worker chats. It does not give ordinary runs unrestricted task or tool access.
+
+Git commits and PRs are handled by [Git actions](/git-actions) or explicitly requested shell commands. The old CommitChanges, CreatePR, and GetWorkspaceDiff tools are not part of the current Mains registry.
+
+## Apps and forms
+
+A server can return an [interactive app](/mcp-apps) or request a form. Mains handles supported Codex forms through the [approval interface](/approvals).
+
+If tools are missing, inspect the selected provider, server authentication, and configuration scope, then refresh or start a new run.

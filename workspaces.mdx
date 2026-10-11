@@ -1,70 +1,55 @@
 ---
 title: "Workspaces"
-description: "Isolated development environments for AI agent sessions"
-icon: "folder-grid"
+description: "Work in an existing checkout or an isolated Git worktree"
+icon: "folder-open"
 ---
 
-A workspace is an isolated development environment linked to a Git repository. Each workspace gets its own Git worktree, so multiple sessions can run in parallel on the same codebase without file conflicts.
+A workspace is the local repository directory where your **Code** runs execute. It belongs to a [project](/projects) and contains its chat tabs, Git state, changes, and review history.
 
-## **Creating a Workspace**
+A workspace can use your existing checkout or a separate Git worktree.
 
-Press **Cmd+N** or click **Add Workspace** in the sidebar. You can import a repository in two ways:
+## Create a workspace
 
-- **Remote URL** -- paste a Git remote URL and Mains clones the repo and creates a worktree
-- **Local path** -- select an existing local repository and Mains creates a worktree from it
+In Code, click **Add Project** or press `⌘N`. You can add a local repository, clone a remote URL, or initialize a new repository. From a project, you can also create another worktree.
 
-Mains automatically groups workspaces into [projects](/projects) based on the repository's remote origin. If no project exists for the remote, one is created automatically.
+Mains groups repositories by their remote origin. The working branch is read from Git, so branch changes made outside Mains also appear in the app.
 
-## **Workspace Status**
+## Worktree isolation
 
-Each workspace has a status that tracks where it is in your development workflow:
+**Worktrees are off by default on new installs.** Set **Settings → Git → Worktrees** to use separate working directories for new tasks. Existing preferences are retained when you update Mains.
 
-| **Status**      | **Description**                                      |
-| --------------- | ---------------------------------------------------- |
-| **Backlog**     | Queued for future work                               |
-| **Todo**        | Ready to start (default for new workspaces)          |
-| **In Progress** | Agent is actively working or changes are being made  |
-| **In Review**   | Changes are ready for review                         |
-| **Done**        | Work is complete and merged                          |
-| **Canceled**    | Work was abandoned                                   |
-| **Duplicate**   | Workspace duplicates another                         |
+A worktree gives you another checkout and branch while sharing repository history. Use separate worktrees when several agents may edit the same files.
 
-You can update the status manually from the workspace sidebar. Some transitions happen automatically -- for example, starting an agent run moves the workspace to **In Progress**.
+<Note>
+  Two chats in one workspace share its files. Starting another chat does not create another worktree.
+</Note>
 
-## **Workspace Components**
+## Workspace tools
 
-Each workspace provides access to:
+| Tool | What you can do |
+| --- | --- |
+| [File explorer](/file-explorer) | Search files, edit text, and attach code selections |
+| [Changes](/diff-viewer) | Inspect the uncommitted diff and add feedback |
+| [Git actions](/git-actions) | Manage branches, commit, pull, push, and create a PR |
+| [Terminal](/terminal) | Run your own shell commands in the workspace |
+| [Linked tasks](/linked-tasks) | Attach synced issue context |
+| [Reviews](/reviews) | Inspect agent review findings |
+| [Browser](/browser) | Preview an app and annotate elements |
 
-| **Component**                         | **Description**                                                  |
-| ------------------------------------- | ---------------------------------------------------------------- |
-| **Agent input**                       | Send prompts to Claude Code, Copilot, or Codex                   |
-| [**File explorer**](/file-explorer)   | Browse and select files to include in agent context              |
-| [**Diff viewer**](/diff-viewer)       | Review all changes made by the agent                             |
-| [**Terminal**](/terminal)             | Built-in shell for manual commands                               |
-| [**Linked tasks**](/linked-tasks)     | Connect issues from GitHub, Linear, Jira, Asana, GitLab, Trello, Sentry |
-| [**Reviews**](/reviews)               | Structured code review with findings                             |
+## Status
 
-## **Git Worktree Isolation**
+Workspace statuses include **Backlog**, **Todo**, **In Progress**, **In Review**, **Done**, **Canceled**, and **Duplicate**. Use them to organize local work.
 
-Each workspace creates a separate Git worktree from the repository. This means:
+A local workspace status does not automatically update the issue in your connected tracker.
 
-- Every workspace has its own working directory and branch
-- Changes in one workspace don't affect any other
-- All worktrees share Git history and remote connections
-- You can run multiple agent sessions on the same repo simultaneously
+## Archive and restore
 
-When worktrees are enabled (the default), Mains manages worktree creation and cleanup automatically. You can disable worktrees in **Settings** if you prefer to manage branches manually.
+Archive a workspace from its menu to hide it while keeping its run and review history. Restore it from **Settings → Archive**.
 
-## **Archiving**
+Archiving runs the project's archive script when one is configured. It does not automatically remove the worktree. Restoring the record does not recreate a directory that a script or another tool removed.
 
-When you're done with a workspace, archive it from the workspace menu. Archiving:
+## Delete a workspace
 
-- Hides the workspace from the sidebar
-- Cleans up the Git worktree to free disk space
-- Preserves all workspace data (runs, diffs, reviews) in the database
+Deletion removes the workspace record and its associated history. The delete flow can also remove a Mains-created worktree. It does not remove your original checkout through that worktree option.
 
-Archived workspaces can be restored later if you need to revisit them.
-
-## **Deleting**
-
-Deleting a workspace permanently removes it along with all associated data. This is irreversible -- use archiving if you might need the workspace later.
+Use archive when you may need the history again.

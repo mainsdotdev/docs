@@ -1,108 +1,67 @@
 ---
-title: "FAQ & Troubleshooting"
-description: "Common questions and known issues"
+title: "FAQ and troubleshooting"
+description: "Resolve common setup, agent, workspace, library, and remote-access problems"
 icon: "circle-question"
 ---
 
-## **General**
-
 <AccordionGroup>
-  <Accordion title="What platforms does Mains support?">
-    Mains is currently available for **macOS** only. Windows and Linux support is planned.
+  <Accordion title="Which platforms are supported?">
+    Mains Desktop is for macOS on Apple Silicon and Intel. [Mains Server](/server) runs on macOS or Linux and provides a browser interface. The [iPhone companion](/mobile) controls a backend; Android has not shipped.
   </Accordion>
-
-  <Accordion title="Which AI agents are supported?">
-    Mains supports four agent runtimes: **Claude Code** (via the Anthropic CLI), **GitHub Copilot** (via the Copilot CLI), **OpenAI Codex** (via the Codex app server), and **Cursor** (via the Cursor Agent CLI over ACP). You can use any combination in your workspaces -- the [space picker](/spaces) switches between them.
+  <Accordion title="Do I need a repository for every chat?">
+    No. Claude and Codex support [Work and Chat](/modes) without a repository. Code uses projects and workspaces. Atlas Page conversations use Work.
   </Accordion>
-
-  <Accordion title="Do I need an API key?">
-    For **Claude Code**, you need a Claude account authenticated via `claude /login`. For **GitHub Copilot**, you need an active Copilot subscription and GitHub CLI authentication (`gh auth status`). For **OpenAI Codex**, you need to authenticate via `codex auth login`. For **Cursor**, run the `agent` CLI once and sign in with your Cursor account.
+  <Accordion title="Do Claude and Copilot need a separate CLI install?">
+    Their runtimes are bundled with Mains. Sign in during onboarding or through provider settings. Codex and Cursor need their own installed CLIs. See [Install](/install).
   </Accordion>
-
-  <Accordion title="Where is my data stored?">
-    All data is stored locally in a SQLite database at `~/Library/Application Support/mains/mains.db` on macOS. See the [Privacy](/privacy) page for details.
+  <Accordion title="My agent is unavailable or signed out">
+    Enable it in **Settings → General → Active agents**, then open its provider Settings section. Check runtime status and account authentication. For installed CLIs, use **codex login** or **agent login** as appropriate. Copilot, GitHub Connections, and GitHub CLI authentication are separate.
+  </Accordion>
+  <Accordion title="Does every workspace have an isolated worktree?">
+    No. New installs start with worktrees off. Turn them on in **Settings → Git**, or create another worktree from the project. Chats sharing one workspace share its files.
+  </Accordion>
+  <Accordion title="A branch switch or worktree creation failed">
+    Read the Git error. Check whether the branch is already checked out in another worktree, whether the path already exists, and whether uncommitted files conflict. Inspect **git worktree list** before changing worktree records.
+  </Accordion>
+  <Accordion title="An archived workspace came back with missing files">
+    Restoring the workspace record does not recreate a directory removed by an archive script or another tool. Restore the checkout separately, then verify its path. Archive itself does not automatically delete a worktree.
+  </Accordion>
+  <Accordion title="A run is waiting or appears stuck">
+    Check the conversation and menu bar for a pending [approval or question](/approvals). Use Stop if you need to cancel. Stopping leaves file changes for you to review; it does not Undo them.
+  </Accordion>
+  <Accordion title="Why can I not Undo a turn?">
+    Overlapping edits can mark it as shared, and later changes can prevent the reverse patch from applying. Inspect [turn changes](/turn-changes) and the current diff. Separate worktrees reduce overlapping file edits.
+  </Accordion>
+  <Accordion title="My queued Codex message stopped sending">
+    Stop, failure, archive, disconnection, or a backend change pauses delivery. Resume the queue explicitly. Unsaved queue state disappears on reload or app close.
+  </Accordion>
+  <Accordion title="A skill, plugin, or MCP tool is missing">
+    Check the selected provider and run mode, installation scope, enabled state, and connection authentication. Refresh capabilities or start a new session. Claude settings do not configure every other provider.
+  </Accordion>
+  <Accordion title="Image creation in Atlas is unavailable">
+    Check Codex's account and CLI status and whether the **Image Gen** skill is available and enabled. Use the image workspace's refresh action after setup.
+  </Accordion>
+  <Accordion title="Will Atlas keep a generated file if I delete its chat?">
+    Only an explicit **Save to Atlas** makes a permanent file copy. Items shown under Generated or Uploads remain run-owned until saved. Native Pages already have their own library lifecycle.
+  </Accordion>
+  <Accordion title="GitHub issues or PRs do not appear">
+    Check the GitHub connection, token permissions, and selected repositories. Sync for issue freshness. The PR inbox fetches live GitHub data separately. Creating a PR through Git actions also needs authenticated **gh**.
+  </Accordion>
+  <Accordion title="The phone cannot connect">
+    Check that the backend is running and awake and that the phone can reach its advertised address. Production mobile builds need a secure endpoint such as Tailscale HTTPS. A revoked token needs fresh pairing; a version mismatch needs an update.
+  </Accordion>
+  <Accordion title="Desktop and Server report that the database is already in use">
+    They use the same data directory by default. Quit one backend before starting the other, or choose an isolated server directory with **--data-dir**. Do not remove the ownership lock while a backend is running.
+  </Accordion>
+  <Accordion title="macOS asks for Mains Safe Storage Keychain access">
+    Mains uses this entry to encrypt and read connection credentials. Allow access when you want those connections to work. Denying it can prevent stored credentials from being read.
+  </Accordion>
+  <Accordion title="How do I back up local work?">
+    Stop the backend and preserve its whole data directory, including attachments, collection sources, and Atlas files alongside the database. Your repositories and provider credentials may need separate backups.
+  </Accordion>
+  <Accordion title="Is Bridge available for cross-device sync?">
+    [Bridge](https://mains.dev/bridge) is announced as coming soon. Current remote access connects clients to one running backend; it does not synchronize independent backend databases.
   </Accordion>
 </AccordionGroup>
 
-## **Workspaces**
-
-<AccordionGroup>
-  <Accordion title="What happens when I create a workspace?">
-    Mains creates an isolated Git worktree for the workspace. This gives the workspace its own working directory and branch while sharing Git history with the original repository.
-  </Accordion>
-
-  <Accordion title="Can I run multiple agents at the same time?">
-    Yes. Each workspace has its own Git worktree, so multiple agent sessions can run in parallel without file conflicts. See [Multi Session](/multi-session).
-  </Accordion>
-
-  <Accordion title="What happens when I archive a workspace?">
-    The workspace is hidden from the sidebar and its worktree is cleaned up to free disk space. The workspace data remains in the database and can be restored if needed.
-  </Accordion>
-</AccordionGroup>
-
-## **Connections**
-
-<AccordionGroup>
-  <Accordion title="Which services can I connect?">
-    Mains supports [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), and [Sentry](/sentry) for issues and tasks -- each syncs into Mains's local entity store for use as agent context. [Socket.dev](/dependency-guards) connects separately as the supply-chain guard provider.
-  </Accordion>
-
-  <Accordion title="How are my credentials stored?">
-    API tokens and OAuth credentials are stored encrypted in the local database. They never leave your machine.
-  </Accordion>
-
-  <Accordion title="How often does data sync?">
-    The initial sync fetches existing data. Subsequent syncs are incremental and can be triggered manually or scheduled via [automations](/automations). The minimum automation interval is one minute.
-  </Accordion>
-</AccordionGroup>
-
-## **Troubleshooting**
-
-<AccordionGroup>
-  <Accordion title="Claude Code agent is not available">
-    Make sure the Claude CLI is installed and authenticated. Run `claude /login` in your terminal to verify. Mains requires the Claude CLI binary to be accessible from your system PATH.
-  </Accordion>
-
-  <Accordion title="GitHub Copilot agent is not available">
-    Verify your GitHub CLI authentication with `gh auth status` and ensure you have an active Copilot subscription. The Copilot CLI binary must be accessible from your system PATH.
-  </Accordion>
-
-  <Accordion title="OpenAI Codex agent is not available">
-    Make sure the Codex CLI is installed and authenticated. Run `codex auth login` in your terminal. The Codex binary must be accessible from your system PATH.
-  </Accordion>
-
-  <Accordion title="Workspace worktree creation fails">
-    This can happen if the repository already has a worktree at the target path, or if there are uncommitted changes in the source repo that conflict. Try running `git worktree list` in your terminal to check existing worktrees, and `git worktree prune` to clean up stale entries.
-  </Accordion>
-
-  <Accordion title="Agent run is stuck or unresponsive">
-    You can abort a running session from the workspace UI. If the agent is waiting for tool approval, check for a pending approval dialog in the workspace. If the run remains stuck, try restarting the app -- active runs are tracked and can be recovered.
-  </Accordion>
-
-  <Accordion title="MCP server tools are not showing up">
-    MCP servers must be registered before starting a session. Add servers via `claude mcp add` and verify with `claude mcp list`. Restart the workspace session after adding new servers.
-  </Accordion>
-
-  <Accordion title="Synced issues are not appearing">
-    Go to **Settings \> Connections** and verify your connection is active. Check that you've selected the correct repositories, teams, or projects to sync. Trigger a manual sync to refresh data.
-  </Accordion>
-
-  <Accordion title="Database reset">
-    If you need to reset the local database, delete the file at `~/Library/Application Support/mains/mains.db` and restart Mains. This removes all local data including workspaces, runs, and connection credentials.
-  </Accordion>
-
-  <Accordion title="macOS security warning on first launch">
-    macOS may block Mains since it's downloaded from the internet. Go to **System Settings > Privacy & Security** and click **Open Anyway**, or right-click the app and select **Open** to bypass the warning.
-  </Accordion>
-
-  <Accordion title='macOS Keychain prompt: "mains wants to use your confidential information"'>
-    On launch, macOS may show a dialog saying **mains wants to use your confidential information stored in "mains Safe Storage" in your keychain**. This is expected -- Mains uses Electron's `safeStorage` API to encrypt sensitive data like connection tokens and API keys. macOS requires your permission before an app can access its own Keychain entry.
-
-    - Click **Allow** to grant access for this session
-    - Click **Always Allow** to stop the prompt from appearing again
-    - Clicking **Deny** will prevent Mains from reading encrypted credentials, which may cause connection features to fail
-
-    This prompt typically appears once after installation or after a macOS update resets Keychain permissions.
-  </Accordion>
-</AccordionGroup>
-
+If you need help, email [team@mains.dev](mailto:team@mains.dev) or open an issue on [GitHub](https://github.com/mainsdotdev/mains/issues). Include the Mains version, provider, and relevant error text.

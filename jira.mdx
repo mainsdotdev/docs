@@ -1,23 +1,41 @@
 ---
 title: "Jira"
+description: "Connect your Jira domain with an email and API token"
+icon: "ticket"
 ---
 
-The Jira integration syncs issues from your Jira projects into Mains's entity store. Jira tickets become searchable locally and available as context in AI chat.
+Connect Jira to import issues from selected projects.
 
-## **Authentication**
+## Credentials
 
-Jira uses **OAuth** for authentication. Mains will open a browser window to authorize access to your Atlassian account.
+The current Mains setup uses three fields:
 
-## **Setup**
+- **Jira Domain**, such as `your-company.atlassian.net`.
+- **Email**, for the account associated with the token.
+- **API Token**, created through the Atlassian API token link in the setup form.
+
+## Connect Jira
 
 <Steps>
-  <Step title="Connect Jira">
-    Go to **Settings \> Connections** and click **Connect** next to Jira. Authorize Mains through the Atlassian OAuth flow.
+  <Step title="Enter your credentials">
+    Open **Settings → Connections → Jira**, complete the three fields, and continue.
   </Step>
-  <Step title="Select Projects">
-    Choose which Jira projects to sync. Only issues from selected projects will be fetched.
+  <Step title="Select projects">
+    Search by project name or key. Save the projects you want to sync.
   </Step>
-  <Step title="Initial Sync">
-    Mains fetches existing issues and then syncs incrementally on subsequent runs.
+  <Step title="Refresh issues">
+    Use **Sync** for a manual refresh or enable [Auto Sync](/automations).
   </Step>
 </Steps>
+
+## Use ticket context
+
+Link Jira projects to a Mains Code [project](/projects) and attach tickets from [Tasks](/tasks) or the composer `@` menu.
+
+Imported tickets are snapshots of the source data. Refresh them when your prompt depends on a recent change.
+
+## Manage the connection
+
+Use **Add Project** to change the selection. **Revoke Jira Access** deactivates the connection and removes selected projects and imported Jira data.
+
+Invalidate the API token in Atlassian's settings if you also want to revoke it there.

@@ -1,91 +1,58 @@
 ---
-title: "Browser Panel"
-description: "An embedded browser inside Mains for web-aware agent runs"
+title: "In-app browser"
+description: "Preview pages, annotate elements, and talk with an agent beside the live site"
 icon: "globe"
 ---
 
-Mains ships an embedded browser that slides in from the right edge of any workspace. It runs as a real Chromium **WebContentsView** -- not an iframe -- so you get full navigation, JavaScript, cookies, and devtools-grade page capture. The browser is most useful as a **context source**: you can highlight an element on a live page and drop it into the agent's prompt as a screenshot + selector pair.
+The in-app browser opens websites and local development servers beside your conversation. Use it to preview an app, check responsive layouts, and show the agent exactly what needs attention.
 
-## **Opening & Closing**
+## Open and browse
 
-The panel toggles from the workspace toolbar. When it opens it animates in over your editor area; when it closes the agent loses access to the page but its captures stay in the run context.
+Click the browser button or press `⌘⌥B`. Enter a URL in the address bar. Use `⌘L` to focus it, `⌘T` for a new tab, and `⌘W` to close the current tab.
 
-| **State**     | **Behavior**                                                                  |
-| ------------- | ----------------------------------------------------------------------------- |
-| `closed`      | Panel hidden, WebContentsView detached, no resources used                     |
-| `opening`     | Panel is animating in -- the WebContentsView is being attached and bounded   |
-| `open`        | Live page rendered; navigation, capture, and select mode all available       |
-| `closing`     | Panel animates out and the WebContentsView is detached on completion         |
+Tabs belong to their chat. Switching conversations restores that chat's browser tabs. Closing the last tab closes the browser panel.
 
-The panel auto-closes when you navigate to the **Plugins** or **Settings** routes -- those screens take over the full viewport.
+The browser supports history, downloads, find on page, zoom, printing, and a right-click menu for links, images, and text. Use device emulation and its resizable viewport to inspect smaller layouts.
 
-## **Where It's Available**
-
-| **Workspace**     | **Browser panel** |
-| ----------------- | ----------------- |
-| **Codex**         | Yes               |
-| **Cursor**        | Yes               |
-| **Claude Code**   | Yes               |
-| **Copilot**       | Yes               |
-
-Use it whenever an agent task touches a web app -- staging dashboards, design tools, vendor portals, etc.
-
-## **Navigation Controls**
-
-The toolbar exposes the controls you'd expect:
-
-| **Control**     | **Action**                                              |
-| --------------- | ------------------------------------------------------- |
-| URL bar         | Type or paste any HTTP/HTTPS URL                        |
-| Back / Forward  | Walk through history (disabled at boundaries)           |
-| Reload          | Refresh the current page                                |
-| Stop            | Cancel an in-flight navigation                          |
-| Close           | Detach the WebContentsView and hide the panel           |
-
-The renderer tracks `did-navigate` and `did-navigate-in-page` events, so the URL and title in the toolbar stay live even when single-page apps update history without a full reload.
-
-## **Select Mode**
-
-Select Mode is the headline feature -- it lets you click any element on the page and capture both the element and its surroundings as agent context.
+## Annotate a page
 
 <Steps>
-  <Step title="Toggle Select Mode">
-    Click the **Crop** icon in the panel toolbar. The cursor changes to a crosshair and elements highlight as you hover.
+  <Step title="Enter annotation mode">
+    Open the page and activate the annotation control.
   </Step>
-  <Step title="Click an element">
-    Mains captures the element's bounding box, computes a robust CSS selector, takes a tight screenshot, and also captures the surrounding region for visual context.
+  <Step title="Select elements">
+    Click one or more elements to highlight them. Click a selected element again to remove it from the group.
   </Step>
-  <Step title="Selection lands in your prompt">
-    A new **ContextBrowserSelection** chip appears in the workspace input. The agent receives both screenshots plus the selector when you send the next message.
+  <Step title="Add your comment">
+    Describe what should change and choose **Add**. Mains captures a highlighted viewport and the selected elements. Annotation mode stays active so you can add another group.
+  </Step>
+  <Step title="Send the feedback">
+    Review the annotation chip in the composer. Edit its comment or remove a group, then send your message.
   </Step>
 </Steps>
 
-Each selection includes:
+The agent receives the screenshot, page URL, selectors, element details, and your comment. These captures are context; adding an annotation does not send a prompt by itself.
 
-| **Field**                          | **Description**                                                          |
-| ---------------------------------- | ------------------------------------------------------------------------ |
-| `selector`                         | A CSS selector targeting the clicked element                             |
-| `screenshotCaptureName`            | Filename of the tight element screenshot                                 |
-| `surroundingScreenshotCaptureName` | Filename of a wider screenshot for context                               |
-| `url` / `title`                    | Page URL and document title at capture time                              |
+## Keep the page open while you chat
 
-Captures are stored under the user data dir in `browser-captures/`. Mains keeps the directory below a byte budget using LRU eviction, so old captures get pruned automatically as new ones arrive.
+Expand the browser when you need more room. Its floating chat can send to a selected conversation without closing the page.
 
-## **What the Agent Sees**
+Use the chat target menu to choose where feedback goes. The model and other conversation settings follow that chat.
 
-When you submit a message that includes a browser selection, the agent receives the two screenshots and the selector as part of the prompt. This is enough to reason about the element ("the button labeled 'Export' inside the report card"), draft DOM-aware code, or generate a Playwright/cypress selector.
+## Sleeping tabs
 
-The panel itself isn't an agent tool -- you control navigation. Codex's [Computer Use plugin](/codex/computer-use) is the right pick if you want the agent to drive a browser autonomously.
+Mains aims to keep three recently used tabs live. Older tabs can sleep. Active, loading, audio-playing, and other protected tabs can stay awake beyond that limit.
 
-## **Troubleshooting**
+Sleeping tabs restore history, scroll position, and supported form values on a best-effort basis. Password values are excluded. Arbitrary page state may not survive a reload.
 
-| **Symptom**                                     | **Likely cause / fix**                                                  |
-| ----------------------------------------------- | ----------------------------------------------------------------------- |
-| Panel won't open                                | Switch to a workspace route -- the panel closes on Settings/Plugins     |
-| Select mode highlights nothing                  | Some sites disable hover via CSS; try scrolling or using devtools first |
-| Captures fail silently                          | Disk pressure or OS quota; restart the app and retry                    |
-| Page renders without scripts                    | Site blocks Electron's user agent -- there is no UA override yet        |
+## Agent control
 
-<Note>
-  The browser panel is a **navigation tool for you**, not a sandbox for the agent. Pages opened here use a shared Mains profile -- they can read cookies you set during browsing, but they cannot reach into the agent's filesystem or workspace.
-</Note>
+You can navigate the browser yourself. An installed [Computer Use](/codex/computer-use) integration may also let Codex operate supported browser or app interfaces.
+
+Browser sign-in state belongs to Mains's browser profile. Do not assume an external browser and the embedded browser share cookies.
+
+## If something does not work
+
+If a site rejects the embedded browser, open it in an external browser or use an available API. For inspection and editing of an interactive connected tool, see [MCP apps](/mcp-apps).
+
+Browser shortcuts can be changed in **Settings → Keyboard Shortcuts**.

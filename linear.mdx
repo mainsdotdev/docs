@@ -1,30 +1,36 @@
 ---
 title: "Linear"
+description: "Sync team issues and attach their requirements to agent conversations"
+icon: "list-check"
 ---
 
-The Linear integration syncs issues from your selected teams into Mains's entity store. Linear issues -- with their identifiers like `ABC-123` -- become searchable locally and available as context in AI chat.
+Connect Linear to import issues from selected teams, including identifiers such as `ABC-123`.
 
-## **Authentication**
-
-Linear uses an **API key** for authentication. You can generate a personal API key from your Linear account settings. The key is stored encrypted in the local database.
-
-<Note>
-  Mains uses the `@linear/sdk` package to communicate with the Linear API, providing typed access to issues, teams, labels, and other resources.
-</Note>
-
-## **Setup**
+## Connect Linear
 
 <Steps>
-  <Step title="Generate an API Key">
-    In Linear, go to **Settings \> API** and create a new personal API key.
+  <Step title="Create an API key">
+    Open **Settings → Connections → Linear**. Follow the setup form's link to Linear's personal API key settings and create a key.
   </Step>
-  <Step title="Connect Linear">
-    Go to **Settings \> Connections** in Mains and click **Connect** next to Linear. Paste your API key when prompted.
+  <Step title="Enter the key">
+    Paste it into **API Key** and continue.
   </Step>
-  <Step title="Select Teams">
-    Choose which Linear teams to sync. Only issues from selected teams will be fetched.
+  <Step title="Select teams">
+    Search by team name, key, or description. Save the teams you want to sync.
   </Step>
-  <Step title="Initial Sync">
-    Mains will perform an initial sync to fetch existing issues. 
+  <Step title="Sync issues">
+    Use **Sync** to refresh the imported issues. Enable [Auto Sync](/automations) for recurring refreshes.
   </Step>
 </Steps>
+
+## Use issue context
+
+Browse issues in [Tasks](/tasks), link a team to a Code [project](/projects), or attach an issue through the composer `@` menu.
+
+The agent receives the selected imported context when you send your message. Workspace status does not automatically change the Linear issue's status.
+
+## Manage the connection
+
+Use **Add Team** to adjust resource selection. Choose **Revoke Linear Access** to deactivate the Mains connection and remove selected teams and imported data.
+
+Revoke the API key in Linear if you also want to invalidate it at the source.

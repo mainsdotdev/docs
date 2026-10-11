@@ -1,0 +1,31 @@
+---
+title: "Tasks"
+description: "Find synced issues and live GitHub pull requests in Code mode"
+icon: "list-check"
+---
+
+Open **Tasks** in Code to browse issues and pull requests. The two tabs have different data sources.
+
+## Issues
+
+The Issues tab lists items synced from your selected [connection resources](/connections). Search and filter the list, then open an item for its detail.
+
+Link resources to a [project](/projects) to narrow task context to the relevant repository or team. Attach an issue to a workspace prompt when you want the agent to work from it.
+
+Issue data is a local snapshot. Refresh it with a manual sync or Auto Sync when you need current tracker information.
+
+## Pull requests
+
+The Pull requests tab fetches GitHub data live. It shows state, checks, author, and diff size.
+
+Filter to requests that involve you, need your review, were reviewed by you, or were authored by you. Selected repositories on the GitHub connection provide the default scope.
+
+When no repositories are selected, the inbox can fall back to PRs involving your GitHub user.
+
+Open a PR to inspect its description, comments, review threads, checks, merge status, and diff. See [Pull request review](/pull-requests).
+
+## Provider connections
+
+The GitHub connection used by Tasks is separate from the `gh` authentication used to create a PR through [Git actions](/git-actions).
+
+Work and Chat do not show the Code Tasks navigation.

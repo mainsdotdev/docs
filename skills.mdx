@@ -1,90 +1,58 @@
 ---
 title: "Skills"
-description: "Extend Claude and Copilot agents with reusable, specialized capabilities"
-icon: "s"
+description: "Give agents reusable instructions and supporting resources"
+icon: "book"
 ---
 
-Skills are packaged instructions that extend what your agents can do. Both the **Claude Code** and **GitHub Copilot** runtimes in Mains support skills — each with its own format, but the same idea: teach the agent domain-specific behavior it can invoke automatically.
+A skill packages instructions for a focused task in a folder containing **SKILL.md**. It can include scripts, templates, and reference files.
 
-## **Claude Code Skills**
+Providers discover skills differently. Mains exposes a skill picker for **Claude and Codex**, while Copilot can load its configured skill directories without that picker.
 
-Claude Code skills are `SKILL.md` files with YAML frontmatter and Markdown instructions. Claude discovers them at startup and autonomously invokes the right skill based on context.
+## Locations
 
-### **Skill Locations**
+| Runtime | Common locations |
+| --- | --- |
+| Claude | `~/.claude/skills/` and `.claude/skills/` |
+| Copilot | `~/.claude/skills/`, `~/.copilot/skills/`, and `.github/skills/` |
+| Codex | Runtime-discovered user, project, and plugin skills; use the returned skill location in the picker |
 
-| **Location**              | **Scope**                                             |
-| ------------------------- | ----------------------------------------------------- |
-| `.{your_project}/skills/` | Project skills — shared with your team via git        |
-| `~/.claude/skills/`       | User skills — personal, available across all projects |
+A Codex installation can use agent skill directories such as `.agents/skills/` and existing Codex-specific locations. Discovery follows the installed runtime; see the [official skills guide](https://learn.chatgpt.com/docs/build-skills).
 
-### **Creating a Skill**
+## Create a project skill
 
-Create a directory with a `SKILL.md` file inside:
+For Claude, create `.claude/skills/review-changes/SKILL.md`:
 
-```text
-.{your_project}/skills/code-review/
-└── SKILL.md
-```
-
-A `SKILL.md` file has YAML frontmatter followed by Markdown instructions:
-
-```text
+```markdown
 ---
-description: Reviews code changes for security vulnerabilities and best practices
-allowed-tools: ["Read", "Grep", "Glob"]
+name: review-changes
+description: Review code changes for regressions and missing tests
 ---
-# Code Review
-When reviewing code, check for:
-- SQL injection and XSS vulnerabilities
-- Hardcoded credentials or secrets
-- Missing input validation
-- Error handling gaps
-Provide findings as a numbered list with severity ratings.
+
+Read the changed code and relevant tests.
+Report each finding with a file location and verification step.
+Do not modify files unless the user requests fixes.
 ```
 
-The `description` field is what Claude uses to decide when to invoke the skill. Make it specific.
+Use a specific description so the agent can match it to a task. Add supporting files only when they help the workflow.
 
-### **Invoking Skills**
+Provider-specific frontmatter controls can differ. Check the provider's documentation before relying on a permission or invocation field.
 
-Claude invokes skills automatically when a user request matches the skill's description. You can also trigger them explicitly with slash commands:
+## Invoke a skill
 
-```text
-/code-review
+Use the composer's command or mention menu to select an available skill. Claude can also invoke matching skills automatically.
+
+Click a skill chip to open its file or plugin detail. If a new skill does not appear, refresh provider capabilities or start a new session after installation.
+
+## Install a shared skill
+
+Use the publisher's installation instructions. The community `skills` CLI can install skills for a selected agent:
+
+```bash
+npx skills add https://mintlify.com/docs
 ```
 
-## **Copilot Skills**
+Check the CLI's selected agent, scope, and destination before accepting. An install command does not always put the skill in the same directory for every provider.
 
-Copilot skills are directories containing a `skill.json` manifest, prompt files, and optional tool definitions.
+## Skills and access
 
-### **Structure**
-
-```text
-skills/
-└── code-review/
-    ├── skill.json
-    └── prompts/
-        └── system.md
-```
-
-### **skill.json**
-
-```text
-{
-  "name": "code-review",
-  "displayName": "Code Review Assistant",
-  "description": "Specialized code review capabilities",
-  "version": "1.0.0",
-  "prompts": ["prompts/system.md"]
-}
-```
-
-### **Loading Skills**
-
-Skills are loaded from configured directories when a Copilot session starts. You can disable specific skills by name if needed.
-
-## **Tips**
-
-- **Write clear descriptions** — the agent uses them to decide when to invoke a skill
-- **Limit tool access** — only grant the tools a skill actually needs
-- **Keep skills focused** — one skill per domain works better than a catch-all
-- **Version project skills** — commit `.claude/skills/` so your whole team benefits
+A skill provides instructions; it does not independently grant filesystem access or connect an account. The run's mode, permissions, and tool availability still apply.

@@ -1,40 +1,50 @@
 ---
-title: "Workflow"
-description: "The complete development lifecycle in Mains"
+title: "Code workflow"
+description: "Take a repository task from context and implementation to review and a pull request"
+icon: "route"
 ---
 
-Mains is designed around a repeatable workflow: pick a task, spin up an isolated workspace, let an agent implement it, review the changes, and merge. Here's how the pieces fit together.
+A Code workflow starts in a [workspace](/workspaces) and ends with changes you have reviewed. Work and Chat use a different structure; start with [modes](/modes) if you are working on documents or research.
 
-## **1. Pick a Task**
+## Choose the task and checkout
 
-Start from an issue or task in your project management tool. If you've connected [GitHub](/github), [GitLab](/gitlab), [Linear](/linear), [Jira](/jira), [Asana](/asana), [Trello](/trello), or [Sentry](/sentry), your issues are already synced and searchable inside Mains.
+Add a repository with **Add Project**. Mains groups checkouts of the same repository under a [project](/projects).
 
-## **2. Create a Workspace**
+Use your existing checkout for a single task. For concurrent tasks that will edit the same repository, enable worktrees or create a separate worktree. Separate chat tabs alone do not isolate files.
 
-Press **Cmd+N** to create a new workspace. Import a repository from a remote URL or a local path. Mains creates an isolated Git worktree automatically -- your changes won't interfere with other workspaces or branches.
+If you use an issue tracker, connect it in **Settings → Connections**, select resources to sync, and open [Tasks](/tasks). Attach the issue to your next prompt.
 
-If a [project](/projects) already exists for the repository, the new workspace is added to it. Otherwise, Mains creates a [project](/projects) automatically based on the remote origin.
+## Provide context
 
-## **3. Link the Task**
+Use `@` to select relevant files or issues. Add a code selection, a [browser annotation](/browser), or a [Lens capture](/lens) when it explains the problem better than text.
 
-[Link the issue](/linked-tasks) to your workspace so the agent has the full context -- title, description, labels, and comments from the source. You can also select files from the [file explorer](/file-explorer) to give the agent a more targeted view of the codebase.
+Describe the expected behavior and how to verify it:
 
-## **4. Run the Agent**
+```text
+Fix the login error described in the attached issue.
+Keep the existing authentication flow and run the relevant tests.
+```
 
-Type your goal in the workspace input and let the agent work. It will read files, run commands, write code, and track every change. You can watch progress in real time through the workspace events timeline.
+## Follow the run
 
-**Claude Code**, **GitHub Copilot**, **OpenAI Codex**, and **Cursor** agents are all supported -- switch between them with the [space picker](/spaces). Each workspace session runs in isolation, so you can run [multiple sessions](/multi-session) in parallel.
+The [transcript](/runs) shows messages, tool activity, plans, and requests for input. [Approvals](/approvals) let you allow or deny an operation before it continues.
 
-## **5. Review Changes**
+You can switch workspaces while the agent runs. With Codex, [steer the active turn](/codex/steering) or queue a follow-up.
 
-Open the [diff viewer](/diff-viewer) to see every file the agent modified. Green lines show additions, red lines show removals.
+## Review and refine
 
-For a deeper inspection, request a [code review](/reviews). The agent will produce structured findings with severity ratings, file locations, and suggested fixes.
+Open [Changes](/diff-viewer) for the current uncommitted diff. Comment on a line or range and send your feedback to the chat.
 
-## **6. Commit & Create a PR**
+Use a [turn change card](/turn-changes) when you want the patch from one turn. Request an [agent review](/reviews) when you need another inspection pass.
 
-Once you're happy with the changes, commit directly from the diff viewer. Mains suggests a commit message based on the session context. Push the branch and open a pull request -- all without leaving the app.
+## Commit, push, and create a PR
 
-## **7. Archive**
+Use the [Git actions panel](/git-actions) to review the branch, pull incoming changes, commit, push, and draft a pull request.
 
-After merging, archive the workspace. Archived workspaces are hidden from the sidebar by default but remain accessible if you need to revisit them later. The worktree is cleaned up to free disk space.
+Choose the PR base and review its title, description, and attachments before creating it. Project-level instructions can guide generated commit messages and PR descriptions.
+
+A [GitHub PR review](/pull-requests) is separate from your local workspace review. Comments submitted from that view go to GitHub.
+
+## Archive finished work
+
+Archive a workspace to hide it while retaining its history. Archiving can run your project's archive script; it does not automatically remove the worktree. Restore it from **Settings → Archive**.

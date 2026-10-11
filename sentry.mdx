@@ -1,31 +1,34 @@
 ---
 title: "Sentry"
+description: "Bring error signals from selected Sentry projects into agent context"
+icon: "bug"
 ---
 
-The Sentry integration syncs error tracking data from your selected projects into Mains. Use Sentry issues as context when asking agents to investigate and fix bugs.
+Connect Sentry to import error signals and diagnostic context from selected projects.
 
-## **Authentication**
+## Credentials
 
-Sentry uses an **Auth Token** with an **Organization Slug** for authentication. Generate a token from your Sentry organization's settings under **Auth Tokens**.
+Open **Settings → Connections → Sentry**. The form requires:
 
-<Note>
-  Mains stores your Sentry credentials encrypted in the local database. They never leave your machine.
-</Note>
+- **Auth Token**, with `project:read`, `event:read`, and `org:read` scopes.
+- **Organization Slug**, the identifier in a URL such as `sentry.io/organizations/my-org/`.
 
-## **Setup**
+Use the form's **Auth Tokens** link to create a token.
 
-<Steps>
-  <Step title="Connect Sentry">
-    Go to **Settings \> Connections** and click **Connect** next to Sentry. Enter your Auth Token and Organization Slug.
-  </Step>
-  <Step title="Select projects">
-    After authentication, choose which Sentry projects to sync.
-  </Step>
-  <Step title="Initial sync">
-    Mains fetches existing issues from the selected projects. Subsequent syncs happen incrementally.
-  </Step>
-</Steps>
+## Select and sync projects
 
-## **Revoking access**
+Enter the credentials, continue, and search by project name, slug, or platform. Save the projects you want to monitor.
 
-To disconnect Sentry, go to **Settings \> Connections** and click **Revoke** next to Sentry. This removes all synced Sentry data and deletes the stored credentials.
+Use **Add Project** to change the selection. Refresh error signals with **Sync** or [Auto Sync](/automations).
+
+## Investigate an error
+
+Link Sentry resources to a Code [project](/projects), then attach a synced signal to your message. Add relevant source files and describe the behavior you want to fix.
+
+Imported diagnostic detail gives the agent a starting point. Refresh the signal when you need current source data.
+
+## Disconnect
+
+Choose **Revoke Sentry Access** to deactivate the Mains connection and remove selected projects and imported signals.
+
+Invalidate the auth token in Sentry if you also want to revoke it at the source.

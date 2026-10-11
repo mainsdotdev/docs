@@ -1,41 +1,63 @@
 ---
-title: "Privacy"
-description: "How Mains handles your data"
-icon: "shield-halved"
+title: "Privacy and data"
+description: "Understand local storage, provider sharing, credentials, remote access, and deletion"
+icon: "shield"
 ---
 
-Mains is a local-first desktop application. Your data stays on your machine, and agent conversations go directly to your configured provider -- never through Mains's servers.
+Mains stores your work on the backend you choose: your Mac by default, or your own standalone server. It does not operate a hosted relay for your runs.
 
-## **What Stays Local**
+Agent requests and context go from that backend to the selected provider and connected tools. Local-first storage does not mean that an AI provider never receives your material.
 
-| **Data**            | **Storage**                                                  |
-| ------------------- | ------------------------------------------------------------ |
-| **Agent sessions**  | Stored locally with full run history                         |
-| **Synced entities** | Issues, tasks, pull requests fetched from connected services |
-| **Workspace files** | Git worktrees on your local filesystem                       |
+## What is stored
 
-Your database is stored at:
+| Data | Where it lives |
+| --- | --- |
+| Conversations, tool activity, usage, synced data | Backend database |
+| Repositories and worktrees | Backend filesystem |
+| Sent attachments | Backend attachment storage |
+| Collection sources | Stored copies in the backend data directory |
+| Atlas Pages and saved files | Atlas storage and Page revisions |
+| CLI authentication | Provider tooling on the host |
+| Phone pairing and cached history | iOS Keychain and the phone's local database |
 
-- **macOS**: `~/Library/Application Support/mains/mains.db`
+On macOS, the default database is `~/Library/Application Support/mains/mains.db`. Files such as attachments, collection sources, and Atlas copies also live alongside it.
 
-## **Credentials**
+Backing up only the database does not preserve those file bytes. Stop the backend before making a complete data-directory backup.
 
-API tokens and OAuth credentials for connected services (GitHub, Linear, Jira, etc.) are stored encrypted in the local database. Tokens are never sent to Mains's infrastructure.
+## What reaches providers
 
-## **No Telemetry**
+A run can send your prompt, conversation history, attached skills and instructions, file context, and tool results to Claude, Codex, Copilot, or Cursor.
 
-Mains does not include analytics, telemetry, or tracking services. No usage data is collected or transmitted to external services.
+Connected MCP tools and plugins can send relevant material to their own services. A Lens or browser capture is shared when you send it as context.
 
-## **Agent Communication**
+Provider retention and training policies are governed by those services. Mains records transcripts and tool activity locally for you to inspect.
 
-When you run an agent session, messages are sent directly from your machine to the agent provider:
+## Credentials
 
-- **Claude Code** -- communicates with Anthropic's API using your API key or Claude account
-- **GitHub Copilot** -- communicates with GitHub's API using your Copilot subscription
-- **OpenAI Codex** -- communicates with OpenAI's API using your Codex account
+Desktop encrypts connected-service credentials using macOS Keychain-backed storage.
 
-Mains does not proxy, log, or inspect these communications. Your provider's privacy policy governs how they handle your data.
+Mains Server cannot decrypt those desktop entries. Reauthorizing a connection on Server stores a separate host credential without replacing Desktop's entry. Protect access to the server data directory.
 
-## **Connected Services**
+Provider CLI authentication remains on the execution host.
 
-When you sync data from GitHub, Linear, Jira, or other services, Mains fetches content using the credentials you provide and stores it locally. Synced data is used only for local search and agent context -- it is never shared externally.
+## Remote access
+
+[Mains Connect](/relay/overview) connects directly to your own backend over LAN, Tailscale, or SSH.
+
+Each paired phone receives a revocable device token. Pairing codes expire and are single-use. The owner token grants broader backend access; keep it private.
+
+Browser login uses a short-lived, one-use link and session cookies instead of putting the owner token in a URL.
+
+## Phone sharing and deletion
+
+The phone asks for AI data-sharing consent per backend and provider before sending the first prompt. Review or withdraw it in **AI Data Sharing**.
+
+**Forget this computer** removes pairing and cached backend data from the phone. Revoke the device on the host to remove its ability to reconnect.
+
+Archiving a run retains its attachments. Deleting a run can remove run-owned files. Atlas copies saved explicitly survive source-conversation deletion; Pages and saved files use their own Trash.
+
+## Analytics and policy
+
+The Mains apps do not include analytics, advertising, or crash-reporting SDKs. Update checks, provider requests, and services you connect still make network requests.
+
+The website's privacy policy separately describes its cookieless analytics. See the [official privacy policy](https://mains.dev/privacy) for legal terms and current disclosures.

@@ -1,23 +1,36 @@
 ---
 title: "Asana"
+description: "Sync project tasks using an Asana personal access token"
+icon: "list-check"
 ---
 
-The Asana integration syncs tasks from your Asana projects into Mains's entity store. Tasks become searchable locally and available as context in AI chat.
+Connect Asana to import tasks from selected projects.
 
-## **Authentication**
-
-Asana uses **OAuth** for authentication. Mains will open a browser window to authorize access to your Asana account.
-
-## **Setup**
+## Connect Asana
 
 <Steps>
-  <Step title="Connect Asana">
-    Go to **Settings \> Connections** and click **Connect** next to Asana. Authorize Mains through the Asana OAuth flow.
+  <Step title="Create a token">
+    Open **Settings → Connections → Asana**. Follow the setup form's link to Asana's Developer Console and create a personal access token.
   </Step>
-  <Step title="Select Projects">
-    Choose which Asana projects to sync. Only tasks from selected projects will be fetched.
+  <Step title="Authenticate">
+    Paste it into **Personal Access Token** and continue.
   </Step>
-  <Step title="Initial Sync">
-    Mains fetches existing tasks and then syncs incrementally on subsequent runs.
+  <Step title="Select projects">
+    Search by project or workspace name. Save the projects you want to sync.
+  </Step>
+  <Step title="Sync tasks">
+    Use **Sync** for a refresh or enable [Auto Sync](/automations).
   </Step>
 </Steps>
+
+## Use task context
+
+Attach a task to your agent message from [Tasks](/tasks) or the composer `@` menu. You can link Asana projects to a Mains Code [project](/projects) to narrow the list.
+
+The selected task supplies context. Changing a workspace's local status does not automatically update Asana.
+
+## Manage the connection
+
+Use **Add Project** to adjust the selection. **Revoke Asana Access** deactivates the Mains connection and removes selected projects and imported tasks.
+
+Revoke the token in Asana to invalidate it at the source.

@@ -1,68 +1,43 @@
 ---
-title: "Context Injection"
-description: "Attach files, diffs, selections, issues, and errors to an agent run"
+title: "Context and attachments"
+description: "Give an agent files, issues, screenshots, review comments, skills, and shared sources"
 icon: "paperclip"
 ---
 
-An agent is only as good as what it can see. Mains lets you attach precise context to a run -- files, diffs, terminal output, a highlighted element, a linked ticket, a Sentry error -- so the agent starts with exactly the material it needs instead of hunting for it.
+Context is the material you attach to your next message. It helps the agent understand the task and find the relevant information.
 
-Everything you attach appears as a **chip** in the workspace input and travels with your next message.
+## Ways to attach context
 
-## **Adding Context**
+| Context | How to add it |
+| --- | --- |
+| Files and images | Use the attachment picker, paste an image, or drop files anywhere in the chat |
+| Workspace files | Select a file through `@` or the [file explorer](/file-explorer) |
+| Code selection | Select code in the editor and choose **Add selection to chat** |
+| Issues and signals | Select synced items through `@` or [Tasks](/tasks) |
+| Browser annotations | Select elements and add a comment in the [browser](/browser) |
+| Review comments | Comment on a line or range in [Review](/diff-viewer) |
+| Mac window | Capture it with [Lens](/lens) |
+| Skill or plugin | Select an available entry from the composer menu |
+| Shared material | Add sources to a [collection](/collections) |
 
-The fastest way is the context picker in the workspace input. It groups everything you can pull in:
+Review the chips before sending. You can remove an attachment, edit an annotation comment, or open a referenced file or skill.
 
-| **Section** | **What it attaches** |
-| ------------- | ------------------------------------------------------------- |
-| **Files**     | Any file from the workspace, by fuzzy path search             |
-| **Issues**    | Tickets linked to the project, from your connected trackers   |
-| **Skills**    | A [skill](/skills) to run                                     |
-| **Plugins**   | A [plugin](/plugins) capability                               |
-| **Commands**  | A provider [slash command](/claude/slash-commands)           |
+## What gets sent
 
-Other sources attach from where they live:
+The next message includes the selected context and uploaded originals. Images and files you upload are saved with the run so they remain available in its history and forks.
 
-| **Source** | **How** |
-| -------------------- | -------------------------------------------------------------------- |
-| **Diff**             | Send the workspace's current change set -- see the [Diff Viewer](/diff-viewer) |
-| **Browser selection**| Highlight an element in the [Browser Panel](/browser) -- screenshot + selector |
-| **Terminal output**  | Capture output from the built-in [Terminal](/terminal)              |
-| **Signals**          | A [Sentry](/sentry) error with its stack trace                      |
+A Lens capture includes the window image and, when Accessibility permission is available, readable text from the window. A browser annotation includes the captured page, selected elements, and your comment.
 
-## **Context Kinds**
+MCP apps can also provide selections to the composer. Review that context before sending it with your message.
 
-Under the hood each attachment is recorded against the run with a kind, so the agent receives structured material rather than a blob of text:
+## Shared sources
 
-| **Kind** | **Holds** |
-| ------------ | ------------------------------------------------ |
-| `file`       | A file path and its contents                     |
-| `selection`  | A selected region of code or a captured element  |
-| `diff`       | A change set                                     |
-| `git`        | A commit or branch reference                     |
-| `terminal`   | Captured command output                          |
-| `note`       | Freeform text you typed                          |
+Collection sources apply to subsequent turns in that collection's conversations. They are stored copies, so changes to an original file do not update a source automatically.
 
-Small items are stored inline; large ones are saved once and linked by hash, so re-attaching the same file doesn't duplicate it.
+Your agent also loads repository instructions and skills according to its provider configuration.
 
-## **The Context Window Meter**
+## Privacy and permissions
 
-Every attachment -- and every turn of the conversation -- spends tokens. The circular **Context window** indicator in the workspace shows how full the agent's window is:
+Attached prompts, files, and tool results used by the agent can reach the selected AI provider or connected service. See [Privacy](/privacy).
 
-| **State** | **Meaning** |
-| ------------- | -------------------------------------------------- |
-| Green arc     | Plenty of room                                     |
-| Amber         | Nearing the auto-compact threshold                 |
-| Red           | The window is nearly full                          |
-
-Hover it for the exact used / total token counts. Use it to decide when to start a fresh run instead of piling more context onto a saturated one.
-
-<Note>
-  Attaching context is additive and reviewable -- chips show exactly what the agent will receive, and you can remove any of them before sending. Nothing is sent until your next message.
-</Note>
-
-## **Related**
-
-- [Diff Viewer](/diff-viewer) -- review and attach change sets
-- [Browser Panel](/browser) -- capture page elements as context
-- [Linked Tasks](/linked-tasks) -- pull issues from connected trackers
-- [Sentry](/sentry) -- attach errors as signals
+Attaching a file does not grant unrestricted filesystem access. The run's mode, sandbox, additional-directory settings, and tool approvals still determine what the agent may do.

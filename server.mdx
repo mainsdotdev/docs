@@ -1,0 +1,111 @@
+---
+title: "Mains Server"
+description: "Run the Mains backend and browser interface on macOS or Linux without the desktop app"
+icon: "server"
+---
+
+Mains Server runs the same backend and web interface without Electron. It supports **macOS and Linux** and requires **Node.js 22.12 or newer**.
+
+## Install and start
+
+```bash
+npm install --global https://github.com/mainsdotdev/mains/releases/latest/download/mains-server.tgz
+mains serve
+```
+
+The default bind is `127.0.0.1:8787`. Startup creates a persistent owner token in the data directory.
+
+Authenticate providers on the server host. Claude and Copilot runtimes are bundled; Codex and Cursor need their CLIs installed there. A desktop login on another machine is not copied to Server.
+
+## Open in a browser
+
+Create a one-use login link:
+
+```bash
+mains web
+```
+
+The code expires after five minutes. The browser exchanges it for origin-bound session cookies without storing the owner token in the URL.
+
+If the browser reaches the server through another configured origin:
+
+```bash
+mains web --url https://mains.example.com
+```
+
+## Reach the server from another device
+
+For a trusted LAN:
+
+```bash
+mains serve --lan
+```
+
+For Tailscale HTTPS:
+
+```bash
+mains serve --tailscale-serve
+```
+
+Or keep the default loopback bind and connect a desktop through [SSH](/relay/ssh-tunnel).
+
+A public TLS proxy must support WebSocket upgrades. Advertise its address explicitly with `--public-url` so clients receive a usable endpoint.
+
+## Pair and revoke devices
+
+The server can print a five-minute, single-use QR for a phone when a reachable endpoint is configured.
+
+```bash
+mains pair
+mains auth list
+mains auth revoke DEVICE_ID
+```
+
+Each paired phone has its own revocable token. Re-pair a revoked device rather than giving it the owner token.
+
+## Run as a service
+
+```bash
+mains service install --tailscale-serve
+mains service status
+mains service restart
+```
+
+This installs a macOS LaunchAgent or Linux systemd user service. Use `--lan` instead when you want trusted LAN access.
+
+```bash
+mains service stop
+mains service uninstall
+```
+
+Uninstalling the service retains data, tokens, and logs. The service runs as your user; keep that host and account available.
+
+## Data and credentials
+
+On macOS, Server opens the Desktop data directory by default:
+
+```text
+~/Library/Application Support/mains
+```
+
+On Linux, the default is `$XDG_CONFIG_HOME/mains`, falling back to `~/.config/mains`.
+
+<Warning>
+  Desktop and Server cannot own the same data directory at the same time. Quit Desktop before starting Server, and stop Server before reopening Desktop. The ownership lock rejects concurrent access.
+</Warning>
+
+Use `--data-dir` for an isolated backend:
+
+```bash
+mains serve --data-dir /path/to/mains-data
+```
+
+Server cannot decrypt Desktop's macOS Keychain-backed integration tokens. Reauthorize each integration on Server; its separate credential preserves the Desktop entry.
+
+## Browser capabilities
+
+The web interface supports runs, files, document previews, Git controls, and Code terminal streaming on the backend.
+
+Desktop-only features include the embedded browser, Lens, native MCP app extensions, Dock/menu bar integration, and desktop auto-update. Server runs agent work without those native surfaces.
+
+Use `mains --help` for CLI options and `mains --version` for the installed version.

@@ -1,34 +1,36 @@
 ---
 title: "GitLab"
+description: "Sync issues and merge request summaries from GitLab projects"
+icon: "gitlab"
 ---
 
-The GitLab integration syncs issues and merge requests from your selected projects into Mains's entity store. GitLab data becomes searchable locally and available as context in AI chat. Both **gitlab.com** and **self-hosted** instances are supported.
+Connect GitLab.com or a self-hosted GitLab instance to import issues and open merge request summaries.
 
-## **Authentication**
+## Credentials
 
-GitLab uses a **Personal Access Token** (PAT) with the `read_api` scope for authentication. The token is stored encrypted in the local database.
+Create a personal access token on your GitLab instance with the `read_api` scope.
 
-<Note>
-  Mains requires only `read_api` access. No write operations are performed against your GitLab instance.
-</Note>
+Open **Settings → Connections → GitLab** and enter:
 
-## **Setup**
+- **GitLab Domain**: leave it empty for `gitlab.com`, or enter your instance's domain.
+- **Personal Access Token**: use a token from that instance.
 
-<Steps>
-  <Step title="Generate a Personal Access Token">
-    In GitLab, go to **Settings \> Access Tokens** and create a new token with the `read_api` scope.
-  </Step>
-  <Step title="Connect GitLab">
-    Go to **Settings \> Connections** in Mains and click **Connect** next to GitLab. Enter your GitLab domain (defaults to `gitlab.com` for cloud, or enter your self-hosted domain) and paste your access token.
-  </Step>
-  <Step title="Select Projects">
-    Choose which GitLab projects to sync. The project list shows the full namespace path and visibility (private or public).
-  </Step>
-  <Step title="Initial Sync">
-    Mains fetches existing issues and merge requests from selected projects. Subsequent syncs happen incrementally.
-  </Step>
-</Steps>
+For a self-hosted instance, create the token there rather than at GitLab.com.
 
-## **Self-Hosted Instances**
+## Select and sync projects
 
-Mains supports self-hosted GitLab installations. During setup, replace `gitlab.com` with your instance domain (e.g., `gitlab.mycompany.com`). The token and API calls will target your custom domain.
+Search by project name or namespace path, then save your selection. Use **Add Project** to change it later.
+
+Use **Sync** for a manual refresh or enable [Auto Sync](/automations).
+
+## Use the imported data
+
+Attach issues as [task context](/linked-tasks). Link selected GitLab projects to a Mains [project](/projects) to scope that context.
+
+Merge request summaries are imported records. Mains's live [pull request review](/pull-requests) interface is currently GitHub-specific.
+
+## Disconnect
+
+Choose **Revoke GitLab Access** to deactivate the Mains connection and remove selected projects and imported data.
+
+Invalidate the token on your GitLab instance if you also want to revoke it at the source.

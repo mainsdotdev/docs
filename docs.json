@@ -12,16 +12,94 @@
     "tabs": [
       {
         "tab": "Guides",
-        "pages": [
+        "groups": [
           {
             "group": "Getting started",
             "pages": [
               "introduction",
               "install",
-              "quickstart",
-              "workflow"
+              "quickstart"
             ]
           },
+          {
+            "group": "Core concepts",
+            "pages": [
+              "spaces",
+              "modes",
+              "projects",
+              "workspaces",
+              "collections",
+              "runs",
+              "multi-session"
+            ]
+          },
+          {
+            "group": "Atlas",
+            "pages": [
+              "atlas",
+              "pages",
+              "documents"
+            ]
+          },
+          {
+            "group": "Working with agents",
+            "pages": [
+              "context-injection",
+              "approvals",
+              "voice",
+              "browser",
+              "lens",
+              "search"
+            ]
+          },
+          {
+            "group": "Code workflow",
+            "pages": [
+              "workflow",
+              "file-explorer",
+              "diff-viewer",
+              "turn-changes",
+              "git-actions",
+              "linked-tasks",
+              "tasks",
+              "pull-requests",
+              "reviews",
+              "terminal"
+            ]
+          },
+          {
+            "group": "Scheduling",
+            "pages": [
+              "pulse",
+              "automations"
+            ]
+          },
+          {
+            "group": "Mains Connect",
+            "pages": [
+              "relay/overview",
+              "relay/share-this-machine",
+              "relay/ssh-tunnel",
+              "relay/direct-connection",
+              "server",
+              "mobile"
+            ]
+          },
+          {
+            "group": "Preferences",
+            "pages": [
+              "settings",
+              "keyboard-shortcuts",
+              "stats",
+              "privacy",
+              "faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Agents",
+        "groups": [
           {
             "group": "Claude Code",
             "pages": [
@@ -36,12 +114,13 @@
             "pages": [
               "codex/configuration",
               "codex/subagents",
+              "codex/steering",
               "codex/computer-use",
               "codex/image-generation"
             ]
           },
           {
-            "group": "Copilot",
+            "group": "GitHub Copilot",
             "pages": [
               "copilot/configuration"
             ]
@@ -51,40 +130,16 @@
             "pages": [
               "cursor/configuration"
             ]
-          },
-          {
-            "group": "Core Concepts",
-            "pages": [
-              "projects",
-              "workspaces",
-              "runs",
-              "pulse",
-              "multi-session",
-              "context-injection",
-              "file-explorer",
-              "browser",
-              "mcp-servers",
-              "plugins",
-              "skills",
-              "diff-viewer",
-              "git-actions",
-              "linked-tasks",
-              "reviews",
-              "dependency-guards"
-            ]
-          },
-          {
-            "group": "Relay",
-            "pages": [
-              "relay/overview",
-              "relay/share-this-machine",
-              "relay/ssh-tunnel",
-              "relay/direct-connection"
-            ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
           {
             "group": "Connections",
             "pages": [
+              "connections",
               "github",
               "linear",
               "jira",
@@ -95,16 +150,15 @@
             ]
           },
           {
-            "group": "More",
+            "group": "Extend your agents",
             "pages": [
-              "settings",
-              "automations",
-              "stats",
-              "privacy",
-              "terminal"
+              "plugins",
+              "skills",
+              "mcp-servers",
+              "mcp-apps",
+              "dependency-guards"
             ]
-          },
-          "faq"
+          }
         ]
       }
     ]
@@ -116,34 +170,38 @@
   "navbar": {
     "links": [
       {
-        "label": "Support", 
+        "label": "Website",
+        "href": "https://mains.dev"
+      },
+      {
+        "label": "Support",
         "href": "mailto:team@mains.dev"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Download",
+      "href": "https://github.com/mainsdotdev/mains/releases/latest"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/OkanBilal/mains"
+      "github": "https://github.com/mainsdotdev/mains"
     }
   },
-  "description": "A unified desktop workspace for AI agents",
+  "description": "Code, Work, and Chat with AI agents in Mains, with Atlas and connected task context",
   "background": {
     "color": {
       "dark": "#0C0C0C"

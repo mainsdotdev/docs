@@ -1,88 +1,62 @@
 ---
-title: "Install"
-description: "How to install Mains on macOS"
+title: "Install Mains"
+description: "Install the macOS app and prepare the agents you want to use"
+icon: "download"
 ---
 
-Download and install Mains on your Mac in under a minute.
+Mains Desktop supports **macOS on Apple Silicon and Intel**. For a backend on Linux, use [Mains Server](/server).
 
-## **Download for Mac**
+## Install the desktop app
 
 <Steps>
-  <Step title="Download">
-    Head to [**<u>mains.dev</u>**](https://mains.dev) and click the **Download for macOS** button to get the latest `.dmg` file.
+  <Step title="Download Mains">
+    Get the latest DMG for your Mac from [GitHub Releases](https://github.com/mainsdotdev/mains/releases/latest). Choose `arm64` for Apple Silicon or `x64` for Intel.
   </Step>
-  <Step title="Install the app">
-    Open the downloaded `.dmg` file and drag **Mains** into your **Applications** folder.
+  <Step title="Move it to Applications">
+    Open the DMG and move **Mains** into **Applications**. Launch that copy.
   </Step>
-  <Step title="Launch Mains">
-    Open Mains from your Applications folder. On first launch, macOS may ask you to confirm since the app is downloaded from the internet — click **Open** to continue.
+  <Step title="Choose and sign in to an agent">
+    Onboarding checks each runtime and helps you sign in. You can enable more agents later in **Settings → General → Active agents**.
   </Step>
 </Steps>
 
 <Note>
-  Mains is currently available for macOS only. Windows and Linux support is coming soon.
+  Automatic updates require the app to run from **Applications**. A copy opened from a DMG or Downloads cannot replace itself.
 </Note>
 
-## **Prerequisites**
+## Agent requirements
 
-Some features require additional tools to be installed on your system. You can use Mains without them, but the corresponding features won't be available.
+| Agent | Runtime | Authentication |
+| --- | --- | --- |
+| [Claude Code](/claude/configuration) | Bundled with Mains | Sign in through onboarding or the provider settings |
+| [GitHub Copilot](/copilot/configuration) | Bundled with Mains | Sign in with a GitHub account that has Copilot access |
+| [OpenAI Codex](/codex/configuration) | Install the Codex CLI | Run `codex login` or use the in-app sign-in flow |
+| [Cursor](/cursor/configuration) | Install the Cursor Agent CLI | Run `agent login` |
 
-### **GitHub CLI (for GitHub features)**
+Claude and Copilot do not need a separate CLI installation for the bundled runtime. Their runtime updates arrive with Mains.
 
-Mains uses the GitHub CLI (`gh`) for creating pull requests, managing issues, and other GitHub operations. Install it and authenticate:
+### Install Codex
 
-```
-brew install gh
-gh auth login
-```
-
-Verify your authentication:
-
-```
-gh auth status
-```
-
-### **Claude CLI (for Claude Code)**
-
-If you want to use Claude Code as your agent runtime in workspaces, you need the Claude CLI installed and authenticated.
-
-If you already have Claude Code set up, you're good to go. Otherwise, follow the [**<u>Anthropic setup guide</u>**](https://docs.anthropic.com/en/docs/claude-code) and run:
-
-```text
-claude /login
-```
-
-### **OpenAI Codex CLI (for Codex)**
-
-If you want to use OpenAI Codex as your agent runtime, install the Codex CLI and authenticate:
-
-```
+```bash
 npm install -g @openai/codex
-codex auth login
+codex login
 ```
 
-### **GitHub Copilot CLI (for Copilot)**
+Mains checks CLI compatibility in **Settings → Codex**. Follow its update guidance if your installed version cannot provide a feature. See the [official Codex CLI guide](https://learn.chatgpt.com/docs/codex/cli).
 
-If you want to use GitHub Copilot as your agent runtime, you need the GitHub CLI authenticated (see above), the Copilot CLI extension, and an active GitHub Copilot subscription.
+### Install Cursor
 
-Verify your Copilot access:
-
-```
-gh auth status
-```
-
-### **Cursor Agent CLI (for Cursor)**
-
-If you want to use Cursor as your agent runtime, install the **Cursor Agent CLI** and sign in with your Cursor account:
-
-```
+```bash
 curl https://cursor.com/install -fsS | bash
+agent login
 ```
 
-Run the CLI once so it can open a browser login flow:
+See the [Cursor CLI guide](https://cursor.com/docs/cli/overview) for installation details.
 
-```
-agent
-```
+## Git tools
 
-After authentication, Mains reuses those credentials for Cursor workspaces. See [**Cursor configuration**](/cursor/configuration) and the [**Cursor CLI overview**](https://docs.cursor.com/en/cli/overview) for details.
+Code mode needs Git. Creating or publishing a GitHub repository and opening a pull request through the Git actions panel also needs the [GitHub CLI](https://cli.github.com), authenticated with `gh auth login`.
+
+Signing in to the [GitHub connection](/github) does not authenticate `gh` or Copilot. Each connection has its own purpose.
+
+Continue with the [quickstart](/quickstart).

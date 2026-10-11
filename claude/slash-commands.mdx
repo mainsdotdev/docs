@@ -1,118 +1,52 @@
 ---
-title: "Slash Commands"
-description: "Built-in and custom commands for controlling Claude Code sessions"
-icon: "slash-forward"
+title: "Claude slash commands"
+description: "Discover available commands and define reusable project prompts"
+icon: "terminal"
 ---
 
-Slash commands are shortcuts that start with `/` and perform specific actions inside a Claude Code session. Mains supports both built-in commands and custom commands you define yourself.
+Type `/` in a Claude composer to see commands available to that runtime and working directory. The list includes provider commands and commands supplied by your configuration or plugins.
 
-## **Built-in Commands**
+The available list changes with the bundled Claude version. Use that list rather than assuming every terminal command has an in-app equivalent.
 
-| **Command**    | **Description**                                                                  |                       |
-| -------------- | -------------------------------------------------------------------------------- | --------------------- |
-| `/compact`     | Summarize and compress conversation history to free up context                   |                       |
-| `/debug`       | Enable debug logging for this session and help diagnose issues (bundled)         |                       |
-| `/config`      | Open configuration settings                                                      |                       |
-| `/simplify`    | Review change code for reuse, quality, and efficiency, then fix any issues found |                       |
-| `/loop`        | Run a prompt or slash command on a reccuring interval.                           |                       |
-| `/context`     | Show current context usage                                                       |                       |
-| `/insights`    | Generate a report analyzinf your Claude Code sessions                            |                       |
-| `/extra-usage` | Configure extra usage to keep working when limits are hit                        |                       |
-| `/review`      | Review a pull request                                                            | Review a pull request |
-| `/heapdump`    | Dump the JS heap to /Desktop                                                     |                       |
+## Custom command locations
 
-## **Custom Commands**
+| Scope | Directory |
+| --- | --- |
+| User | `~/.claude/commands/` |
+| Project | `.claude/commands/` |
 
-Custom commands are Markdown files that define reusable prompts. The filename becomes the command name.
+Create a Markdown file such as `.claude/commands/review-changes.md`:
 
-### **Locations**
-
-| **Location**                | **Scope**                                         |
-| --------------------------- | ------------------------------------------------- |
-| `.{your_project}/commands/` | Project commands — shared via git                 |
-| `~/.claude/commands/`       | Personal commands — available across all projects |
-
-### **Creating a Command**
-
-Create a `.md` file in one of the command directories:
-
-`.{your_project}/commands/review.md`:
-
-```text
+```markdown
 ---
-description: Review code changes for issues
+description: Review recent changes for regressions
 allowed-tools: Read, Grep, Glob
 ---
 
-Review the recent code changes. Check for:
-- Security vulnerabilities
-- Performance issues
-- Missing error handling
-Provide findings as a numbered list with severity ratings.
+Review the recent changes.
+Check behavior, input validation, and missing tests.
+Report findings with file locations. Do not modify files.
 ```
 
-Then invoke it in a session:
+Select `/review-changes` from the command menu when it appears.
 
-```text
-/review
-```
+## Arguments
 
-### **Arguments**
+Use `$ARGUMENTS` for the supplied text or positional arguments such as `$1`.
 
-Commands support positional arguments with `$1`, `$2`, etc., and `$ARGUMENTS` for the full argument string:
-
-`.{your_project}/commands/fix-issue.md`:
-
-```text
+```markdown
 ---
+description: Investigate an issue
 argument-hint: [issue-number]
-description: Fix a GitHub issue
 ---
-Fix issue #$1. Check the issue description and implement the necessary changes.
+
+Investigate issue #$1 and explain the likely cause.
 ```
 
-```text
-/fix-issue 142
-```
+## Commands and skills
 
-### **File References and Shell Output**
+Commands provide reusable prompts. [Skills](/skills) package broader instructions and supporting resources and can be selected when their task matches your request.
 
-Commands can include file contents with `@` and shell output with `!`:
+A custom `/create-pr` or `/code-review` command exists only when your configuration supplies it. Use [Git actions](/git-actions) to create a PR directly.
 
-`.{your_project}/commands/commit.md`:
-
-```text
----
-allowed-tools: Bash(git add:*), Bash(git commit:*)
-description: Create a git commit
----
-## Context
-- Current status: !`git status`
-- Current diff: !`git diff HEAD`
-## Config
-- Package: @package.json
-Create a commit with an appropriate message based on the changes.
-```
-
-### **Namespacing**
-
-Organize commands in subdirectories:
-
-```text
-.{your_project}/commands/
-├── frontend/
-│   ├── component.md      # /component
-│   └── style-check.md    # /style-check
-├── backend/
-│   └── api-test.md       # /api-test
-└── review.md             # /review
-```
-
-## **Frontmatter Options**
-
-| **Field**       | **Description**                                   |
-| --------------- | ------------------------------------------------- |
-| `description`   | What the command does (shown in help)             |
-| `allowed-tools` | Comma-separated list of tools the command can use |
-| `argument-hint` | Usage hint shown when listing commands            |
-| `model`         | Override the model for this command               |
+Provider-native syntax follows the [Claude skills and commands documentation](https://code.claude.com/docs/en/skills).

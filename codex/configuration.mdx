@@ -1,57 +1,61 @@
 ---
-title: "Configuration"
-icon: "gear-code"
+title: "Codex configuration"
+description: "Configure Codex models, approvals, sandbox, network, memory, and native session features"
+icon: "gear"
 ---
 
-The OpenAI Codex agent runtime in Mains communicates with the Codex app server via JSON-RPC over stdio. These settings control sandbox isolation, network access, code review, and more.
+Mains uses your installed **Codex CLI** and its app server. [Install Codex](/install#install-codex), sign in with `codex login`, and open **Settings → Codex**.
 
-## **Sandbox Mode**
+Codex supports Code, Work, Chat, and Atlas. Mains reports an incompatible or outdated CLI in provider settings. The current integration accepts **0.153.0 or newer** and is developed against **0.160.0**; newer features can need a newer CLI than the minimum.
 
-Controls file and network isolation for the Codex agent during runs.
+## Model and effort
 
-| **Mode**             | **Description**                                          |
-| -------------------- | -------------------------------------------------------- |
-| **Read Only**        | Agent cannot modify files                                |
-| **Workspace Write**  | Agent can write files within the workspace only (default)|
-| **Full Access**      | No restrictions -- agent has full filesystem access       |
+Models and supported effort levels come from the runtime and your account. Choose them in the composer. Mains keeps each conversation's choices and remembers explicit preferences for new chats.
 
-<Warning>
-  **Full Access** mode disables all file isolation. Only use this in trusted environments where the agent should have unrestricted access to the filesystem.
-</Warning>
+Effort choices vary by model. Fast mode uses Codex's fast service tier when available. Plan and Goal controls appear where the selected Mains mode supports them.
 
-## **Network Access**
+## Sandbox mode
 
-Toggle network access within `workspace-write` sandbox mode. When enabled, the agent can make outbound network requests during runs. Disabled by default in `read-only` mode.
+| Mode | File access |
+| --- | --- |
+| Read Only | Read files without modifying them |
+| Workspace Write | Write within permitted working directories |
+| Full Access | Remove the normal filesystem sandbox restrictions |
 
-## **Web Search**
+Selecting **Full Access** opens a confirmation describing access to files, terminal commands, the internet, and connected apps.
 
-Allow the agent to search the web during runs. When enabled, the agent can fetch live search results to inform its responses and code generation.
+Approval policy remains a separate setting. Full Access does not mean every connected service will authorize every action.
 
-## **Skip Git Check**
+## Approval policy
 
-By default, Codex requires the workspace directory to be a Git repository. Enable this option to allow running in non-git directories.
+| Policy | Behavior |
+| --- | --- |
+| `on-request` | Ask when Codex requests permission |
+| `untrusted` | Ask for operations outside trusted commands |
+| `never` | Do not ask for escalation; operations that need it cannot proceed through an approval prompt |
 
-## **Code Review**
+Read requests in [Approvals](/approvals). Organizational policy can restrict these choices.
 
-Codex supports a native review mode. You can request a structured code review that analyzes workspace changes and produces findings with severity ratings.
+## Network and web search
 
-Review targets:
+**Network Access** controls outbound access for workspace-write execution. **Web Search** controls the provider's web-search capability. They are different controls.
 
-| **Target**                | **Description**                                          |
-| ------------------------- | -------------------------------------------------------- |
-| **Uncommitted changes**   | Review all unstaged and staged changes                   |
-| **Base branch**           | Review changes relative to the base branch               |
-| **Specific commit**       | Review changes from a specific commit                    |
-| **Custom**                | Review with a custom diff range                          |
+**Skip Git Check** lets a run use a non-Git directory when applicable. Work already uses a managed execution directory and its own mode policy.
 
-Findings are parsed from the Codex output with priority levels (P1 = critical, P2 = warning, P3 = info) and saved as structured [review findings](/reviews).
+Work applies workspace-write and hides developer permission controls. Chat enforces read-only access. Existing runs retain their [mode](/modes).
 
-## **Session Management**
+## Conversation memory
 
-Codex runs support the full session lifecycle:
+Under **Conversation memory**, you can:
 
-- **Continue** -- resume a previous session to pick up where you left off
+- Turn **Use saved memories** on or off.
+- Choose whether to **Include chats that use tools**, including MCP or web search.
+- **Clear saved memories** on this device after confirming.
 
-## **Account & Rate Limits**
+These controls manage Codex memory, not Mains's chat history or Atlas Pages. A runtime or managed policy that does not support a control is reported in Settings.
 
-View your Codex account information and current rate limit status from the settings panel. Rate limits are retrieved from the Codex app server and displayed per-model.
+## Other capabilities
+
+Codex supports [continue and fork](/runs), [native review](/reviews), [subagents](/codex/subagents), [queue and steering](/codex/steering), [voice](/voice), plugins, and [MCP apps](/mcp-apps).
+
+Account usage and available limits appear in Settings when reported by Codex. They remain separate from Mains's local [usage estimates](/stats).

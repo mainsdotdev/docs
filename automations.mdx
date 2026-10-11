@@ -1,46 +1,37 @@
 ---
-title: "Automations"
-description: "Schedule recurring sync jobs for your connected services"
-icon: "clock"
+title: "Connection auto sync"
+description: "Refresh connected-service data on an interval while the backend runs"
+icon: "arrows-rotate"
 ---
 
-Automations let you schedule recurring sync jobs so your connected services stay up to date without manual intervention.
+Connection Auto Sync refreshes imported issues, tasks, and signals. It runs a sync job, not an agent conversation.
 
-## **Available actions**
+For scheduled agent prompts, use [Pulse](/pulse).
 
-| **Action**    | **Description**                      |
-| ------------- | ------------------------------------ |
-| `sync:all`    | Sync all connected providers at once |
-| `sync:github` | Sync GitHub repositories             |
-| `sync:gitlab` | Sync GitLab projects                 |
-| `sync:linear` | Sync Linear teams                    |
-| `sync:jira`   | Sync Jira projects                   |
-| `sync:asana`  | Sync Asana projects                  |
-| `sync:trello` | Sync Trello boards                   |
-| `sync:sentry` | Sync Sentry projects                 |
+## Enable Auto Sync
 
-## **Creating an automation**
+Open **Settings → Connections**, open the connected provider's management view, and turn on **Auto Sync**.
 
-<Steps>
-  <Step title="Open settings">
-    Go to **Settings \> Connections** and locate the automation options.
-  </Step>
-  <Step title="Choose an action">
-    Select which provider to sync or use `sync:all` to sync everything.
-  </Step>
-  <Step title="Set the interval">
-    Configure how often the automation runs. The minimum interval is one minute.
-  </Step>
-</Steps>
+Choose an interval: **15 minutes**, **30 minutes**, **1 hour**, **2 hours**, **4 hours**, **8 hours**, or **24 hours**. Enabling the UI control starts with 30 minutes.
 
-## **Managing automations**
+The management view shows the last sync time.
 
-- **Enable / disable** an automation without deleting it -- the schedule pauses but the configuration is preserved
-- **View run history** to see the last 20 executions with timestamps and success/error status
-- **Delete** an automation to remove it permanently
+## What it refreshes
 
-Automations persist across app restarts. When Mains launches, all enabled automations resume on their configured schedules automatically.
+Sync uses the connection's selected repositories, teams, projects, or boards. Only resources you can access are available to import.
 
-## **Manual sync**
+The configuration persists across restarts. Scheduled jobs run on the backend that owns the connection, so the desktop or server must be running.
 
-You can trigger a one-time sync at any time from **Settings \> Connections** by clicking the **Sync** button. This fetches the latest data from all connected providers immediately, independent of any automation schedule.
+## Manual refresh
+
+Use **Sync** in Connections for an immediate refresh. It does not require Auto Sync to be enabled.
+
+If items are missing, check authentication and resource selection before retrying.
+
+## Turn it off
+
+Disable Auto Sync to stop recurring refreshes. This keeps the service connection and its selected resources.
+
+Revoke the connection when you want to deactivate its credentials in Mains and remove imported data. To invalidate the token at the service, revoke it in that service's settings too.
+
+The current Auto Sync interface does not configure arbitrary webhooks or event-triggered agent tasks.

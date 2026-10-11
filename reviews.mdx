@@ -1,47 +1,41 @@
 ---
-title: "Reviews"
-icon: "comment-code"
+title: "Agent code reviews"
+description: "Ask for an inspection pass and read structured findings in your workspace"
+icon: "comment-dots"
 ---
 
-Mains includes a built-in code review system that lets you capture review notes and findings for each workspace. After an agent completes a run, you can request a structured code review that identifies issues, suggests improvements, and tracks review status.
+An agent review inspects your Code workspace and reports findings. It is separate from commenting on a GitHub PR.
 
-## **How Reviews Work**
+## Request a review
 
-Each workspace can have reviews attached to it. A review contains:
+Describe what to review and which risks matter:
 
-- **Title** -- a summary of what's being reviewed
-- **Status** -- tracks the review lifecycle
-- **Findings** -- individual items with severity, file location, and suggestions
+```text
+Review the uncommitted changes.
+Look for incorrect behavior, missing validation, and regressions.
+Give each finding a file location and a concrete fix.
+```
 
-## **Review Status**
+You can invoke a code-review skill when one is installed. A `/code-review` command is not guaranteed to exist in every provider's default installation.
 
-Reviews follow a simple workflow:
+Claude, Copilot, and Cursor can record workspace reviews through Mains's **SaveReview**, **SaveFinding**, and **SaveFindings** tools in Code mode.
 
-| **Status**    | **Description**                              |
-| ------------- | -------------------------------------------- |
-| **Open**      | Review has been created, awaiting inspection |
-| **In Review** | Review is actively being inspected           |
-| **Approved**  | Changes passed review                        |
-| **Rejected**  | Changes need further work                    |
+## Codex review
 
-## **Review Findings**
+Codex has native review targets for **uncommitted changes**, a **base branch**, a **commit**, and **custom instructions**. Its findings are mapped into workspace review data.
 
-Each review can contain multiple findings. A finding pinpoints a specific issue in the code:
+Choose the target that matches your question. Custom instructions describe what to inspect; they are not a promise that every arbitrary Git range has its own selector.
 
-| **Field**      | **Description**                                  |
-| -------------- | ------------------------------------------------ |
-| **Severity**   | `critical`, `warning`, or `info`                 |
-| **File**       | The file path where the issue was found          |
-| **Line range** | Start and end line numbers                       |
-| **Message**    | Description of the issue                         |
-| **Reason**     | Why this is a problem                            |
-| **Suggestion** | Recommended fix or improvement                   |
+## Read findings
 
-## **Requesting a Review**
+A structured finding can include severity, file and line range, message, rationale, and a suggested fix.
 
-There are two ways to get a code review:
+Workspace reviews use **Open**, **In Review**, **Approved**, and **Rejected** statuses. Codex priorities map to the app's severity categories.
 
-- **Claude / Copilot** -- use the `code-review` tool in the agent input. The agent analyzes the diffs from the run and produces structured findings with severity ratings.
-- **Codex** -- use Codex's native review mode, which supports reviewing uncommitted changes, base branch diffs, specific commits, or custom ranges. Findings are parsed with priority levels (P1 = critical, P2 = warning, P3 = info).
+A review status is local metadata. It does not approve or reject a GitHub PR.
 
-Reviews are displayed in the **Reviews** section of the workspace sidebar, where you can inspect individual findings and navigate directly to the relevant code.
+## Act on feedback
+
+Open the referenced code, ask a follow-up, or attach your own [line comments](/diff-viewer). Review the updated diff and verify the relevant behavior before committing.
+
+For comments that should appear on GitHub, use [Pull request review](/pull-requests).

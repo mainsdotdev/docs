@@ -1,25 +1,29 @@
 ---
 title: "Terminal"
+description: "Run your own shell commands in a Code workspace"
 icon: "terminal"
 ---
 
-Mains includes a built-in terminal emulator directly in the workspace. You can run shell commands, interact with your development tools, and monitor agent-executed commands -- all without leaving the app.
+Open the terminal in **Code** with its panel button or `⌘J`. It starts in the active workspace's directory and uses your system shell.
 
-## **How It Works**
+Use it to run a development server, inspect Git state, authenticate a CLI, or execute commands yourself.
 
-The terminal uses a pseudoterminal (PTY) emulator powered by `node-pty`, providing a full interactive shell experience. On macOS, it defaults to `zsh`.
+## Interactive sessions
 
-Each workspace can have its own terminal instance, isolated to the workspace's working directory. The terminal supports:
+The terminal supports interactive input, streamed output, and resizing. Different workspaces can have separate terminal sessions.
 
-- **Full shell interaction** -- run any command your system shell supports
-- **Real-time output** -- output streams to the UI as it's produced
-- **Resize support** -- the terminal adapts to panel size changes
-- **Multiple instances** -- open separate terminals for different workspaces
+For example, start the repository's local development server, then open its URL in the [in-app browser](/browser).
 
-## **Agent Commands**
+## Agent commands
 
-When an agent runs shell commands during a session, they execute through the workspace's terminal context. You can see the commands and their output in the workspace events timeline. The terminal provides visibility into exactly what the agent is doing.
+Agent shell calls appear in the [run transcript](/runs) with their inputs and output. They execute through the provider's runtime.
 
-## **Usage**
+The manual terminal is a separate interactive session. It does not mirror every agent command, and commands you type there follow your own shell access rather than the agent's sandbox.
 
-The terminal is accessible from the workspace view. Open it from the workspace tabs to start an interactive session in the workspace's root directory.
+## Modes and remote clients
+
+Work and Chat hide the terminal. The desktop and web client support terminal streaming for Code workspaces. A remote web terminal runs on the connected backend's machine.
+
+The iPhone companion does not provide a remote shell. For server-side commands outside the app, use your own terminal or SSH.
+
+Customize the terminal shortcut in **Settings → Keyboard Shortcuts**.

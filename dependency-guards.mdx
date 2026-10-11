@@ -1,67 +1,44 @@
 ---
-title: "Dependency Guards"
-description: "Automatic security checks for package installs"
-icon: "shield-check"
+title: "Dependency guards"
+description: "Check explicitly added packages through Socket.dev before installation"
+icon: "shield"
 ---
 
-Dependency guards intercept package install commands during agent runs and check them against a security service before allowing the install to proceed. If a package is flagged as risky, the install is blocked and the agent is told to use a safer alternative.
+Dependency guards check named package additions against **Socket.dev**. A blocked result prevents the guarded install path from proceeding.
 
-## **How It Works**
+## Connect a guard
 
-When an agent runs a package install command (e.g., `npm install`, `pip install`, `cargo add`), Mains intercepts the command, extracts the package names, and checks them against the configured guard service. If any package fails the security check, the command is denied before it executes.
+Open **Settings → Connections → Socket** and enter your Socket.dev API token. Follow the setup form's API token link, then select the organizations you want to connect.
 
-This works across all three agent runtimes:
+Checks require an active guard connection. If no service is connected, an explicit CheckPackage call reports that condition; it does not produce a safety result.
 
-| **Agent**     | **Mechanism**                                            |
-| ------------- | -------------------------------------------------------- |
-| **Claude**    | PreToolUse hook on Bash commands                         |
-| **Copilot**   | Pre-tool-use hook on shell/bash tools                    |
-| **Codex**     | Dynamic tools check before execution                    |
+## Provider behavior
 
-## **Supported Ecosystems**
+| Provider | Code-mode check |
+| --- | --- |
+| Claude | Pre-tool hook checks detected Bash install commands |
+| Copilot | Pre-tool hook checks detected shell installs |
+| Codex | Agent calls the explicit CheckPackage tool |
+| Cursor | Agent calls the explicit CheckPackage tool |
 
-Guards detect install commands for multiple package managers:
+Codex and Cursor's explicit tool path depends on the agent following its instruction to check before installing. It is not an automatic shell interceptor for every possible command.
 
-| **Ecosystem** | **Commands detected**                                     |
-| ------------- | --------------------------------------------------------- |
-| **npm**       | `npm install`, `npm add`, `yarn add`, `pnpm add`         |
-| **Python**    | `pip install`, `pip3 install`                             |
-| **Cargo**     | `cargo add`, `cargo install`                              |
-| **Go**        | `go get`, `go install`                                    |
-| **RubyGems**  | `gem install`, `bundle add`                               |
+## What is checked
 
-## **Socket.dev**
+The guard checks **explicit package additions**, such as:
 
-Mains uses [Socket.dev](https://socket.dev) as the guard provider. Socket analyzes packages for supply chain risks, known vulnerabilities, and suspicious behavior.
+```bash
+npm install date-fns
+pip install requests
+cargo add serde
+```
 
-### **Setup**
+Dependency restoration without package names, such as `npm install` or `npm ci`, is outside this named-package check.
 
-<Steps>
-  <Step title="Get an API key">
-    Create a Socket.dev account and generate an API key from your organization settings.
-  </Step>
-  <Step title="Connect in Mains">
-    Go to **Settings \> Connections** and click **Connect** next to Socket.dev. Enter your API key.
-  </Step>
-  <Step title="Guards activate automatically">
-    Once connected, guards are active for all agent runs. No per-workspace configuration needed.
-  </Step>
-</Steps>
+Supported install parsers cover npm-family tools, Python, Cargo, Go, and RubyGems. A result can include a score, risk level, and supply-chain alerts.
 
-### **What Gets Checked**
+## Limits
 
-For each package, Socket.dev returns:
+Checks follow the provider's returned results and the supported command patterns. A failed lookup is not proof that a package is safe.
 
-| **Field**         | **Description**                                    |
-| ----------------- | -------------------------------------------------- |
-| **Overall score** | 0-1 health score based on multiple risk factors    |
-| **Risk level**    | `critical`, `high`, `medium`, `low`, or `none`     |
-| **Alerts**        | Specific security issues (malware, typosquat, etc) |
-
-Packages below the minimum score threshold are blocked automatically.
-
-{/* ## **Workspace Scanning**
-
-In addition to real-time install interception, you can scan an entire workspace's dependencies at once. This reads manifest files (`package.json`, `requirements.txt`, `Cargo.toml`, etc.) and checks all listed packages against the guard service.
-
-Scan results are logged to the workspace activity feed with a summary of critical, high, and medium risk packages found. */}
+Work and Chat do not expose the ordinary Code package-guard tool surface. You can still review dependency changes before committing them.

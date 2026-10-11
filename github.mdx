@@ -1,27 +1,41 @@
 ---
-title: "Github"
+title: "GitHub"
+description: "Connect repositories for synced issues and live pull request reviews"
+icon: "github"
 ---
 
-The GitHub integration syncs issues and pull requests from your selected repositories into Mains's entity store. Once synced, GitHub data is searchable locally and available as context in AI chat conversations.
+Connect GitHub to import repository issues and open PR summaries. The same connection supports the live [pull request inbox and review interface](/pull-requests).
 
-## **Authentication**
+## Authenticate
 
-GitHub uses **OAuth** for authentication. When you connect GitHub, Mains will open a browser window to authorize access. The resulting token is stored encrypted in the local database.
+Open **Settings → Connections → GitHub**.
 
-<Note>
-  Mains requests read access to issues and pull requests. Write actions (updating issues, adding comments) go through the outbox system for offline-first reliability.
-</Note>
+Choose **Sign in with GitHub** and follow the device authorization flow: open GitHub, enter the displayed code, and authorize the account.
 
-## **Setup**
+You can also choose **Access token**. The setup form supports a classic personal access token with `repo` and `read:user` scopes. If sign-in is unavailable in your build, use this token path.
 
-<Steps>
-  <Step title="Connect GitHub">
-    Go to **Settings \> Connections** and click **Connect** next to GitHub. A browser window will open for OAuth authorization.
-  </Step>
-  <Step title="Select Repositories">
-    After authorization, choose which repositories to sync. Only issues and pull requests from selected repositories will be fetched.
-  </Step>
-  <Step title="Initial Sync">
-    Mains will perform an initial sync to fetch existing issues and pull requests.
-  </Step>
-</Steps>
+## Select repositories
+
+After authentication, search the repository list and save the repositories you want to connect. Use **Add Repository** later to change the selection.
+
+Selected repositories scope imported issues and summaries. They also provide the default repository scope for the live PR inbox.
+
+Use **Sync** to refresh imported data or enable [Auto Sync](/automations).
+
+## Use GitHub data
+
+Attach an issue to a workspace prompt through [Tasks](/tasks) or the composer `@` menu. Link repositories to a Mains [project](/projects) to group relevant task context.
+
+Open a PR to read checks, comments, review threads, and diffs. The review interface fetches current GitHub data rather than treating a synced summary as the full PR.
+
+## Git and agent authentication
+
+This connection does not authenticate GitHub Copilot, configure Git's credential helper, or sign in the GitHub CLI.
+
+[Git actions](/git-actions) use `gh` for PR creation. Authenticate that CLI separately on the machine that owns the workspace.
+
+## Disconnect
+
+Choose **Revoke GitHub Access** in the management view. This deactivates the Mains connection and removes imported GitHub data and selected repositories.
+
+To invalidate the token at GitHub, revoke it in GitHub's settings.

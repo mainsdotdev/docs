@@ -1,35 +1,35 @@
 ---
-title: "File Explorer"
-description: "Browse your codebase and build agent context by selecting files"
+title: "Files and editor"
+description: "Search your workspace, edit files, preview images, and attach code selections"
 icon: "folder-tree"
 ---
 
-The file explorer lets you browse your workspace's repository and select files to include in the agent's context. Instead of describing which files to look at, you can point the agent directly to the relevant code.
+In Code mode, the file explorer gives you the workspace tree, file search, and an in-app text editor.
 
-## **Browsing Files**
+## Find and open a file
 
-The file explorer shows your workspace's directory tree with lazy-loading -- directories are expanded on demand, so large repositories stay responsive. You can navigate the full project structure and preview file contents.
+Browse folders or search by file name, path, or content. Workspace search respects `.gitignore`.
 
-## **Building Context**
+Files referenced in an agent reply or diff open at the relevant location. Images open as image previews. Supported documents open in the [document viewer](/documents).
 
-Select files from the explorer to add them to the agent's context before starting a run. The agent receives the contents of selected files alongside your prompt, giving it a targeted view of the codebase.
+## Edit text
 
-You can combine file selections with [linked tasks](/linked-tasks) to provide both the requirements and the relevant code in a single context:
+Open a text file and edit it directly. The editor saves changes automatically and updates the workspace diff.
 
-- **Select source files** -- pick implementation files the agent should read or modify
-- **Select test files** -- include tests for the agent to understand expected behavior
-- **Select config files** -- provide configuration context when relevant
-- **Link a task** -- add an issue or task description from your PM tool
+If another tool or agent changes the file on disk while you are editing, Mains reports the conflict so you can choose how to resolve it. A stale editor buffer does not silently overwrite the newer file.
 
-## **Security**
+## Add code to a message
 
-The file explorer enforces security boundaries to prevent unauthorized access:
+Select code and choose **Add selection to chat**, or use the default editor shortcut `⌘L`.
 
-| **Protection**            | **Description**                                              |
-| ------------------------- | ------------------------------------------------------------ |
-| **Path traversal**        | Blocks attempts to access files outside the workspace root   |
-| **Symlink escapes**       | Detects symlinks that point outside the workspace boundary   |
-| **File size limit**       | Files larger than 2 MB are not loaded into context           |
-| **Binary detection**      | Binary files are identified and excluded from text preview   |
+You can also select files through `@` to attach them to the composer. Combine code with an [issue](/linked-tasks), [review comment](/diff-viewer), or screenshot to explain the task.
 
-These protections ensure agents only access files within the workspace's repository.
+## File boundaries
+
+The explorer checks paths against the workspace root, blocks path traversal and symlink escapes, and limits text reads and writes to **2 MB**. Binary files do not use the text editor.
+
+These are boundaries for the file explorer. Agent tools have their own permissions and sandbox settings; the explorer's boundary is not a guarantee that every agent is restricted to the same directory.
+
+## Work files
+
+Work uses documents, sources, and deliverables without the Code file tree and Git controls. See [Documents](/documents), [Collections](/collections), and [Atlas](/atlas) for that workflow.

@@ -1,25 +1,68 @@
 ---
 title: "Quickstart"
-description: "First-time setup walkthrough"
+description: "Start a Code, Work, or Chat conversation and review the result"
+icon: "bolt"
 ---
 
-<Steps>
-  <Step title="Launch Mains">
-    Open the app. During onboarding, choose the agent runtime you want -- **Claude Code**, **OpenAI Codex**, **GitHub Copilot**, or **Cursor** -- and continue. You land on that agent's workspace, ready to start working. Switch to another runtime from the sidebar anytime.
-  </Step>
-  <Step title="Import a repository">
-    Click **Add Repository** and import a repository — paste a remote URL or select a local path. Mains creates an isolated Git worktree for the workspace automatically.
-  </Step>
-  <Step title="Run an agent task">
-    Open your workspace and type a goal in the agent input -- for example, _"Fix the login bug"_. The agent will read files in the repository, write code, and run commands to accomplish the task.
-  </Step>
-  <Step title="Review diffs">
-    After the agent finishes its run, open the **Changes** tab in the workspace sidebar. You will see a diff view of every file the agent modified, so you can review changes before committing.
-  </Step>
-  <Step title="Request code review">
-    You can ask the agent to explain its changes or provide a code review. Just use agent skill /code-review in the chat input, and the agent will generate a review based on the diffs and the conversation history.
-  </Step>
-  <Step title="Create a pull request">
-    If you're happy with the changes, you can create a pull request directly from the workspace. Use the /create-pr skill in the agent chat input, and Mains will guide you through the PR creation process.
-  </Step>
-</Steps>
+[Install Mains](/install) and sign in to at least one agent. Then choose the kind of work you want to do.
+
+<Tabs>
+  <Tab title="Code">
+    <Steps>
+      <Step title="Choose a Code space">
+        Select an agent from the space picker and choose **Code**. All four providers support this mode.
+      </Step>
+      <Step title="Add your repository">
+        Click **Add Project** or press `⌘N`. Add a local repository, clone a Git URL, or create a new repository.
+
+        Mains uses your checkout by default. Enable **Settings → Git → Worktrees** when you want separate working directories for parallel tasks.
+      </Step>
+      <Step title="Give the agent a task">
+        Open the workspace and send a prompt such as “Fix the login error and run the relevant tests.” Use `@` to attach files or issues.
+      </Step>
+      <Step title="Review the changes">
+        Open **Changes** to inspect the current uncommitted diff. Leave comments on lines or ranges, then send a follow-up to the agent. A turn's change card also lets you review that turn's patch.
+      </Step>
+      <Step title="Commit and open a pull request">
+        Open the session panel. Use **Commit or push**, then **Create pull request**. Review generated text before submitting. PR creation needs authenticated `gh`.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Work">
+    <Steps>
+      <Step title="Choose Claude or Codex">
+        Select **Work** from the space's mode picker. Press `⌘N` or click **New chat**.
+      </Step>
+      <Step title="Bring your material">
+        Attach documents, images, or pasted text. For context shared across conversations, add sources to a [collection](/collections).
+      </Step>
+      <Step title="Ask for a result">
+        Try “Turn these notes into a project brief and a checklist.” You do not need a Git repository.
+      </Step>
+      <Step title="Read and keep the output">
+        Open a document from the reply or **Deliverables**. Use **Save a copy…** to export it, or **Save to Atlas** to keep a permanent library copy.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Chat">
+    <Steps>
+      <Step title="Choose Claude or Codex">
+        Select **Chat** and start a new conversation.
+      </Step>
+      <Step title="Ask a question">
+        Attach context and ask for an explanation, comparison, or summary.
+      </Step>
+      <Step title="Continue the conversation">
+        Send follow-ups in the same run. Chat enforces read-only file access. Choose Work when you want the agent to create or edit files.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Write a page instead
+
+Open [Atlas](/atlas), choose **Start a page**, finish the “Create a page about…” prompt, and send it. You and the agent can then edit the Page together.
+
+## Keep a run moving
+
+[Answer approvals](/approvals) when an agent needs input. Switching chats does not stop a running task. Codex also supports [queued messages and steering](/codex/steering), and experimental [voice conversations](/voice).

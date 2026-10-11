@@ -1,0 +1,35 @@
+---
+title: "Pull request review"
+description: "Review a GitHub PR, publish comments, resolve threads, and merge"
+icon: "code-pull-request"
+---
+
+Open **Tasks → Pull requests** and select a GitHub PR. Mains fetches its current details from GitHub rather than importing it as a synced issue.
+
+## Before you begin
+
+Connect [GitHub](/github) with access to the repository. Your account and token need permission for the actions you want to take.
+
+The PR inbox uses the stored connection token. It does not need the GitHub CLI used for creating a PR from your workspace.
+
+## Inspect the PR
+
+Read the description, author, reviewers, comments, checks, and merge status. Browse the file-by-file diff and inspect existing review threads.
+
+The default inbox scope follows the repositories selected on the GitHub connection. You can change the search filters to find another PR you can access.
+
+## Comment and resolve
+
+You can add a general comment, start a thread on a diff line, reply to a thread, and resolve it.
+
+These actions publish to **GitHub**. Review the text before submitting. They are separate from [workspace diff comments](/diff-viewer), which are attached to a local agent message.
+
+## Merge or mark ready
+
+For a draft, choose **Mark ready** when it is ready for review. For an eligible PR, choose **Merge**, **Squash**, or **Rebase**.
+
+GitHub's repository permissions, checks, and branch rules still apply. A blocked merge remains blocked and Mains reports the provider's error.
+
+## Current support
+
+The live PR inbox supports GitHub. GitLab issue sync does not provide a GitLab merge-request review interface.

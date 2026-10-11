@@ -1,99 +1,51 @@
 ---
 title: "Plugins"
-description: "Browse and install Codex plugins and Skills directly from Mains"
+description: "Browse and manage Claude and Codex plugins and their connected capabilities"
 icon: "puzzle-piece"
 ---
 
-The **Plugins** page is a single browsing surface for two related but distinct ecosystems:
+Plugins bundle capabilities such as skills, MCP servers, and connected apps. Open **Plugins** from a **Claude or Codex** space.
 
-- **Plugins** -- official Codex plugins published through the OpenAI marketplace (GitHub, Linear, Jira, Asana, Trello, Sentry, Computer Use, Image Generation, and more)
-- **Skills** -- third-party reusable agent skills from [skills.sh](https://skills.sh), installable via `npx skills add <url>`
+The catalog follows the selected provider. Copilot and Cursor do not currently expose a plugin catalog in Mains.
 
-Both are managed from the same page using a tab switcher. Open it from the sidebar at any time -- it's a top-level destination, not a settings panel.
+## Browse the catalog
 
-## **Plugins (Codex Marketplace)**
+Search plugins or browse their categories. Open a plugin to inspect its description, source, included skills, apps, MCP servers, and setup state.
 
-Plugins extend Codex with curated integrations -- each one bundles together skills, MCP servers, and apps that target a specific platform or capability. Browsing them inside Mains uses the same marketplace API as the Codex VS Code extension, so the catalog is always in sync.
+The **Installed** shelf shows your installed plugins. Installation and authentication are separate: a plugin can be installed while one of its included apps still needs setup.
 
-### **Browsing**
+Unavailable installs display a reason. Catalog contents and access policies depend on the provider and your account.
 
-| **Element**         | **What it shows**                                                                         |
-| ------------------- | ----------------------------------------------------------------------------------------- |
-| Plugin card         | Logo, brand color, display name, short description, install button                        |
-| Detail page         | Long description, screenshots, included items (skills, apps, MCP servers), install policy |
-| Connected badge     | Green pill on apps that are already authenticated and ready to use                        |
-| Install policy      | `NOT_AVAILABLE` plugins are disabled with a tooltip explaining why                        |
-
-### **Installing**
+## Install and connect
 
 <Steps>
-  <Step title="Pick a plugin">
-    Click any card to open the detail view. You'll see screenshots, a long description, and the list of items the plugin includes.
+  <Step title="Inspect the plugin">
+    Read what it includes and which services it can access.
   </Step>
-  <Step title="Click Add">
-    Mains forwards the install request to your Codex account. Plugins that need OAuth open the connector flow in a browser window.
+  <Step title="Install">
+    Use the install control. For Claude, choose the supported user, project, or local scope.
   </Step>
-  <Step title="Use it in a Codex run">
-    The plugin's tools become available to the Codex agent on the next run. You can also see it listed under **Installed plugins** in Settings.
+  <Step title="Complete included app setup">
+    Follow any connection or sign-in actions shown on the detail page.
+  </Step>
+  <Step title="Start a conversation">
+    Use a new run so its provider can discover the updated capabilities. Select an available plugin or skill from the composer when you want to invoke it explicitly.
   </Step>
 </Steps>
 
-To remove a plugin, click **Uninstall** on its detail page. Mains revokes the install and refreshes the catalog automatically.
+You can enable or disable plugins where the provider supports that operation, or uninstall them from their detail page.
 
-### **What's Inside a Plugin**
+## Interactive apps
 
-Plugins compose three primitives:
+Codex plugins can provide [MCP apps](/mcp-apps) that open beside the conversation or from the rail. A connected service's tools can still work when its interactive UI is not compatible with the host.
 
-| **Type**       | **Description**                                                              |
-| -------------- | ---------------------------------------------------------------------------- |
-| **Skills**     | Markdown-defined behaviors the agent can invoke (e.g. "address PR comments") |
-| **Apps**       | OAuth-connected services (e.g. GitHub, Linear) that expose actions and data  |
-| **MCP servers**| MCP-compatible servers that ship with the plugin                             |
+## Plugins, skills, and Connections
 
-The detail page shows every included item with a status pill -- `Connected`, `Disabled`, or a link to install the underlying app if it's missing.
+| Feature | Purpose |
+| --- | --- |
+| Plugin | A provider-managed bundle of skills, tools, servers, and possibly apps |
+| [Skill](/skills) | Reusable instructions and supporting files discovered by the agent |
+| [MCP server](/mcp-servers) | Tools or data exposed through the Model Context Protocol |
+| [Connection](/connections) | Mains's own issue-sync, PR, monitoring, or guard integration |
 
-## **Skills (skills.sh)**
-
-The **Skills** tab browses third-party skills published on [skills.sh](https://skills.sh). Unlike Codex plugins, skills are not tied to OpenAI's marketplace -- anyone can publish one, and they install via a CLI command.
-
-### **Views**
-
-| **View**     | **What it shows**                                                              |
-| ------------ | ------------------------------------------------------------------------------ |
-| **Curated**  | Editor-picked groupings (e.g. "Daily standups", "Release management")          |
-| **Trending** | Skills with the most installs in the last 24 hours                             |
-| **Hot**      | Recent skills with strong engagement                                           |
-| **All-time** | Most-installed skills overall                                                  |
-
-A search bar at the top filters across all views.
-
-### **Installing a Skill**
-
-Skills install through the standalone `skills` CLI -- Mains shows you the exact command to copy:
-
-```bash
-npx skills add https://skills.sh/<owner>/<slug>
-```
-
-Open the skill detail page to see its description, owner, install URL, and a one-click copy button for the install command. Run it in your terminal -- the skill appears in your `~/.claude/skills/` (or `.{your_project}/skills/`) directory and is picked up on the next agent run.
-
-<Note>
-  Skills installed via `npx skills add` work with both Claude Code and Cursor runtimes. See [**<u>Skills</u>**](/skills) for the directory layout and frontmatter format.
-</Note>
-
-## **Plugins vs. Skills -- Quick Reference**
-
-| **Feature**         | **Plugins**                                  | **Skills**                                  |
-| ------------------- | -------------------------------------------- | ------------------------------------------- |
-| **Catalog**         | OpenAI Codex marketplace                     | skills.sh community                         |
-| **Runtime**         | Codex only                                   | Claude Code + Cursor                        |
-| **Install flow**    | One-click from the UI                        | Copy `npx skills add` command and run it    |
-| **Includes**        | Skills + apps + MCP servers (bundled)        | Single SKILL.md or skill folder             |
-| **Auth**            | OAuth handled by the marketplace             | None (local files only)                     |
-
-## **Related**
-
-- [**Skills**](/skills) -- skill file format and how the agents discover them
-- [**MCP Servers**](/mcp-servers) -- adding MCP servers manually outside the marketplace
-- [**Computer Use**](/codex/computer-use) -- one of the most-used Codex plugins
-- [**Image generation**](/codex/image-generation) -- create and edit images via the Image Generation marketplace plugin
+Connecting GitHub in Settings does not automatically install a GitHub plugin. Installing a plugin does not configure every Mains connection.

@@ -1,18 +1,34 @@
 ---
-title: "Agent Teams"
-description: "Coordinate multiple Claude Code instances working together on complex tasks"
-icon: "network-wired"
+title: "Claude subagents and teams"
+description: "Follow delegated Claude work and understand the limits of interactive agent teams"
+icon: "users"
 ---
 
-Agent Teams let you run multiple Claude Code sessions as a coordinated team inside Mains. One session acts as the **team lead** — it breaks down work, spawns teammates, and synthesizes results. Each teammate runs in its own context window and can communicate directly with other teammates.
+Claude can delegate focused work to subagents. Mains shows their progress, tool activity, and results in the subagent panel.
 
-<Note>
-  Agent Teams is an experimental feature and is disabled by default. You must opt in before using it.
-</Note>
+## Ask for delegated work
 
-## **Enabling Agent Teams**
+Use a clear division of responsibility:
 
-Add the following to your `settings.json` (user or project level):
+```text
+Review these changes with three subagents:
+one for correctness, one for security, and one for missing tests.
+Combine the findings and do not modify files.
+```
+
+Each subagent has its own context. Separate contexts do not create separate working directories; coordinate edits or use [worktrees](/workspaces) for isolated implementation tasks.
+
+## Follow the results
+
+Open the subagent panel to inspect what a worker is doing and what it returned. The parent conversation remains the place to give instructions and review the combined result.
+
+Available agent definitions and tools depend on the bundled Claude runtime, repository configuration, and run mode.
+
+## Interactive agent teams
+
+Claude Code's experimental **agent teams** are a separate upstream feature with teammate messaging and shared task coordination.
+
+The upstream switch is:
 
 ```json
 {
@@ -22,53 +38,12 @@ Add the following to your `settings.json` (user or project level):
 }
 ```
 
-Settings file locations:
+It belongs in Claude's user or project settings. Enabling it does not add terminal teammate controls to Mains.
 
-| **Scope**        | **Path**                              |
-| :--------------- | :------------------------------------ |
-| User (global)    | `~/.claude/settings.json`             |
-| Project (shared) | `.{your_project}/settings.json`       |
-| Local (personal) | `.{your_project}/settings.local.json` |
+Mains runs Claude through the **Agent SDK**. Current upstream guidance limits teammate spawning to interactive sessions; SDK sessions use ordinary subagents. Do not treat a subagent panel as proof that an interactive team has formed. See the [official agent teams guide](https://code.claude.com/docs/en/agent-teams).
 
-## **When to Use Agent Teams**
+Use ordinary subagents for delegated work inside Mains. Provider behavior can change with runtime updates.
 
-Agent teams work best when multiple people — or in this case, agents — can explore a problem in parallel without blocking each other:
+## Cost and access
 
-- **Research and review** — multiple reviewers checking security, performance, and test coverage simultaneously
-- **New modules** — each teammate owns a separate, independent piece of a feature
-- **Debugging** — teammates test competing hypotheses in parallel
-- **Cross-layer work** — frontend, backend, and tests each handled by a different teammate
-
-<Warning>
-  Agent teams consume significantly more tokens than a single session. For sequential or tightly coupled tasks, a single session or subagents are more cost-effective.
-</Warning>
-
-## **Starting a Team**
-
-Once enabled, describe the task and team structure in natural language:
-
-```text
-Create an agent team to review PR #142. Spawn three reviewers:
-- One focused on security implications
-- One checking performance impact
-- One validating test coverage
-```
-
-Claude creates the team, spawns teammates, assigns tasks, and coordinates work automatically.
-
-## **Subagents vs Agent Teams**
-
-|                   | **Subagents**                               | **Agent Teams**                                     |
-| :---------------- | :------------------------------------------ | :-------------------------------------------------- |
-| **Communication** | Report results back to caller only          | Teammates message each other directly               |
-| **Coordination**  | Main agent manages all work                 | Shared task list with self-coordination             |
-| **Best for**      | Focused tasks where only the result matters | Complex work requiring discussion and collaboration |
-| **Token cost**    | Lower                                       | Higher                                              |
-
-**Limitations**
-
-- Session resume (`/resume`, `/rewind`) does not restore in-process teammates
-- One team per session — clean up the current team before starting another
-- Teammates cannot spawn their own teams (no nesting)
-- All teammates inherit the lead’s permission mode at spawn time
-- Split-pane mode is not supported in mains desktop app.
+Delegated work consumes additional tokens. Subagents still operate under the run's tools and permissions; they do not give a Chat run file-writing access.

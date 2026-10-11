@@ -1,63 +1,27 @@
 ---
-title: "Stats"
-icon: "chart-mixed"
+title: "Usage dashboard"
+description: "Inspect local run activity, reported usage, estimated cost, and tool use"
+icon: "chart-column"
 ---
 
-The stats dashboard gives you an overview of your agent activity across all workspaces. Track run counts, costs, tool usage, and success rates -- filtered by provider.
+Open **Settings → Dashboard** to inspect the active backend's run activity. Filter to all providers or Claude, Codex, Copilot, or Cursor.
 
-## **Summary Cards**
+## Overview
 
-The top of the dashboard shows four key metrics
+The summary shows projects, runs today, sessions, and estimated cost.
 
-| **Metric**     | **Description**                            |
-| -------------- | ------------------------------------------ |
-| **Projects**   | Total number of active projects            |
-| **Runs Today** | Agent runs executed today                  |
-| **Sessions**   | Total agent sessions across all time       |
-| **Cost**       | Estimated cost in USD based on token usage |
+Charts cover daily activity, hour distribution, cost by model, tool usage, success and failure status, and code changes. Recent sessions link you back to the recorded work.
 
-## **Charts & Analytics**
+## Usage and cost
 
-### **Daily Activity**
+Counts and estimates use the information reported by each provider. Missing usage is not proof that a run was free.
 
-A 30-day bar chart showing runs per day, broken down by provider (Claude, Copilot, other). Spot trends in your agent usage over time.
+Subscription usage, rate limits, and invoices remain with the provider. For Codex, account usage appears in **Settings → Codex** separately from these local estimates.
 
-### **Hour Distribution**
+For one response, hover its duration in the [transcript](/runs) to inspect available token and cache details.
 
-A heatmap showing when runs happen throughout the day (0-23 hours). Useful for understanding your work patterns.
+## Scope
 
-### **Cost by Model**
+The dashboard summarizes runs recorded by the current backend. It does not merge histories from separate Mains machines.
 
-Breaks down estimated costs by LLM model. See which models consume the most tokens and how costs distribute across your work.
-
-### **Tool Usage**
-
-A ranked list of the top 15 most-used tools across all agent sessions. Understand which tools agents rely on most.
-
-### **Success Rate**
-
-A status breakdown showing succeeded, failed, and canceled runs. Track reliability over time with a daily view.
-
-### **Recent Sessions**
-
-A table of the 15 most recent agent runs with details including title, goal, status, provider, model, project, cost, and duration.
-
-### **Code Activity**
-
-Summary of code changes: total diffs generated and total files changed across all runs.
-
-## **Provider Filtering**
-
-Use the tabs at the top of the dashboard to filter stats by provider:
-
-- **All** -- aggregate stats across all providers
-- **Claude** -- Claude Code agent runs only
-- **Copilot** -- GitHub Copilot CLI runs only
-- **Codex** -- OpenAI Codex agent runs only
-- **Cursor** -- Cursor agent runs only
-
-The entire dashboard updates when you switch providers.
-
-## **Accessing the Dashboard**
-
-Open the stats dashboard from **Settings \> Dashboard**.
+These statistics are local records. Viewing the dashboard does not upload a usage report to Mains.

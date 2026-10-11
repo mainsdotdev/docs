@@ -1,0 +1,31 @@
+---
+title: "Turn changes and Undo"
+description: "Review what one turn changed and reverse it when the patch can be applied safely"
+icon: "rotate-left"
+---
+
+After a turn changes files, its change card shows the edited files and diff counts. It gives you a patch for that turn, even if later work changes the workspace.
+
+## Review a turn
+
+Open **Review** on the card to inspect its patch. This is different from **Changes**, which shows everything currently uncommitted in the workspace.
+
+A turn's patch can include new files and binary changes. Stopping a run leaves its edits on disk; it does not apply Undo.
+
+## Undo
+
+Choose **Undo** when you want to reverse that turn's patch. Mains checks whether it can safely reverse the recorded changes against the current files.
+
+If later work makes the patch incompatible, Undo can be unavailable or fail. Inspect the current diff before trying another way to revert it.
+
+## Shared edits
+
+Several chats can use the same workspace. When another agent touches a file involved in the turn, Mains marks the turn as **shared** and disables Undo.
+
+This prevents one agent's reversal from removing another agent's overlapping edits. Use separate [worktrees](/workspaces#worktree-isolation) for tasks that need independent files.
+
+## Availability
+
+Change cards appear in Code and Work when there are file changes. Chat is read-only and does not show this control.
+
+Undo is a local file operation. It does not delete the conversation or reverse a published commit, PR, or external-service action.

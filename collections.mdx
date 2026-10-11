@@ -1,0 +1,40 @@
+---
+title: "Collections and sources"
+description: "Group Work and Chat conversations and share material between them"
+icon: "folder-open"
+---
+
+A collection groups related **Work** and **Chat** conversations. The sidebar presents these groups under **Projects**. They do not need a Git repository.
+
+Use a collection for research notes, a trip, a launch plan, or a set of documents. A chat can belong to one collection or remain standalone.
+
+## Add shared sources
+
+Open the collection's settings and add files or pasted text as sources. Each new turn in its conversations uses the collection's current sources.
+
+A source is a stored copy. Editing the original file elsewhere does not automatically refresh that copy. Update the collection source when you want subsequent turns to use new material.
+
+## Sources and deliverables
+
+**Sources** are material you provided or the agent used. **Deliverables** are the files it produced. In Work, the session panel displays them separately.
+
+An output does not automatically become a collection source. Add it as a source when other chats should use it, or choose **Save to Atlas** when you want to preserve it independently.
+
+## Move conversations
+
+Changing a conversation's collection changes its grouping and future shared context. It does not move the run's working directory or turn it into a code workspace.
+
+## Schedule work for a collection
+
+A [Pulse](/pulse) in Work or Chat can target a collection. Its current sources travel into each scheduled run. Code pulses target workspaces instead.
+
+## Collections and code projects
+
+| Collection | Code project |
+| --- | --- |
+| Groups Work and Chat conversations | Groups checkouts of a Git repository |
+| Holds shared files and text | Holds repository paths, scripts, and Git instructions |
+| Has no branch or worktree | Contains [workspaces](/workspaces) |
+| Can be used without a repository | Starts from a repository |
+
+[Atlas](/atlas) also lets you organize Pages and saved files by project. Saving a library copy is separate from adding a shared source.

@@ -1,63 +1,45 @@
 ---
-title: "Image Generation"
-description: "Generate and edit images in Codex runs via the official Image Generation plugin"
+title: "Image generation"
+description: "Create and edit images with Codex's Image Gen skill and the Atlas image workspace"
 icon: "image"
 ---
 
-Codex's **Image Generation** plugin adds image creation and editing to the agent's tool surface -- useful for icons, UI mockups, marketing assets, and quick visual iterations. Inside Mains you install it from the same [**Plugins**](/plugins) marketplace as **Computer Use**; on the next Codex run the bundled workflow becomes available automatically.
+Use Codex's **Image Gen** skill to create images from a description or edit attached references. Mains can show the result in the conversation and in Atlas.
 
-<Note>
-  Like other Codex marketplace plugins, Image Generation ships as a curated bundle (skills and tooling), not as a permanently built-in Codex feature. Browse the marketplace in Mains under **Plugins** and search for **image** or **Image Generation** to install the official OpenAI listing.
-</Note>
+The skill must be available and enabled in your Codex runtime. A separately installed marketplace plugin is not always required; use the capability shown in your installed skills list.
 
-## **What It Does**
-
-Once the plugin is installed, Codex can:
-
-- Generate new images from a text brief (style, composition, branding constraints)
-- Edit or remix existing assets when you reference files in the workspace or attach images to the conversation
-- Produce simple graphics for READMEs, landing pages, or in-app placeholders
-
-Exact capabilities follow OpenAI's current image tools bundled with that plugin -- they evolve with marketplace updates.
-
-## **Installing the Plugin**
+## Create from Atlas
 
 <Steps>
-  <Step title="Open Plugins">
-    Click **Plugins** in the sidebar, stay on the **Plugins** tab (Codex marketplace).
+  <Step title="Open New image">
+    Open [Atlas](/atlas) and choose **New image**.
   </Step>
-  <Step title="Find Image Generation">
-    Search for `image` or **Image Generation** and open the official OpenAI plugin card.
+  <Step title="Describe the image">
+    Write a brief or choose a template such as Poster, Illustration, Product photo, Icon, or Infographic.
   </Step>
-  <Step title="Add it">
-    Click **Add** on the detail page. Mains forwards the install to your Codex account; when it finishes, the plugin shows as installed.
+  <Step title="Add a reference">
+    Attach, paste, or drop an image when you want an edit or a result guided by an existing visual.
   </Step>
-  <Step title="Run Codex">
-    Start a Codex workspace run. Mention what you want visually -- the agent invokes the plugin's tools when your task fits.
+  <Step title="Send and review">
+    Mains starts a Codex Work conversation with the Image Gen skill. Continue in that chat to ask for changes.
   </Step>
 </Steps>
 
-To remove the plugin later, open its detail page in the marketplace and click **Uninstall**.
+If the skill is missing or disabled, the image workspace gives setup guidance and a refresh action. It does not silently start an ordinary text task.
 
-## **Using It in a Run**
+## Create in a chat
 
-Describe the outcome you want; you can scope the workflow with **`@`** plugin or skill mentions where your Codex surface supports them ([Plugins](https://developers.openai.com/codex/plugins)).
-
-Example prompts:
+Select Image Gen from the skill menu and give a visual brief:
 
 ```text
-Generate a 1024×1024 app icon for a dark-mode notes app named "Scribble".
-Flat vector style, no text in the glyph.
+Create a square illustration of a small observatory at dusk.
+Use warm interior light, a dark blue sky, and no text.
 ```
 
-```text
-Take assets/logo.png and give me a wide hero banner variant with the same palette and softened gradient background.
-```
+For an edit, attach the source image and describe the specific changes. Generated images open in a preview when clicked.
 
-Generated outputs show up in Codex responses and your run timeline with other tool activity. Paths on disk follow your Codex install (upstream docs often describe a generated-images location under `$CODEX_HOME`).
+## Keep the original
 
-## **Related**
+Download the original image or choose **Save to Atlas**. Seeing it in Atlas's generated view does not create a permanent copy until you save it.
 
-- [**Plugins**](/plugins) -- browse and install Codex marketplace plugins from Mains
-- [**Codex configuration**](/codex/configuration) -- sandbox, approvals, network
-- [**Computer Use**](/codex/computer-use) -- UI automation via another official plugin
+The saved Atlas copy survives deleting the conversation. See [Atlas](/atlas#save-a-file-permanently) for ownership and saving behavior.

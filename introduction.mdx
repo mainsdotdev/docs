@@ -1,65 +1,51 @@
 ---
 title: "Introduction"
-description: "Mains for AI coding agents"
+description: "Work with AI agents across code, documents, conversations, and Atlas"
+icon: "house"
 ---
 
-Mains is a desktop application for executing autonomous AI coding agents in secure workspaces, link your code repositories, import tasks from your PM tools, and watch agents handle reading, modifying, and submitting code on your behalf.
+Mains is a macOS app for working with **Claude Code**, **OpenAI Codex**, **GitHub Copilot**, and **Cursor**. You choose the provider, bring in context, follow the work, and review the result.
+
+Use **Code** for repositories, **Work** for documents and other tasks, and **Chat** for conversations with read-only file access. **Atlas** keeps the pages, documents, and images you want to return to.
 
 <Columns cols={2}>
-  <Column>
-    <Card icon="download" href="/install" title="Download">
-      Get latest version of Mains for your Mac.
-    </Card>
-  </Column>
-  <Column>
-    <Card icon="square-q" href="/quickstart" title="Quickstart">
-      First-time setup walkthrough
-    </Card>
-  </Column>
+  <Card title="Install and get started" icon="download" href="/quickstart">
+    Sign in to an agent and start your first conversation.
+  </Card>
+  <Card title="Choose a mode" icon="layer-group" href="/modes">
+    Understand Code, Work, and Chat before choosing a space.
+  </Card>
+  <Card title="Create in Atlas" icon="book-open" href="/atlas">
+    Write pages together and keep files from your conversations.
+  </Card>
+  <Card title="Connect another device" icon="tower-broadcast" href="/relay/overview">
+    Run on your Mac or connect to your own Mains backend.
+  </Card>
 </Columns>
 
-## Core Concepts
+## How the pieces fit
 
-### [**Agent Workspaces**](/workspaces)
+| Concept | What it holds |
+| --- | --- |
+| [Space](/spaces) | Your agent provider, mode, instructions, and appearance |
+| [Project](/projects) | A code repository and settings shared by its workspaces |
+| [Workspace](/workspaces) | A checkout or worktree where Code runs execute |
+| [Collection](/collections) | Related Work or Chat conversations and shared sources |
+| [Run](/runs) | A conversation with its messages, tool calls, attachments, and usage |
+| [Atlas](/atlas) | Native Pages and saved copies of documents and images |
 
-Run **Claude Code**, **OpenAI Codex**, **GitHub Copilot**, or **Cursor** agents inside [workspaces](/workspaces) linked to git repos. Each workspace gets its own Git worktree, so multiple sessions can run in parallel without conflicts. Agents can read files, run commands, write code, and track diffs.
+Claude and Codex support all three modes. Copilot and Cursor currently support Code.
 
-### [**Linked Tasks**](/linked-tasks)
+## Review while you work
 
-Connect issues and tasks from **GitHub**, **GitLab**, **Linear**, **Jira**, **Asana**, **Trello**, or **Sentry** directly to a workspace. The agent reads the task description as context, and statuses are updated automatically as work progresses.
+Watch tool activity in the transcript, answer [approval requests](/approvals), and continue a run later. In Code, inspect [turn changes](/turn-changes), leave [diff comments](/diff-viewer), and use [Git actions](/git-actions) to commit and open a pull request.
 
-### [**Code Reviews**](/reviews)
+In Work, open [documents](/documents) beside the chat and save useful results to Atlas. Connect [plugins](/plugins), [MCP servers](/mcp-servers), or [skills](/skills) when a task needs more tools.
 
-Request structured code reviews after agent runs. Findings are categorized by severity with file locations and suggested fixes.
+## Choose where it runs
 
-### [**MCP Servers**](/mcp-servers)
+Your Mac keeps your repositories and run history by default. Getting started does not require a Mains account. Prompts and the context an agent uses go to the provider you select. See [Privacy](/privacy).
 
-Extend agent capabilities with [Model Context Protocol](/mcp-servers) servers. Add tools for Slack, databases, APIs, and more from the terminal -- Claude and Copilot agents can use them.
+The [standalone server](/server) runs the backend and web interface on macOS or Linux. [Mains Connect](/relay/overview) lets another desktop or the [iPhone companion](/mobile) reach your own backend.
 
-### [**Skills & Slash Commands**](/skills)
-
-Teach agents domain-specific behavior with [skills](/skills), or create reusable [slash commands](/claude/slash-commands) for common workflows like code review, testing, and PR creation.
-
-### [**Dependency Guards**](/dependency-guards)
-
-Automatically check packages against [Socket.dev](https://socket.dev) before install commands execute. Guards intercept `npm install`, `pip install`, `cargo add`, and more across all three agent runtimes, blocking packages flagged for supply chain risks.
-
-### [**Runs & Observability**](/runs)
-
-Track every [agent run](/runs) with full observability -- tool calls, token usage, costs, and workspace diffs. Resume sessions, fork runs, and review artifacts produced by the agent.
-
-### [**Pulse**](/pulse)
-
-[Pulse](/pulse) runs agents on a schedule you define -- pick a workspace, prompt, and cadence for periodic reports, audits, and other recurring work without manual trigger.
-
-### [**File Explorer**](/file-explorer)
-
-Browse your repository and [select files](/file-explorer) to include in the agent's context. Combine file selections with linked tasks to give the agent a targeted view of both the requirements and the relevant code.
-
-### [**Browser panel**](/browser)
-
-Use the [embedded browser](/browser) in a workspace to open live pages, capture elements, and drop screenshots plus selectors into the agent's prompt for web-aware runs.
-
-### [**Stats Dashboard**](/stats)
-
-Track agent runs, costs, tool usage, and success rates across all workspaces. Filter by provider to compare Claude, Codex, Copilot, and Cursor activity.
+For release announcements, read the [Mains changelog](https://mains.dev/changelog).

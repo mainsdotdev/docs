@@ -1,0 +1,42 @@
+---
+title: "Code, Work, and Chat"
+description: "Choose the tools and interface that match your task"
+icon: "sliders"
+---
+
+A mode changes both the Mains interface and the tools and permissions an agent receives.
+
+| Capability | Code | Work | Chat |
+| --- | --- | --- | --- |
+| Use it for | Implementing and shipping code | Documents, research outputs, and files | Questions, exploration, and summaries |
+| Organization | Projects and workspaces | Collections and chats | Collections and chats |
+| Git controls and terminal | Available | Hidden | Hidden |
+| Sources and deliverables | Sources and code changes | Sources and deliverables | Conversation attachments |
+| File changes | Follow your chosen permissions | Edits allowed under the Work policy | Read-only |
+| Providers | Claude, Codex, Copilot, Cursor | Claude, Codex | Claude, Codex |
+
+## Code
+
+Code runs execute in a [workspace](/workspaces). You can browse and edit files, inspect diffs, use a terminal, and manage Git actions.
+
+Permissions remain a separate choice. A Code conversation can use a read-only sandbox or planning permissions when the provider supports them.
+
+## Work
+
+Work runs can create and edit files without a repository. Use it to make a report, prepare a presentation, analyze a spreadsheet, or create an image.
+
+Organize chats in [collections](/collections) and attach shared sources. The session panel separates **Sources** from **Deliverables**. You can [preview documents](/documents) and [save results to Atlas](/atlas).
+
+Work applies its own edit policy and hides the permission and plan controls. Model and effort controls remain available.
+
+## Chat
+
+Chat is for conversations that can read context and answer questions. Its file-access restriction is enforced by the agent runtime, including when a conversation resumes or forks.
+
+Chat hides file-editing, Git, terminal, plan, and goal controls. Start a new Work conversation when you want to produce files or edit an Atlas Page.
+
+## Switch modes
+
+Choose a mode from your [space](/spaces). The default shortcuts are `⌘1` for Code, `⌘2` for Work, and `⌘3` for Chat.
+
+An existing run retains its original mode. You can customize these shortcuts in **Settings → Keyboard Shortcuts**.

@@ -1,0 +1,44 @@
+---
+title: "Queue and steer messages"
+description: "Keep writing during a Codex turn and choose when the next message takes effect"
+icon: "arrow-turn-down"
+---
+
+Codex lets you write follow-ups while a turn is running. A message can wait in the queue or steer the active turn.
+
+## Queue a message
+
+Type or attach context during a running turn. The main button changes from **Stop** to **Send** when the composer contains a message, files, or explicit context.
+
+Send to place the message in the queue. After normal turn completion, Mains continues the run with the next queued message, including when its tab is in the background.
+
+Queued messages retain their text, attachments, context, and conversation settings.
+
+## Edit and reorder
+
+You can edit or remove a queued message. Editing keeps its position and temporarily preserves the draft you were already writing.
+
+Drag a row's handle or use Alt with the arrow controls to reorder. Sorting is unavailable while a message is being edited, sent, or waiting for uncertain delivery to resolve.
+
+## Steer now
+
+Choose **Steer** for a queued message to add it to the current Codex turn. Use this for a correction that should affect work already underway.
+
+```text
+Keep the existing database schema.
+Fix this in the validation layer instead.
+```
+
+Steering does not start another turn or apply a new model or directory setting to the active turn.
+
+## Pauses and persistence
+
+Stop, failure, archive, disconnection, or a backend change pauses automatic delivery. Resume the queue explicitly when you are ready.
+
+If Mains cannot confirm whether a message was accepted, it keeps the local input until acceptance can be checked instead of automatically sending a duplicate.
+
+<Note>
+  Pending queue state is local and is not saved across an app close or reload. Send or preserve important drafts before restarting.
+</Note>
+
+The browser and Review floating chats show the same conversation queue. They do not create a second sender.

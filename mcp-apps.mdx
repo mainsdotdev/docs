@@ -1,0 +1,50 @@
+---
+title: "MCP apps"
+description: "Open connected interactive tools beside a chat or directly from the app rail"
+icon: "window-maximize"
+---
+
+An MCP app is an interactive interface supplied by a connected tool. Mains can show it beside a conversation, so you can edit or explore the result while working with the agent.
+
+MCP apps use the **macOS desktop app with its local backend**. Availability differs by how you open the app:
+
+| Entry point | Providers |
+| --- | --- |
+| Supported app result from a conversation tool | Claude and Codex |
+| Standalone app from the navigation rail | Codex |
+
+## Open from a tool result
+
+When a tool produces a supported app result, Mains can open it docked and keep an **Open app** button in the transcript.
+
+Interact with the app, then continue the conversation. New results for the same app can update the open interface.
+
+The expanded view provides more room and a floating chat. Choose its conversation target before sending feedback.
+
+## Open from the rail
+
+In a local Codex space, available app extensions can be opened from the navigation rail without first asking the agent to make a tool call. Complete the app's connection setup when required.
+
+Open the app options menu to see available apps. Pin up to five to the rail. Opening an app and pinning it are separate actions.
+
+Opening an app does not fabricate a conversation. Start or choose a chat when you want to work with an agent.
+
+## Send context and prompts
+
+An app can contribute selections to the composer. Review the resulting context chips before sending.
+
+If the app requests an agent message, Mains opens an editable review of the proposed text. **Send** submits it through the chosen conversation; **Cancel** or Escape sends nothing.
+
+The app may request a new conversation rather than a continuation. Its tool access remains scoped to its connection and account.
+
+## Hidden apps
+
+An app hidden for two minutes can save supported widget state and unload. Returning reopens it in the same conversation. Unsaved state that the app has not exposed to the host may be lost.
+
+## Compatibility
+
+Some vendors restrict which host origins can embed their interfaces. Mains reports known compatibility limits and can leave the plugin's normal tools available.
+
+Reloading does not bypass a vendor restriction. Use the supported fallback or external interface when needed.
+
+The standalone web client does not host the desktop's native MCP app extensions.

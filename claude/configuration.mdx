@@ -1,49 +1,56 @@
 ---
-title: "Configuration"
-icon: "gear-code"
+title: "Claude configuration"
+description: "Configure the bundled Claude runtime, permissions, settings files, and capabilities"
+icon: "gear"
 ---
 
-The Claude Code agent runtime in Mains is configured through a combination of in-app settings and external configuration files. These settings control permission behavior, structured output schemas, MCP server connections, and skills discovery.
+Claude Code comes with Mains. Sign in during onboarding or open **Settings → Claude** to inspect your account and runtime.
 
+Claude supports **Code**, **Work**, **Chat**, and [Atlas](/atlas).
 
-## **Settings Sources**
+## Settings and conversation controls
 
-Claude Code loads settings from multiple files, merged in priority order. Higher-priority sources override lower ones.
+Settings includes the default permission mode, output style, and structured output. Choose a model, thinking, effort, and supported fast options in the composer.
 
-<Steps>
-  <Step title="User Settings (Lowest Priority)">
-    **Path:** `~/.claude/settings.json`\
-    Global settings that apply to all projects. Define your default permission mode, preferred tools, and baseline configuration here.
-  </Step>
-  <Step title="Project Settings">
-    **Path:** `.{your_project}/settings.json` (in the project root)\
-    Project-level settings shared with the team via version control. Use this for project-specific permission overrides, allowed tools, and MCP server definitions that all contributors should share.
-  </Step>
-  <Step title="Local Settings (Highest Priority)">
-    **Path:** `.{your_project}/settings.local.json` (in the project root)\
-    Personal overrides that are not committed to version control. Use this for developer-specific preferences that should not affect teammates -- for example, enabling `bypassPermissions` on a trusted project.
-  </Step>
-</Steps>
+Conversation settings stay with each chat. Opening an older chat does not replace the defaults for new conversations.
 
-<Note>
-  Settings are merged top-down. A field defined in `.{your_project}/settings.local.json` takes precedence over the same field in `.{your_project}/settings.json`, which in turn overrides `~/.claude/settings.json`.
-</Note>
+## Permission modes
 
-## **MCP Servers**
+| Mode | Behavior |
+| --- | --- |
+| Ask permissions | Ask before operations that need approval |
+| Auto | Let Claude decide when to ask |
+| Auto accept edits | Accept file edits while retaining other permission decisions |
+| Plan mode | Plan before making changes |
+| Bypass permissions | Bypass ordinary permission prompts |
+| Don't ask | Deny operations that need ungranted approval |
 
-MCP (Model Context Protocol) servers defined in any of the settings files above are automatically loaded when the Claude Code agent starts. These servers extend the agent's tool capabilities with custom tools, data sources, and integrations.
+Work and Chat apply their own [mode policies](/modes). Chat is read-only, and changing a permission default does not make an existing Chat run writable.
 
-See [**<u>MCP Servers</u>**](/mcp-servers) for details on configuring MCP server connections.
+## Settings files
 
-## **Skills**
+Mains enables user, project, and local settings sources by default.
 
-Skills are markdown instruction files that the Claude Code agent discovers and loads automatically. They provide domain-specific knowledge and behavioral instructions.
+| Scope | Path |
+| --- | --- |
+| User | `~/.claude/settings.json` |
+| Project | `.claude/settings.json` in the working directory |
+| Local | `.claude/settings.local.json` in the working directory |
 
-Skills are loaded from two locations:
+Within these sources, local values take precedence over project values, then user values. Managed provider policy can impose additional restrictions.
 
-| **Location**              | **Scope**                                             |
-| ------------------------- | ----------------------------------------------------- |
-| `~/.claude/skills/`       | Global skills available across all projects           |
-| `.{your_project}/skills/` | Project-specific skills committed with the repository |
+In a worktree, project configuration is read from that worktree's root.
 
-Each skill file contains instructions that are injected into the agent's context, giving it specialized knowledge about your codebase, conventions, or workflows.
+## MCP, skills, and commands
+
+Mains reads Claude MCP configuration from the settings files, `~/.claude.json`, and the project's `.mcp.json`. See [MCP servers](/mcp-servers) for an example.
+
+Claude discovers skills from `~/.claude/skills/` and `.claude/skills/`. Settings links to skills, agents, and slash-command directories.
+
+The [Plugins](/plugins) page also supports Claude's plugin marketplace and install scopes.
+
+## Subagents and output
+
+Claude's delegated work appears in the subagent panel. See [Claude subagents and teams](/claude/agentteams) for the distinction between SDK subagents and interactive CLI teams.
+
+Use a structured-output schema when the task requires a defined JSON result. It is separate from creating a document or Page.

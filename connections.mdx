@@ -1,0 +1,62 @@
+---
+title: "Connections"
+description: "Bring issues, tasks, review context, and error signals into Mains"
+icon: "plug"
+---
+
+Connections import data from the services you use. Open **Settings → Connections** to authenticate, choose resources, and sync them to the current backend.
+
+## Supported services
+
+| Service | Authentication | Selected resources | Imported data |
+| --- | --- | --- | --- |
+| [GitHub](/github) | GitHub sign-in or personal access token | Repositories | Issues and open PR summaries |
+| [Linear](/linear) | API key | Teams | Issues |
+| [Jira](/jira) | Domain, email, and API token | Projects | Issues |
+| [Asana](/asana) | Personal access token | Projects | Tasks |
+| [GitLab](/gitlab) | Domain and personal access token | Projects | Issues and open merge request summaries |
+| [Trello](/trello) | API key and token | Boards | Cards |
+| [Sentry](/sentry) | Auth token and organization slug | Projects | Error signals |
+
+The **Socket** connection supplies [dependency guards](/dependency-guards) instead of ordinary task context.
+
+## Connect and sync
+
+<Steps>
+  <Step title="Authenticate">
+    Choose the service in Connections and complete its credential form or sign-in flow.
+  </Step>
+  <Step title="Select resources">
+    Search the available repositories, teams, projects, or boards. Save the resources you want Mains to import.
+  </Step>
+  <Step title="Refresh the data">
+    Use **Sync** for an immediate refresh. Enable [Auto Sync](/automations) in the provider's management view for recurring refreshes.
+  </Step>
+  <Step title="Use the context">
+    Browse [Tasks](/tasks), scope resources to a [project](/projects), or attach an item through the composer's `@` menu.
+  </Step>
+</Steps>
+
+Selecting a resource controls what Mains imports. It does not reduce the underlying token's permissions at the service.
+
+## Synced data and live reviews
+
+Imported issues and summaries are local snapshots. They can be stale until the next sync.
+
+The GitHub **Pull requests** tab in Tasks uses live GitHub queries for its inbox and [review interface](/pull-requests). Synced PR summaries do not provide the same checks, threads, and diff workflow.
+
+GitLab merge request summaries do not enable the GitHub review interface.
+
+## Credentials and backends
+
+A connection belongs to the backend where you configure it. A remote backend uses its own connection state.
+
+Service connections, agent sign-in, and Git CLI authentication are separate. For example, connecting GitHub does not sign in Copilot or run `gh auth login`.
+
+See [Privacy](/privacy) for storage and data flow.
+
+## Disconnect
+
+Open the service's management view and choose **Revoke Access**. Confirm after reviewing the dialog.
+
+This deactivates the local connection and removes its selected resources and imported records. Invalidate the token in the service's own settings if you also want to revoke it there.

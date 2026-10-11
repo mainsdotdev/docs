@@ -1,0 +1,56 @@
+---
+title: "Atlas Pages"
+description: "Write with your agent, edit blocks, restore history, and import or export a Page"
+icon: "file-lines"
+---
+
+An Atlas Page is an editable document kept in your library independently of a conversation. You can write it yourself or work on it with Claude or Codex.
+
+## Create and edit
+
+Open [Atlas](/atlas) and choose **Start a page** or a template. The starter creates a blank Page and prepares a draft prompt; the agent begins only when you send it.
+
+Type `/` in the editor to insert headings, lists, tables, images, and other blocks. Changes save automatically.
+
+Use the Page's chat to ask for a section, rewrite, or summary:
+
+```text
+Add a rollout checklist to this page.
+Include owners, verification steps, and a rollback decision.
+```
+
+You can edit alongside the agent. If a save conflicts with a newer version, Mains retains your draft instead of silently overwriting the newer content.
+
+## Page conversations
+
+Choose a previous Page chat or **New page chat** from the chat target menu. Page conversations use Work mode and the selected Claude or Codex space.
+
+A Page-backed chat in the regular sidebar has an **Open page** button. Links to a Page in agent replies also open it in Atlas.
+
+Work conversations can create and update Pages with Atlas tools. Code and Chat conversations can read Pages; Chat remains read-only.
+
+## History
+
+Open **History** from the Page menu to inspect saved revisions and whether you or the agent made them.
+
+Restoring a revision creates a new current version. Later revisions remain in history, so restoring does not erase what came after the selected version.
+
+Page history tracks Page content and title. Your current icon and cover are kept separately.
+
+## Icons, covers, and tabs
+
+Add an icon or a cover from an uploaded image or saved Atlas image. Adjust the cover framing to suit the Page.
+
+Open several Pages in tabs. Closing a tab closes the view and preserves the Page. Use Trash when you want to remove it from the library.
+
+## Import and export
+
+The Page menu supports **Markdown** and **JSON** import and export. Use Markdown for portable text. JSON preserves the native block structure.
+
+You can also copy the Page content and move it into a project.
+
+## Trash
+
+Open **Trash** to view removed Pages. Opening a trashed Page keeps it read-only; restore it before editing.
+
+Permanent deletion needs confirmation. Pages can retain embedded files through their revision history, so a file still used by a restorable Page cannot be permanently deleted.

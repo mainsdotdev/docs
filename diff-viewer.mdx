@@ -1,34 +1,45 @@
 ---
-title: "Diff Viewer"
+title: "Review changes"
+description: "Inspect uncommitted changes and send line or range comments to your agent"
 icon: "code-compare"
 ---
 
-When an agent modifies files in your workspace, Mains captures every change and presents them in a built-in diff viewer. You can review exactly what was added, removed, or modified — then decide what to keep, discard, or edit before syncing with your repository.
+Open **Changes** from the Code session panel to review the workspace's current uncommitted changes. Review includes changes made by you, the agent, and other tools, including untracked files.
 
-## **Reviewing Changes**
+For one turn's patch, open its [change card](/turn-changes) instead.
 
-After an agent session completes work, open the diff viewer to see all modified files. Changes are displayed in a unified diff format with line-by-line highlighting:
+## Read the diff
 
-- **Green lines** — newly added code
-- **Red lines** — removed code
-- **File list** — all changed files in a sidebar, grouped by directory
+Changed files appear as ordered, collapsible diffs. Search the file list by current or renamed path to jump to a file.
 
-You can navigate between files, expand or collapse context lines, and inspect each change individually.
+Choose unified or split layout. Additions, removals, renamed files, and new files remain visible in their file context.
 
-## **Actions**
+You can expand Review for more space and keep a floating chat beside the diff.
 
-The diff viewer guides you through the steps to get your changes merged:
+## Comment on a line or range
 
-| **Action**    | **Description**                                          |
-| ------------- | -------------------------------------------------------- |
-| **Accept**    | Keep the change as-is                                    |
-| **Discard**   | Revert the file to its original state                    |
-| **Commit**    | Commit staged changes with a generated or custom message |
-| **Push**      | Push commits to the remote branch                        |
-| **Create PR** | Open a pull request directly from the diff viewer        |
+Click the line's comment control and write feedback. For several lines, drag **+** from the first line to the last, or click a line number and Shift-click another.
 
-## **GitHub Sync**
+Pending comments appear as context in the composer. Choose the chat you want to send them to, add your message, and send.
 
-The diff viewer integrates with GitHub to streamline the merge workflow. After reviewing changes you can commit, push, and open a pull request without leaving Mains. Mains suggests a commit message based on the changes and the agent's session context.
+```text
+Address these review comments and explain how you verified the changes.
+```
 
-The diff viewer works with any Git repository — GitHub, GitLab repos. The PR creation shortcut requires a GitHub remote.
+The saved prompt retains the comments and code they referred to. If the diff changes before you send, the comment keeps its original context instead of moving silently to another line.
+
+<Note>
+  Unsent comments are local drafts and disappear on reload. Send them when you want them recorded in the conversation.
+</Note>
+
+## Discard changes
+
+The Git actions panel can discard a file or all working-tree changes. Read its confirmation: reverting an untracked file deletes it.
+
+Discarding the workspace diff differs from [Undo for one turn](/turn-changes). It can remove changes from other turns or from your own edits.
+
+## Commit and pull requests
+
+Use [Git actions](/git-actions) after reviewing. Creating a PR needs a GitHub remote and authenticated GitHub CLI.
+
+Review comments sent to your agent stay in the local conversation. To publish comments on a GitHub PR, use the separate [pull request view](/pull-requests).

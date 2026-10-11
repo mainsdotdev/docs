@@ -1,23 +1,41 @@
 ---
-title: "Configuration"
-icon: "gear-code"
+title: "Copilot configuration"
+description: "Use the bundled Copilot runtime, sign in, and configure Code conversations"
+icon: "gear"
 ---
 
-The GitHub Copilot CLI agent runtime in Mains is configured through in-app settings. These options control how the Copilot binary is located, how it communicates with the application, logging verbosity, and automatic recovery behavior.
+GitHub Copilot comes with Mains. Sign in during onboarding or open **Settings → Copilot** to inspect the account and bundled runtime.
 
-## **Tool Permissions**
+You need a GitHub account with access to Copilot. Signing into Mains's GitHub issue connection or the `gh` CLI does not sign into Copilot.
 
-Mains exposes the Copilot SDK's hook system to give you fine-grained control over which tools the agent can use. Through the config screen you can set permission rules that run before every tool execution.
+## Runtime and models
 
-Each rule evaluates via the `onPreToolUse` hook and returns one of:
+The bundled runtime requires no separate CLI installation. Bundled updates arrive with the app; Settings reports which runtime is in use.
 
-| **Decision** | **Effect**                                                |
-| ------------ | --------------------------------------------------------- |
-| **Allow**    | Tool executes normally                                    |
-| **Deny**     | Tool is blocked; an optional reason is shown to the agent |
+Choose an available model and supported effort or fast options in the composer. Each conversation retains its own settings.
 
-This lets you restrict dangerous operations — for example, blocking shell access entirely:
+Copilot currently supports **Code** in Mains.
 
-<Note>
-  Mains handles hook lifecycle internally — you only need to configure which tools to allow or deny through the config screen.
-</Note>
+## Approvals
+
+Permission requests appear in the conversation. Mains also handles Copilot questions and plan-exit requests where the runtime provides them.
+
+Use the composer's supported permission choices for that conversation. Package additions can be checked through the [dependency guard](/dependency-guards) before shell execution.
+
+## Skills and agents
+
+Settings links to agent definitions and skills. Copilot's configured skill directories include:
+
+- `~/.claude/skills/`, shared with Claude.
+- `~/.copilot/skills/` for user skills.
+- `.github/skills/` in the working directory for project skills.
+
+Skills use folders containing `SKILL.md`.
+
+Copilot does not currently expose Mains's skill picker or plugin marketplace. Runtime discovery can still load the configured skills.
+
+## Continue a conversation
+
+Copilot supports continued sessions. It does not expose the fork action in Mains.
+
+Agent shell output and delegated tool activity appear in the [transcript](/runs). The manual terminal remains a separate shell session.

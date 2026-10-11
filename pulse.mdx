@@ -1,89 +1,63 @@
 ---
 title: "Pulse"
-description: "Run agent prompts on a recurring schedule -- without supervision"
-icon: "wave-pulse"
+description: "Schedule recurring agent tasks in Code, Work, or Chat"
+icon: "clock"
 ---
 
-**Pulse** is Mains' scheduled agent runner. You pick a workspace, write a prompt (or start from a template), set a frequency, and Mains runs the agent at the scheduled time -- analyzing the repo, drafting reports, or kicking off recurring chores while you're not watching.
+Pulse runs a prompt on a schedule. Use it for repository checks, document digests, report drafts, or read-only briefings.
 
-Pulse is **time-based**. For event-based work (sync on push, react to a webhook), use [Automations](/automations) instead.
+A pulse keeps the [mode](/modes) it was created with. Changing your active space later does not change that scheduled task's mode.
 
-## **Pulse vs. Automations**
-
-| **Concept**       | **Pulse**                                          | **Automations**                              |
-| ----------------- | -------------------------------------------------- | -------------------------------------------- |
-| **Trigger**       | Schedule (hourly, daily, weekdays, weekly)         | Connection events (e.g. `sync:github`)       |
-| **Runs**          | A full agent run in a workspace                    | A backend sync job, no agent involvement     |
-| **Output**        | Run with messages, tool calls, and findings        | Refreshed entities in your databases         |
-| **Best for**      | Status reports, release prep, periodic audits      | Keeping connected services in sync           |
-
-## **Building a Pulse**
+## Create a pulse
 
 <Steps>
-  <Step title="Open Pulse">
-    Click **Pulse** in the sidebar. The page lists your existing pulses and a button to create a new one.
+  <Step title="Choose the experience">
+    Select Code, Work, or Chat, then open **Pulse**.
   </Step>
-  <Step title="Pick a starting point">
-    Choose a [template](#templates) or click **Blank** to write your own prompt from scratch. Templates pre-fill the title, prompt, frequency, and time -- you can change any of them.
+  <Step title="Choose a template or start blank">
+    Templates are filtered for the current mode. They provide a prompt and schedule you can edit.
   </Step>
-  <Step title="Configure">
-    Set a workspace, provider, model, schedule, and (optionally) thinking mode and effort level. See the fields below.
+  <Step title="Choose the target and agent">
+    Code requires a workspace. Work and Chat can run without one and can target a collection with shared sources.
+
+    Choose the provider, model, and supported effort or thinking controls.
   </Step>
-  <Step title="Activate">
-    Toggle the pulse on. Mains computes the next run time and queues it. You'll see runs appear in the workspace history exactly like manual runs.
+  <Step title="Set the schedule">
+    Choose hourly, daily, weekdays, or weekly and the relevant time or day.
+  </Step>
+  <Step title="Create and enable">
+    Save the pulse and check its next run time. Scheduled results appear as ordinary runs.
   </Step>
 </Steps>
 
-## **Schedule Options**
+## Modes and templates
 
-| **Field**            | **Description**                                                                       |
-| -------------------- | ------------------------------------------------------------------------------------- |
-| `frequency`          | `hourly`, `daily`, `weekdays`, or `weekly`                                            |
-| `hour` / `minute`    | Time of day to run (24-hour clock)                                                    |
-| `dayOfWeek`          | Used with `weekly` -- 0 = Sunday, 6 = Saturday                                        |
-| `timezone`           | IANA timezone (e.g. `Europe/Istanbul`) so DST is handled correctly                    |
-| `isActive`           | Toggle without deleting -- keep the configuration but pause the schedule              |
+| Mode | Target | Examples |
+| --- | --- | --- |
+| Code | Required workspace | Standup digest, release checklist, CI or dependency review |
+| Work | Optional collection | Document digest, weekly report, meeting-note cleanup |
+| Chat | Optional collection | Read-only briefing, recap, planning questions |
 
-Mains tracks `nextRunAt` per pulse and atomically claims the slot when the time arrives, so a pulse never double-fires even if the app restarts mid-tick.
+Claude and Codex support Work and Chat pulses. All four providers can run Code pulses.
 
-## **Run Options**
+Collection sources are read when each scheduled run starts, so later source updates apply to future executions.
 
-| **Field**         | **Description**                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------- |
-| `workspaceId`     | Which workspace the run executes in (cwd, git state, MCP servers, etc.)                  |
-| `providerId`      | Which agent runtime to use -- `claude`, `codex`, `copilot`, or `cursor`                  |
-| `model`           | Specific model id (overrides the workspace default)                                      |
-| `prompt`          | The instruction sent to the agent at run time                                            |
-| `thinkingMode`    | (Claude / Codex) Enable extended thinking for the run                                    |
-| `effortLevel`     | (Codex) `low`, `medium`, or `high` -- maps to `modelReasoningEffort`                     |
+## Time and availability
 
-<Note>
-  Pulse always forces Cursor's mode to `agent` regardless of the workspace default -- a scheduled run cannot block on a confirmation dialog.
-</Note>
+Schedules are computed in the **backend machine's local timezone**. The stored timezone label is display metadata; it does not provide a separate timezone execution policy.
 
-## **Templates**
+The backend must be running and reachable by its providers. With Desktop, keep Mains running and the Mac awake. For an always-available host, configure [Mains Server as a service](/server#run-as-a-service).
 
-Mains ships 16 ready-made templates in 4 categories. Each one is a real prompt designed to work without human supervision -- they lean on git history, repo state, and lockfiles rather than asking the agent to make calls it can't verify.
+If you connect remotely, the schedule runs on that backend, not on the client device.
 
-| **Category**                      | **Examples**                                                                          |
-| --------------------------------- | ------------------------------------------------------------------------------------- |
-| **Standups & summaries**          | Daily standup digest, Weekly engineering update, Merge & integration digest, Branch vs default brief |
-| **Shipping & releases**           | Release notes, Pre-release checklist, Changelog updates                               |
-| **Risk & stability**              | CI review, QA brief, Bug triage from recent activity                                  |
-| **Repo hygiene**                  | Dependency audit, README & docs check, Stale branch report                            |
+## Run settings and approvals
 
-Each template carries a default frequency and time -- the standup digest defaults to **weekdays at 09:00**, the weekly engineering update to **Friday at 17:00**, and so on.
+Pulse applies execution settings suited to scheduled work: Claude Auto, Codex Workspace Write, Copilot's scheduled permission policy, and Cursor Agent mode. Work and Chat policies still apply.
 
-## **Run History**
+A scheduled task can still encounter a provider error, limit, question, or external-tool request. Write prompts that state the desired output and how to handle missing information.
 
-Every pulse run shows up in the workspace's run list, tagged with the pulse that produced it. From the Pulse page you can see:
+## Manage pulses
 
-- **Last run** -- timestamp + status of the most recent execution
-- **Last error** -- captured if the run failed (e.g. provider unavailable, sandbox denied)
-- **Next run** -- the upcoming `nextRunAt` so you know exactly when it'll fire
+Edit the prompt or schedule, pause a pulse, or delete it when it is no longer needed. Inspect the resulting [runs](/runs) to review output and failures.
 
-## **When to Use Pulse**
-
-Reach for Pulse when the answer is **always the same kind of report** and you don't want to ask for it. Standups, weekly engineering updates, dependency audits, "is anything on fire?" briefs -- those benefit hugely from a fixed cadence.
-
-Don't use Pulse for one-off questions or for things that need fresh context every time -- a manual run with a focused prompt is faster.
+For keeping issue connections fresh without asking an agent to do work, use [Auto Sync](/automations). Pulse is not a webhook-triggered workflow.

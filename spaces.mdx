@@ -1,0 +1,44 @@
+---
+title: "Spaces"
+description: "Choose an agent, mode, instructions, and appearance for your work"
+icon: "layer-group"
+---
+
+A space is your configuration for working with an agent. It chooses the **provider** and **mode**, along with instructions and appearance.
+
+Switch spaces from the navigation rail. A workspace is the directory a Code agent works in; a space is the experience you use to work with that agent.
+
+## Choose a provider and mode
+
+| Provider | Code | Work | Chat |
+| --- | --- | --- | --- |
+| Claude Code | Yes | Yes | Yes |
+| OpenAI Codex | Yes | Yes | Yes |
+| GitHub Copilot | Yes | — | — |
+| Cursor | Yes | — | — |
+
+Open the space customizer to choose a supported [mode](/modes), edit its instructions, and change its name, icon, or theme.
+
+## Add instructions
+
+A space's system prompt provides guidance for its runs. Use it for preferences such as writing style, review expectations, or how to approach a task.
+
+Repository instructions and [skills](/skills) still follow the selected provider's discovery rules. A space prompt does not replace those files or expand the provider's permissions.
+
+## Conversation settings
+
+Choose the model, effort, thinking, and permissions supported by the provider in the composer. Each conversation keeps its own settings.
+
+New chats inherit your last explicitly chosen settings for that provider on that backend. Opening an older conversation does not change the defaults for new ones. Plan and Goal are conversation-specific choices.
+
+## Changing a mode
+
+A run keeps the mode it started with when you continue or fork it. Changing a space's mode applies to new conversations; it does not turn an existing Chat run into a writable Work run.
+
+Atlas uses a Work experience for Page chats without changing your space's saved mode. Leaving Atlas returns you to your previous experience.
+
+## Appearance and enabled agents
+
+Use **Settings → Appearance** for themes, accents, and fonts. You can choose a separate look for each provider.
+
+Use **Settings → General → Active agents** to control which runtimes appear in the picker. Account sign-in and provider configuration live in their respective Settings sections.

@@ -1,64 +1,50 @@
 ---
-title: "Linked Tasks"
-icon: "link-horizontal"
+title: "Linked tasks"
+description: "Bring synced issues and error signals into a workspace conversation"
+icon: "link"
 ---
 
-Mains lets you link issues and tasks from your project management tools directly to a workspace. Instead of copy-pasting task descriptions into the agent, you connect the original item — the agent reads it as context and works from there, all the way to opening a pull request.
+Attach an issue or task to your next message so the agent has its requirements alongside the relevant code.
 
-## **Supported Sources**
+## Available sources
 
-| **Service** | **What you can link**                          |
-| ----------- | ---------------------------------------------- |
-| **GitHub**  | Issues, pull requests                          |
-| **GitLab**  | Issues, merge requests                         |
-| **Linear**  | Issues                                         |
-| **Jira**    | Issues, stories, tasks                         |
-| **Asana**   | Tasks                                          |
-| **Trello**  | Cards                                          |
-| **Sentry**  | Errors as signals (stack traces, affected users) |
+| Service | Context |
+| --- | --- |
+| GitHub | Issues |
+| GitLab | Issues |
+| Linear | Issues |
+| Jira | Tickets |
+| Asana | Tasks |
+| Trello | Cards |
+| Sentry | Error signals, including diagnostic details |
 
-## **How It Works**
+GitHub pull requests have a separate live [PR view](/pull-requests). They are not imported as ordinary issue records.
+
+## Add task context
 
 <Steps>
-  <Step title="Link a task">
-    In your workspace, connect an issue or task from any supported service. Mains fetches the title, description, labels, comments, and any other metadata from the source.
+  <Step title="Connect and sync">
+    Open **Settings → Connections**, authenticate, and select the repositories, teams, projects, or boards you want to sync.
   </Step>
-  <Step title="Add to context">
-    The linked task appears in the file explorer alongside your codebase files. Select it to include its contents in the agent's context — no need to retype or summarize the requirements.
+  <Step title="Scope the project">
+    Link those resources to your Code project to find the relevant issues together.
   </Step>
-  <Step title="Work through it">
-    The agent uses the task description as its goal. It reads the requirements, explores the codebase, and implements the changes.
+  <Step title="Attach the item">
+    Pick an issue from [Tasks](/tasks) or the composer `@` menu. Review its context chip before sending.
   </Step>
-  <Step title="Open a PR">
-    When the work is done, go straight to the [**<u>diff viewer</u>**](/diff-viewer) — review the changes, commit, and open a pull request. The PR description is generated from the linked task, so the full context carries through from issue to merge.
+  <Step title="Add implementation context">
+    Attach related files or code selections and describe the result you want.
   </Step>
 </Steps>
 
-## **File Explorer Integration**
+## Freshness
 
-The file explorer lets you build the agent's context by selecting both the linked task **and** related files from your codebase. Browse your project tree, pick the files that are relevant to the task, and add them to context together with the issue — so the agent starts with the full picture: what needs to be done and the code it needs to work with.
+Issue context comes from Mains's local synced data. Use **Sync** or [Auto Sync](/automations) to refresh it before starting work that depends on recent changes.
 
-- **Select related files** — pick source files, configs, or tests from the file explorer to include alongside the task
-- **Combine task + code** — the agent sees the issue requirements and the relevant code in a single context
-- **No manual copying** — skip pasting file paths or code snippets into the prompt
+Attaching an issue does not guarantee that every source comment or later edit is included. Inspect the imported detail when that matters.
 
-<Note>
-  Linking a task doesn't clone or duplicate any data. Mains reads from the source in real time, so the agent always sees the latest description and comments.
-</Note>
+## Status and publishing
 
-## **Automatic Status Updates**
+Workspace status is local to Mains. It does not automatically move the linked issue through your tracker's workflow.
 
-When you work through a linked task, Mains automatically updates its status in the source service to match your progress. For example, when the agent starts working on a Linear issue it moves to "In Progress", and when you open a PR it moves to "In Review" — following the workflow defined in your project management tool.
-
-This works across all supported services. Mains respects the status transitions configured in each tool, so statuses are only moved to valid next states.
-
-## **End-to-End Flow**
-
-A typical workflow looks like this:
-
-1. You pick an issue from Linear (or Jira, GitHub, etc.)
-2. Link it to your workspace
-3. The agent reads the issue, understands the requirements, and implements the changes
-4. You review the diff, commit, and create a PR — with the issue context already filled in
-
-No context switching, no rewriting requirements, no manual PR descriptions.
+When you draft a PR, review the description and include the issue reference you want. Linking an issue does not submit tracker comments, create a PR, or close the issue by itself.

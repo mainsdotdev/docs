@@ -1,0 +1,55 @@
+---
+title: "iPhone companion"
+description: "Pair a phone with your backend to follow conversations and answer requests"
+icon: "mobile-screen"
+---
+
+The iPhone companion connects to your own Mains backend. Agents, repositories, and provider authentication remain on the computer or server.
+
+Check [Mains](https://mains.dev) for current distribution availability. Android has not shipped.
+
+## Pair your phone
+
+<Steps>
+  <Step title="Make the backend reachable">
+    Enable [Tailscale HTTPS or network access](/relay/share-this-machine) on Desktop, or start [Server](/server) with a reachable endpoint.
+
+    Production mobile builds require secure access such as Tailscale HTTPS. Development and preview builds can allow plain LAN traffic.
+  </Step>
+  <Step title="Create a pairing code">
+    Choose **Show pairing code** under Mains Connect's Devices section, or run `mains pair` on Server.
+  </Step>
+  <Step title="Scan the QR">
+    Open pairing on the phone and scan the code within five minutes. Each code works once.
+  </Step>
+</Steps>
+
+The phone stores its own device token in the iOS Keychain. It does not need the host's owner token or AI-provider credentials.
+
+## What you can do
+
+Follow transcripts, tool activity, progress, and images. Start or continue a run, fork where supported, stop work, change supported run settings, and answer approvals or questions.
+
+You can attach supported files and images from the phone. The backend saves accepted attachments with the conversation.
+
+The companion does not provide the desktop's repository editor, Git actions, diff review, embedded browser, or remote terminal.
+
+## AI data sharing
+
+Before the first prompt for a provider on a backend, the phone asks for consent to send the prompt and relevant context through that host to the provider.
+
+Review or withdraw the choice in **Settings → AI Data Sharing**. Declining does not delete previously stored history.
+
+## Offline and reconnecting
+
+The phone keeps the last state received so you can read cached chats offline. It reconnects and updates when the backend is reachable.
+
+If a connection is refused, create new pairing after checking the host's device list. If versions are incompatible, update the client and backend.
+
+Keep the host awake and running. Mains operates no cloud relay that can run the task while your host is unavailable.
+
+## Forget or revoke
+
+Use **Settings → Forget this computer** to remove the phone's pairing and cached backend data.
+
+Use **Revoke** on the host, or `mains auth revoke DEVICE_ID`, to block that phone's token. Forgetting locally and revoking on the host serve different purposes.
