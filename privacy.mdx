@@ -4,7 +4,7 @@ description: "Understand local storage, provider sharing, credentials, remote ac
 icon: "shield"
 ---
 
-Mains stores your work on the backend you choose: your Mac by default, or your own standalone server. It does not operate a hosted relay for your runs.
+Mains stores your work on the backend you choose: your Mac by default, or your own standalone server. Mains is not in the path of your runs. It uploads your work only if you sign in to the optional [Bridge](/bridge/overview) sync service.
 
 Agent requests and context go from that backend to the selected provider and connected tools. Local-first storage does not mean that an AI provider never receives your material.
 
@@ -19,6 +19,7 @@ Agent requests and context go from that backend to the selected provider and con
 | Atlas Pages and saved files | Atlas storage and Page revisions |
 | CLI authentication | Provider tooling on the host |
 | Phone pairing and cached history | iOS Keychain and the phone's local database |
+| Bridge copies (optional) | Encrypted on the Bridge hub after you sign in. See [Bridge](#bridge) below |
 
 On macOS, the default database is `~/Library/Application Support/mains/mains.db`. Files such as attachments, collection sources, and Atlas copies also live alongside it.
 
@@ -38,11 +39,21 @@ Desktop encrypts connected-service credentials using macOS Keychain-backed stora
 
 Mains Server cannot decrypt those desktop entries. Reauthorizing a connection on Server stores a separate host credential without replacing Desktop's entry. Protect access to the server data directory.
 
-Provider CLI authentication remains on the execution host.
+Provider CLI authentication remains on the execution host. Bridge never syncs provider credentials, service-connection tokens, or Git authentication.
+
+## Bridge
+
+Bridge is optional and off until you sign in. After you sign in, each device encrypts synced chats, Atlas Pages and files, and related project records before sending them to a hub that Mains operates. See [Work across devices](/bridge/work-across-devices) for what syncs.
+
+The hub stores ciphertext. It cannot read content, file names, or file types. It does see your account email, device names and platforms, when each device was last online, storage use, and the size and timing of encrypted records.
+
+Your devices hold the account key. The recovery code is never sent to the hub. If you lose every approved device and the recovery code, nobody can unlock your Bridge data, including Mains.
+
+Revoking a device cannot delete data it already downloaded. Turn off **Project sync** for a Code project to keep its new chats and changes off the hub. See [Bridge privacy and security](/bridge/security) for the full data flow.
 
 ## Remote access
 
-[Mains Connect](/relay/overview) connects directly to your own backend over LAN, Tailscale, or SSH.
+[Mains Connect](/relay/overview) connects directly to your own backend over LAN, Tailscale, or SSH. It is separate from Bridge and sends no data through the Bridge hub.
 
 Each paired phone receives a revocable device token. Pairing codes expire and are single-use. The owner token grants broader backend access; keep it private.
 

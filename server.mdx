@@ -63,6 +63,17 @@ mains auth revoke DEVICE_ID
 
 Each paired phone has its own revocable token. Re-pair a revoked device rather than giving it the owner token.
 
+## Sync with Bridge
+
+Server can join your [Bridge](/bridge/overview) account. Open **Bridge** in the browser interface, or use the CLI on the server host:
+
+```bash
+mains bridge login --hub https://bridge.mains.dev
+mains bridge status
+```
+
+See [Get started with Bridge](/bridge/get-started#use-bridge-from-mains-server) for the full command list. Desktop and Server protect the Bridge identity differently and cannot read each other's. Give a Server that runs on the same Mac as Desktop its own `--data-dir`.
+
 ## Run as a service
 
 ```bash

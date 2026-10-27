@@ -1,0 +1,102 @@
+---
+title: "Work across devices"
+description: "Read chats from other devices, edit Atlas anywhere, and choose what syncs"
+icon: "laptop"
+---
+
+Once a device is approved, Bridge syncs in the background. Opening a chat also syncs it right away.
+
+## Read chats from other devices
+
+Chats from your other devices appear in the sidebar with a Bridge badge. Hover over the badge to see the device's name and whether it is online.
+
+Use **Filter chats → Sources** to show **Local**, **Bridge**, or both.
+
+A chat's history downloads the first time you open it. The hub keeps an encrypted copy, so you can read a chat even when the device that started it is off. Open a chat once while you are online if you want it available offline.
+
+### Read-only chats
+
+A chat keeps running on the device that started it. On every other device, the composer is replaced by a bar that says **Read-only · runs on** and the device's name.
+
+- While the agent is working and that device is online, the bar shows **Running** and how long it has been running.
+- If the device is offline, the bar shows **Offline since** or **Last seen** with a time instead of a stale running state.
+- If Bridge cannot reach the hub, the bar shows **Showing saved data**.
+
+You cannot rename, pin, archive, or delete another device's chats. You cannot run commands or edit files in its workspaces from here.
+
+To act on a chat, choose **Continue with remote control**. This opens **Settings → [Mains Connect](/relay/overview)**. That device must already be shared there.
+
+## Code workspaces from other devices
+
+A workspace from another device appears under the local project with the same Git remote. It shows that device's branch and a Bridge mark. The mark turns green while the device is online.
+
+If no local project matches, the workspaces are grouped under the device's name.
+
+If a repository with a Git remote exists only on another device, choose **Clone to this device** on its group. Mains opens the clone dialog with the repository address filled in.
+
+## Edit Atlas on any device
+
+Pages, files, images, favorites, and Trash sync. Start a Page on one device and keep writing it on another. Work and Chat Projects, their sources, and spaces are shared the same way.
+
+Files and images download when you open them. Files above 50 MiB stay on the device that made them. In [Atlas](/atlas), a generated file from another device's chat carries a Bridge mark.
+
+Moving an item to Trash syncs, and you can restore it on any device. Permanently deleting an item removes it from your other devices.
+
+### Resolve a Page conflict
+
+If two devices change the same Page at once, Mains keeps both versions. The Page shows **Edited on two devices at the same time.**
+
+<Steps>
+  <Step title="Compare">
+    Choose **View the other version**.
+  </Step>
+  <Step title="Pick one">
+    Choose **Keep current version** or **Use the other version**. The version you leave behind stays in the Page's history.
+  </Step>
+</Steps>
+
+## Work offline
+
+Mains works without a connection. Changes wait on the device and upload when it reconnects. **Bridge → Account** shows how many changes are waiting, when sync last ran, and when you are offline.
+
+## When a change cannot sync
+
+If Mains cannot prepare a change for upload, such as a file it cannot read, the change stays on the device. Everything else keeps syncing. **Account** shows **N changes need attention**.
+
+Expand it to see each change with its error, the number of attempts, and when Mains retries next. It lists up to 20.
+
+Mains retries on its own and waits longer after each failed attempt, from 2 up to 60 seconds. Choose **Retry now** to try again at once. If you edit the item again, Mains tries the new version right away.
+
+If you change a lot at once, the hub can limit how fast you upload. Mains then pauses uploads for about a minute and shows **Upload limit reached; resuming at** a time. This is not an error. Downloads continue, and you do not need to do anything.
+
+## Choose what syncs
+
+**Include existing history and Atlas** is on when you sign in. Turn it off to keep what is already on the device local. Later, choose **Sync existing history** under **Local history** to add it.
+
+**Project sync** lists each Code project with its workspaces and chats. Work and Chat Projects are not listed there.
+
+Turn a project off to keep its new chats and changes on this device. Copies that already synced stay on your other devices. Turn it back on and Mains uploads what changed while it was off.
+
+## Storage and access
+
+**Storage** shows how much of your storage limit you use. If storage is full, changes stay on the device until you free space.
+
+**Beta access** shows your plan, the end date, and a status such as **Active**, **Expired**, or **Inactive**. Choose **Refresh access status** to check again. After Mains changes your access, the new status can take up to a minute to appear.
+
+When access is not active, Mains pauses new uploads. You can still read, download, and delete synced data. Queued changes resume when access returns. You do not need to sign in again.
+
+## Manage devices
+
+**Devices** lists every device on the account with its platform, access state, and last-seen time. The device you are using is tagged **This device**. When you are connected to another backend, it is tagged **Connected device**. A revoked device drops off the list.
+
+To remove a device, choose **Revoke access** and confirm. It loses sync access immediately, and anything saved on it stays there. You cannot revoke the device you are using; disconnect it instead. See [Privacy and security](/bridge/security) for what revoking cannot do.
+
+To replace your recovery code, choose **New recovery code**. The previous code stops working.
+
+## Disconnect a device
+
+Choose **Disconnect** on the **Bridge** page. This device keeps its chats, Atlas items, and files you already opened. Mains removes the Bridge keys and the copies of other devices' chats. Unsent changes are kept.
+
+Select **Remove synced Spaces, Collections and Atlas from** this device to remove those shared items too. Files you never opened are not available after you disconnect.
+
+Disconnecting asks the hub to revoke this device first. If the hub refuses the device, Mains finishes disconnecting without it. If the request is interrupted, choose **Finish disconnecting**. Changes you make while signed out queue up when you sign in to the same account again.

@@ -6,7 +6,7 @@ The site uses [Mintlify](https://mintlify.com). Pages are `.mdx` files with YAML
 
 ## Structure
 
-- **Guides**: getting started, core concepts, Atlas, everyday workflows, scheduling, Mains Connect, and preferences.
+- **Guides**: getting started, core concepts, Atlas, everyday workflows, scheduling, Mains Connect, Bridge, and preferences.
 - **Agents**: provider setup and provider-specific capabilities.
 - **Integrations**: service connections, plugins, skills, MCP, and dependency guards.
 
@@ -51,7 +51,10 @@ The October 10, 2026 refresh was checked against the sibling `mains` repository 
 | Connections and task context | Backend connections/sync modules and desktop Tasks UI |
 | Pulse and Auto Sync | Backend Pulse/automation modules and desktop scheduling UI |
 | Mains Connect, server, and mobile | Backend transport, `apps/server`, `apps/mobile`, desktop backend settings |
+| Bridge | `apps/bridge` (hub), `packages/backend/src/modules/bridge`, `packages/contracts/src/bridge*.ts`, `apps/server/src/bridge-cli.ts`, desktop `features/bridge`, the `/bridge` route, and `features/settings/components/bridge*` |
 | Browser, Lens, voice, and shortcuts | Desktop main-process services and renderer feature/settings modules |
+
+The Bridge pages (`bridge/*`) were added on October 20, 2026 and re-checked on October 27, 2026 against the sibling `mains` repository at `6999d21f` on its `v0.20` branch. Bridge is a closed beta, so those pages describe invitation-based access and omit work that `apps/bridge` lists as deferred hardening, such as key rotation and run-stream fences. Bridge is a top-level page in the navigation rail, and Mains Connect lives under Settings. The Atlas Pages autosave, history checkpoints, and cover gallery (`pages.mdx`) were checked against the same revision.
 
 Read implementation and tests together when a README, release post, or old document disagrees with current behavior. Use official provider documentation for external prerequisites. Keep release announcements separate from shipping capabilities.
 

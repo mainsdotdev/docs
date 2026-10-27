@@ -10,7 +10,9 @@ An Atlas Page is an editable document kept in your library independently of a co
 
 Open [Atlas](/atlas) and choose **Start a page** or a template. The starter creates a blank Page and prepares a draft prompt; the agent begins only when you send it.
 
-Type `/` in the editor to insert headings, lists, tables, images, and other blocks. Changes save automatically.
+Type `/` in the editor to insert headings, lists, tables, images, and other blocks.
+
+Mains keeps a draft on this device as you type and saves it to the backend about every 30 seconds while you keep editing. It saves again when you close the window. If a save fails, the draft stays on this device.
 
 Use the Page's chat to ask for a section, rewrite, or summary:
 
@@ -31,15 +33,25 @@ Work conversations can create and update Pages with Atlas tools. Code and Chat c
 
 ## History
 
-Open **History** from the Page menu to inspect saved revisions and whether you or the agent made them.
+Open **History** from the Page menu to inspect saved versions and whether you, the agent, or a restore made them.
 
-Restoring a revision creates a new current version. Later revisions remain in history, so restoring does not erase what came after the selected version.
+History lists the last version of each of your 10 most recent editing sessions. A session ends after 10 minutes without changes, after 30 minutes, or when a different author, such as the agent, makes a change. Autosaves within a session count as one version, so history does not list every save.
+
+Restoring a version creates a new current version marked **Restored**. The version it replaces stays in history, so you can go back.
+
+On a Page that Bridge has never synced, Mains removes versions that history no longer lists. A synced Page keeps them, because other devices may build on them.
 
 Page history tracks Page content and title. Your current icon and cover are kept separately.
 
 ## Icons, covers, and tabs
 
-Add an icon or a cover from an uploaded image or saved Atlas image. Adjust the cover framing to suit the Page.
+Choose **Add icon** to pick an icon. Choose **Add cover** to open **Page cover**. There you can upload an image with **Upload image**, pick one under **Your images** (use **Show more** for the rest), or choose from the bundled gallery.
+
+The gallery has 40 covers in five sections: **Color & Gradient**, **British Library**, **Birmingham Museums Trust**, **The Metropolitan Museum of Art**, and **NASA**. A gallery cover is stored once in your Atlas. It does not appear in your library or under **Your images**.
+
+After you pick a cover, choose **Change cover** to swap it or **Reposition** to adjust its framing. Framing is stored on the device where you set it.
+
+In Work mode, the agent can set a Page's icon to a single emoji and choose a cover from the gallery. Changing only the icon or cover does not add a history version.
 
 Open several Pages in tabs. Closing a tab closes the view and preserves the Page. Use Trash when you want to remove it from the library.
 

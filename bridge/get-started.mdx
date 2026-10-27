@@ -1,0 +1,134 @@
+---
+title: "Get started with Bridge"
+description: "Join the beta, sign in, save your recovery code, and add a second device"
+icon: "right-to-bracket"
+---
+
+Set up Bridge once on your first device, then approve each additional device. Each step happens on the **Bridge** page. Open it from the navigation rail.
+
+## Before you start
+
+- Install Mains 0.20 or newer on every device you want to sync.
+- Get a beta invitation for your email address. Mains invites people in small groups. You may receive an invitation email. It lists these steps and has no sign-in link, so sign in from Mains.
+- Have a password manager ready for your recovery code.
+
+## Join the beta
+
+Bridge access is tied to an email address that Mains has invited. Creating an account does not grant access.
+
+<Steps>
+  <Step title="Start sign-in">
+    Open **Bridge** and choose **Sign in**. Mains opens your browser to finish.
+  </Step>
+  <Step title="Sign in to your account">
+    Sign in with GitHub, or create an account with email and password. A new email account must verify its mailbox before you can sign in with the password.
+  </Step>
+  <Step title="Activate your access">
+    If your email has an invitation, choose **Activate beta**. This starts 30 days of access. Bridge shows when it ends.
+  </Step>
+</Steps>
+
+Use the exact email Mains invited. With GitHub, that email must be verified on your GitHub account. Plus aliases and dots count as different addresses.
+
+Without an invitation, the browser page says access is unavailable. Your chats and Pages stay on your device and nothing syncs.
+
+Opening the invitation page does not start the 30 days. **Activate beta** does. Activating again, or signing in on another device, does not extend the period.
+
+## Set up your first device
+
+In the **Sign in to Bridge** window, choose:
+
+| Setting | What it does |
+| --- | --- |
+| **Device name** | The name your other devices show for this one |
+| **Include existing history and Atlas** | On by default. Turn it off to keep the chats and Pages already on this device local |
+| **Advanced → Bridge hub URL** | Release builds fill this in. Change it only if you were given a different address |
+
+Choose **Sign in** and finish in the browser. Mains creates your account key on this device.
+
+### Save your recovery code
+
+Choose **Show recovery code** under **Recovery code** and store the code in a password manager. Mains shows it once, right after it creates your account key. Choose **I saved it — hide code** when you are done. Afterwards the button reads **New recovery code**.
+
+<Warning>
+  If you lose every approved device and your recovery code, nobody can unlock your Bridge data, including Mains. Your local data stays on each device, but the encrypted copy on the hub is unrecoverable.
+</Warning>
+
+If you did not save the code, choose **New recovery code** on a signed-in device. Replacing a code makes the previous one stop working.
+
+## Add another device
+
+A new device cannot read anything until you approve it. Approval takes two short checks.
+
+<Steps>
+  <Step title="Sign in on the new device">
+    Open **Bridge** and sign in to the same account. The new device shows **Step 1 of 2** with a code and waits for approval.
+  </Step>
+  <Step title="Approve it from a device that is already in">
+    Open **Bridge** on the approved device. Mains Desktop also shows an **Approve a Mains backend** notification, and clicking it opens **Bridge**. Under **Device setup**, type the code from the new device's screen and choose **Approve device**. Choose **Decline** if the codes differ.
+  </Step>
+  <Step title="Verify the new device">
+    **Device setup** on the approved device now shows **Step 2 of 2** with a join code for the new device. Enter that code on the new device under **Verify this device**, then choose **Verify and start sync**.
+  </Step>
+</Steps>
+
+Sync stays paused on the new device until the join code matches. The join code leaves **Device setup** once the new device connects.
+
+The approving device never shows the first code. You type it from the new device, so a match proves the request came from the screen in front of you. The join code proves the new device received your real account key rather than a substitute.
+
+### No other device nearby
+
+If none of your approved devices is available, enter your recovery code instead. On the waiting device, type it into **Recovery code** and choose **Use recovery code**. Your other devices can be offline.
+
+On a waiting device you can also choose **Request approval again** or **Disconnect from Bridge**.
+
+## Use Bridge from Mains Server
+
+Mains Server has the same **Bridge** page in its browser interface. You can also run `mains bridge` on the server host.
+
+```bash
+mains bridge login --hub https://bridge.mains.dev
+mains bridge status
+```
+
+`login` prints a sign-in link and code. If this is your first device, it then prints your recovery code once. If the account already has a device, it tells you the next step.
+
+| Command | What it does |
+| --- | --- |
+| `mains bridge login --hub URL` | Signs in. Add `--label NAME` to name the device or `--local-history` to keep existing history local |
+| `mains bridge status` | Shows sign-in state, sync health, queued changes, usage, and join codes |
+| `mains bridge approve BACKEND_ID --code CODE` | Approves a waiting device with the code from its screen, then prints its join code |
+| `mains bridge reject BACKEND_ID` | Declines a waiting device |
+| `mains bridge confirm --code JOIN_CODE` | Enters the join code on a newly approved device |
+| `mains bridge recover` | Unlocks a waiting device with your recovery code |
+| `mains bridge revoke BACKEND_ID` | Removes a device's access |
+| `mains bridge recovery --replace` | Replaces your recovery code |
+| `mains bridge logout` | Disconnects. Add `--remove-synced` to also remove synced Spaces, Collections, and Atlas |
+| `mains bridge projects` | Lists projects and their sync setting |
+| `mains bridge local-only PROJECT_ID --on` | Keeps a project local. Use `--off` to resume syncing |
+| `mains bridge sync-history` | Adds history you left out at sign-in |
+| `mains bridge sync` | Syncs now and retries changes that [need attention](/bridge/work-across-devices#when-a-change-cannot-sync) |
+
+`mains bridge recover` reads the code from a prompt with echo off. It never accepts the code as an argument. The commands accept the same `--data-dir`, `--server-url`, and `--token` options as other [server](/server) admin commands.
+
+## Check sync status
+
+The **Account** section shows the current state.
+
+| Status | Meaning |
+| --- | --- |
+| **No pending changes** or **Last synced** | Everything sent has arrived |
+| **Syncing…** | Changes are moving now. **Syncing · N changes waiting to sync** means some are still queued |
+| **N changes waiting to sync** | Changes are queued on this device |
+| **Upload limit reached; resuming at** a time | The hub is pacing your uploads. Mains resumes by itself, and downloads continue |
+| **N changes need attention** | Some changes could not upload yet. Everything else keeps syncing. See [When a change cannot sync](/bridge/work-across-devices#when-a-change-cannot-sync) |
+| **Offline** | The hub is unreachable. Mains reconnects automatically |
+| **Sync paused** | Something needs attention. Your local data is kept |
+| **Read only** | New uploads are paused because storage is full or access ended |
+| **Sync is not enabled** | Sync is off on this device |
+
+If another device sent a change this device cannot apply, the status adds how many were skipped. Mains skips them and keeps syncing.
+
+When you are connected to another backend through [Mains Connect](/relay/overview), **Bridge** manages that backend, not your Mac.
+
+Next, learn how to [work across devices](/bridge/work-across-devices).

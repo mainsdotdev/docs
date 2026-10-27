@@ -59,8 +59,22 @@ icon: "circle-question"
   <Accordion title="How do I back up local work?">
     Stop the backend and preserve its whole data directory, including attachments, collection sources, and Atlas files alongside the database. Your repositories and provider credentials may need separate backups.
   </Accordion>
-  <Accordion title="Is Bridge available for cross-device sync?">
-    [Bridge](https://mains.dev/bridge) is announced as coming soon. Current remote access connects clients to one running backend; it does not synchronize independent backend databases.
+  <Accordion title="How is Bridge different from Mains Connect?">
+    [Bridge](/bridge/overview) copies encrypted Atlas and chat data between independent backends, so synced work is there even when the other device is off. [Mains Connect](/relay/overview) points a client at one running backend. Synced chats are read-only on other devices; use remote control to act on one.
+  </Accordion>
+  <Accordion title="I cannot join Bridge or activate the beta">
+    Bridge is a closed beta. Sign in with the exact email address Mains invited. With GitHub, that email must be verified on your GitHub account, and plus aliases or dots count as different addresses. Without an invitation, the browser page says access is unavailable. If the page says **Email is paused for today**, continue with GitHub or try again tomorrow. See [Get started](/bridge/get-started).
+  </Accordion>
+  <Accordion title="A new device is stuck waiting in Bridge">
+    The new device needs two checks. On an approved device, open **Bridge**, find **Device setup**, type the code shown on the new device, and choose **Approve device**. Then enter the join code that **Device setup** now shows on the new device. If no approved device is available, use your recovery code. See [Add another device](/bridge/get-started#add-another-device).
+  </Accordion>
+  <Accordion title="Bridge shows Read only, Sync paused, or changes that need attention">
+    **Read only** means new uploads are paused because storage is full or beta access ended. You can still read, download, and delete synced data, and your changes queue on the device. **Sync paused** means something needs attention; your local data is kept. Choose **Refresh access status** under **Beta access**, then check [Storage and access](/bridge/work-across-devices#storage-and-access).
+
+    **N changes need attention** under **Account** lists changes Mains could not upload yet. Everything else keeps syncing, and Mains retries them. Choose **Retry now** to try again at once. **Upload limit reached; resuming at** a time is not an error: Mains pauses uploads for about a minute. See [When a change cannot sync](/bridge/work-across-devices#when-a-change-cannot-sync).
+  </Accordion>
+  <Accordion title="I lost my Bridge recovery code">
+    On a signed-in device, choose **New recovery code** on the **Bridge** page. The previous code stops working. If you lost every approved device and the code, nobody can unlock your encrypted Bridge data, including Mains. See [Privacy and security](/bridge/security).
   </Accordion>
 </AccordionGroup>
 

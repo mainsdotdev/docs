@@ -1,0 +1,90 @@
+---
+title: "Bridge"
+description: "Sync Atlas and chats across your Mains devices with end-to-end encryption"
+icon: "arrows-rotate"
+---
+
+**Bridge** keeps your Atlas and chats in step across your devices. Sign in on a second computer and you see the chats, Pages, and files from the first one.
+
+Every device still runs its own agents. Bridge copies encrypted data between devices. It never runs an agent for you.
+
+<Note>
+  Bridge is a closed beta that arrived in Mains 0.20. Access is by invitation and lasts 30 days from activation. Purchases are not available yet. See [Get started](/bridge/get-started).
+</Note>
+
+## What you can do
+
+- **Edit Atlas anywhere.** Start a Page on one device and keep writing it on another. Files and images come along.
+- **Read chats from your other devices.** They appear in the sidebar with the device's name and whether it is online.
+- **See your other devices' Code workspaces.** They appear under the matching project.
+- **Keep working offline.** Changes wait on the device and sync when it reconnects.
+- **Choose what leaves.** Keep a project local, or leave your existing history out when you sign in.
+
+Chats from another device are read-only. To act on one, use remote control through [Mains Connect](/relay/overview).
+
+## Bridge and Mains Connect
+
+Bridge and Mains Connect solve different problems. You can use both.
+
+| | Bridge | Mains Connect |
+| --- | --- | --- |
+| What it does | Copies your data between independent backends | Points one client at one running backend |
+| Where chats run | On the device that started them | On the backend you connect to |
+| When the other device is off | You still read synced chats and edit Atlas | You cannot reach its work |
+| What it needs | A Bridge account and internet access | A reachable backend over LAN, Tailscale, or SSH |
+
+Bridge does not make a device reachable. **Continue with remote control** on a synced chat opens **Settings → Mains Connect**, and that device must already be shared there.
+
+## What syncs
+
+| Data | On your other devices |
+| --- | --- |
+| Atlas Pages, files, images, favorites, and Trash | Editable. If two devices edit the same Page at once, you choose which version to keep |
+| Work and Chat Projects (collections), their sources, and spaces | Shared and editable |
+| Chats, with tool activity, attachments, and selected outputs | Read-only copies |
+| Code projects and workspaces, with their review findings, diffs, and automation settings | Read-only copies. Folder paths are for display only |
+
+Files up to 50 MiB sync. Larger files stay on the device that made them.
+
+## What stays on each device
+
+These never sync:
+
+- Agent sign-ins and provider settings, including API keys.
+- Service connections, their tokens, and the tasks and issues they fetch.
+- App settings and paired phones.
+- Repository files, Git state, and terminals.
+- Code projects whose sync you turn off, and history you leave out at sign-in.
+
+Bridge sign-in is separate from agent authentication, service connections, and Git or `gh` authentication. Signing in to Bridge does not sign in anything else.
+
+## Limits
+
+| Limit | Value |
+| --- | --- |
+| Storage | 1 GiB per account |
+| File size | 50 MiB per file |
+
+When storage is full or beta access ends, you can still read, download, and delete synced data. New changes wait on the device until there is room or access is active again.
+
+## Where it works
+
+Open **Bridge** from the navigation rail.
+
+- **Mains Desktop** on macOS signs in through your browser.
+- **Mains Server** on macOS or Linux signs in through its browser interface or the `mains bridge` command. See [Mains Server](/server).
+- **The iPhone companion** cannot sign in to Bridge or manage its keys. It connects to one backend, as before.
+
+Update every device to Mains 0.20 or newer before you sign in.
+
+<Columns cols={2}>
+  <Card title="Get started" icon="right-to-bracket" href="/bridge/get-started">
+    Join the beta, sign in, and add a second device.
+  </Card>
+  <Card title="Work across devices" icon="laptop" href="/bridge/work-across-devices">
+    Read chats, edit Pages, and choose what syncs.
+  </Card>
+  <Card title="Privacy and security" icon="lock" href="/bridge/security">
+    See what the hub can and cannot read.
+  </Card>
+</Columns>

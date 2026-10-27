@@ -1,0 +1,106 @@
+---
+title: "Bridge privacy and security"
+description: "See what leaves your device, what the Bridge hub can read, and how keys and devices are protected"
+icon: "lock"
+---
+
+Bridge is off until you sign in. Before then, nothing is uploaded and Mains works as described in [Privacy and data](/privacy).
+
+After you sign in, each device encrypts synced data before sending it. The Bridge hub stores and forwards ciphertext. It cannot read your content.
+
+## How data moves
+
+Mains hosts the hub. It stores three kinds of data:
+
+- Encrypted records and encrypted file chunks.
+- Your sign-in account and a list of your devices.
+- Routing information it needs to deliver records and count storage.
+
+Your devices talk to the hub over an encrypted connection. Agent requests still go from the device that runs the chat to your provider, exactly as before. Bridge does not change what a provider receives.
+
+## What the hub can and cannot see
+
+| The hub cannot read | The hub can see |
+| --- | --- |
+| Chat content and tool output | Your account email and sign-in provider |
+| Page content and history | Device names, platforms, public keys, and when each device was last online |
+| File contents, names, and types | How much storage you use |
+| Your account key and recovery code | The size and timing of encrypted records and files |
+| Project and table names | Which encrypted records belong to the same chat, by opaque identifier |
+
+Chats contain everything shown in the transcript, such as tool output and the file contents an agent read. All of it syncs encrypted.
+
+## Your keys
+
+The first device creates a random account key. Every approved device holds it. Mains never sends it to the hub unprotected.
+
+- **Desktop** protects the key with macOS Keychain-backed storage.
+- **Mains Server** protects it with its own key file in the data directory.
+
+Desktop and Server cannot read each other's protected identity. Give a Server on the same Mac its own `--data-dir` when you want both.
+
+### The recovery code
+
+The recovery code has 160 random bits. Mains shows it once and never sends it to the hub. It unlocks your account key on a new device when none of your approved devices is available.
+
+GitHub or email sign-in cannot recover the key. If you lose every approved device and the recovery code, nobody can unlock your encrypted data, including Mains. Your local data stays on each device.
+
+## How devices are approved
+
+A new device must pass two checks before it can read anything:
+
+1. You type the **code shown on the new device** into an approved device. Both devices compute it from the account and the new device's public keys. They ignore any code the hub supplies.
+2. You enter the **join code** from the approving device into the new device. It proves the new device received the real account key, not one a hub substituted.
+
+Each approval and removal is recorded in a signed log that every device verifies itself. The hub cannot add a device on its own. Each device also signs every record it writes, so a stolen sign-in token alone cannot publish as your device.
+
+Paired phones cannot manage Bridge keys. [Mains Connect](/relay/overview) access and Bridge approval are separate.
+
+## Revoke a device
+
+**Revoke access** removes a device from the account. It stops syncing, uploading, and downloading right away, including files it has not fetched yet.
+
+Revoking has limits:
+
+- It cannot delete data the device already has.
+- It does not re-encrypt your existing data with a new key. The account key stays the same, so a revoked device that kept it could still read encrypted data it obtains outside the hub's access checks, such as a leaked copy of hub data.
+
+Revoke a lost device promptly. If you stored the recovery code on it, replace the recovery code too.
+
+## If the hub turns a device away
+
+A device that the hub refuses does not take the hub's word for it. It reads the signed device log, which a removed device can still fetch while its sign-in is valid. It then checks that log against the history it already verified.
+
+- **The log shows the device was removed.** The device deletes its account key and asks you to sign in again.
+- **The hub refuses the log too.** The device keeps its key and asks you to sign in again. A refusal alone does not prove a removal.
+- **The log contradicts the hub or the verified history.** The device keeps its key, stops syncing, and reports a conflict. Sync waits until the problem clears.
+
+Disconnecting follows the same rule. If the hub refuses the device or serves a different history, Mains cannot record the removal there, so it finishes disconnecting on the device.
+
+## Deletion and retention
+
+Permanently deleting a chat or Atlas item removes it from your other devices after they sync. The hub frees its encrypted file storage after a 24-hour grace period. A small encrypted marker remains so other devices do not bring the item back.
+
+Claude's raw session data, which Bridge uploads with a Claude chat, expires from the hub after 30 days without activity in that chat. The visible chat remains.
+
+When you disconnect a device, Mains revokes it and removes its Bridge keys. Copies already on other devices stay there until you remove them from those devices.
+
+## Keep sensitive projects local
+
+Turn off sync for a Code project before its history can upload. Because **Project sync** appears after you sign in, use this order on your first device:
+
+<Steps>
+  <Step title="Sign in with history left out">
+    Turn off **Include existing history and Atlas** in the **Sign in to Bridge** window.
+  </Step>
+  <Step title="Turn off sensitive projects">
+    Under **Project sync**, turn off each project that should stay on this device.
+  </Step>
+  <Step title="Add the rest">
+    Choose **Sync existing history**. Projects you turned off stay local.
+  </Step>
+</Steps>
+
+New chats and changes you make after signing in sync unless you turned off sync for their project. Work and Chat Projects have no per-project switch, so their chats sync once you sign in.
+
+See [Work across devices](/bridge/work-across-devices) for project controls and [Get started](/bridge/get-started) for the sign-in flow.

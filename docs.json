@@ -86,6 +86,15 @@
             ]
           },
           {
+            "group": "Bridge",
+            "pages": [
+              "bridge/overview",
+              "bridge/get-started",
+              "bridge/work-across-devices",
+              "bridge/security"
+            ]
+          },
+          {
             "group": "Preferences",
             "pages": [
               "settings",
