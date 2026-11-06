@@ -12,10 +12,10 @@ icon: "circle-question"
     No. Claude and Codex support [Work and Chat](/modes) without a repository. Code uses projects and workspaces. Atlas Page conversations use Work.
   </Accordion>
   <Accordion title="Do Claude and Copilot need a separate CLI install?">
-    Their runtimes are bundled with Mains. Sign in during onboarding or through provider settings. Codex and Cursor need their own installed CLIs. See [Install](/install).
+    Their runtimes are bundled with Mains. Sign in during onboarding or through provider settings. Codex, Cursor, and OpenCode need their own installed CLIs. See [Install](/install).
   </Accordion>
   <Accordion title="My agent is unavailable or signed out">
-    Enable it in **Settings → General → Active agents**, then open its provider Settings section. Check runtime status and account authentication. For installed CLIs, use **codex login** or **agent login** as appropriate. Copilot, GitHub Connections, and GitHub CLI authentication are separate.
+    Enable it in **Settings → General → Active agents**, then open its provider Settings section. Check runtime status and account authentication. For installed CLIs, use `codex login`, `agent login`, or `opencode auth login` as appropriate. Copilot, GitHub Connections, and GitHub CLI authentication are separate.
   </Accordion>
   <Accordion title="Does every workspace have an isolated worktree?">
     No. New installs start with worktrees off. Turn them on in **Settings → Git**, or create another worktree from the project. Chats sharing one workspace share its files.

@@ -38,7 +38,7 @@ A pulse keeps the [mode](/modes) it was created with. Changing your active space
 | Work | Optional collection | Document digest, weekly report, meeting-note cleanup |
 | Chat | Optional collection | Read-only briefing, recap, planning questions |
 
-Claude and Codex support Work and Chat pulses. All four providers can run Code pulses.
+Claude and Codex support Work and Chat pulses. All five providers can run Code pulses.
 
 Collection sources are read when each scheduled run starts, so later source updates apply to future executions.
 
@@ -52,7 +52,7 @@ If you connect remotely, the schedule runs on that backend, not on the client de
 
 ## Run settings and approvals
 
-Pulse applies execution settings suited to scheduled work: Claude Auto, Codex Workspace Write, Copilot's scheduled permission policy, and Cursor Agent mode. Work and Chat policies still apply.
+Pulse applies execution settings suited to scheduled work: Claude Auto, Codex Workspace Write, Copilot's scheduled permission policy, Cursor Agent mode, and OpenCode Build agent. Work and Chat policies still apply.
 
 A scheduled task can still encounter a provider error, limit, question, or external-tool request. Write prompts that state the desired output and how to handle missing information.
 

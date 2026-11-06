@@ -1,0 +1,39 @@
+---
+title: "OpenCode configuration"
+description: "Connect OpenCode, choose a model and agent, and review tool requests in Code mode"
+keywords: ["OpenCode", "Build", "Plan", "agent setup"]
+icon: "gear"
+---
+
+Use **OpenCode** to work on repositories in Code mode. Mains uses the OpenCode CLI installed on the computer running your agents.
+
+## Set up OpenCode
+
+Install **OpenCode 2.0 or later**, then connect a model provider:
+
+```bash
+npm install -g @opencode/cli
+opencode auth login
+```
+
+Restart Mains after installation if it cannot find the CLI. Open **Settings → OpenCode** to check CLI compatibility and your connected providers.
+
+Enable OpenCode under **Settings → General → Active agents**, then choose an OpenCode space and open a Code project. For a remote backend, install and authenticate OpenCode on that backend's computer.
+
+## Choose a model and agent
+
+Choose a model in the composer. Available models and effort choices depend on what your OpenCode runtime reports.
+
+Choose **Build** or **Plan** for the session. **Build** is the default coding agent. **Plan** selects OpenCode's planning agent. Set the default under **Settings → OpenCode → Agent**.
+
+Review tool approval requests in Mains before allowing an operation. See [Approvals](/approvals).
+
+## Continue and fork
+
+Continue an existing conversation with a follow-up, or use **Fork** beside a response to explore another path. Mains resumes or forks the underlying OpenCode session.
+
+## Availability
+
+The initial integration supports **Code**. Work, Chat, Atlas editing, Mains plugin controls, MCP app extensions, realtime voice, and steering are unavailable for OpenCode.
+
+OpenCode authentication is separate from your [service connections](/connections) and Git or `gh` authentication.

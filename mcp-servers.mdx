@@ -57,8 +57,8 @@ Copilot uses its own runtime configuration. Adding a server to Claude's settings
 | --- | --- | --- |
 | `AtlasReadPage` | Claude, Codex | Code, Work, Chat |
 | `AtlasCreatePage`, `AtlasUpdatePage` | Claude, Codex | Work |
-| `SaveReview`, `SaveFinding`, `SaveFindings` | Claude, Copilot, Cursor | Code |
-| `CheckPackage` | Codex, Cursor | Code |
+| `SaveReview`, `SaveFinding`, `SaveFindings` | Claude, Copilot, Cursor, OpenCode | Code |
+| `CheckPackage` | Codex, Cursor, OpenCode | Code |
 
 Claude and Copilot use a pre-tool hook for [package guards](/dependency-guards), so they do not need the explicit CheckPackage tool.
 

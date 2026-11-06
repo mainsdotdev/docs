@@ -58,6 +58,10 @@ The Bridge pages (`bridge/*`) were added on October 20, 2026 and re-checked on O
 
 Read implementation and tests together when a README, release post, or old document disagrees with current behavior. Use official provider documentation for external prerequisites. Keep release announcements separate from shipping capabilities.
 
+## v0.22 preview audit
+
+On November 3, 2026, the v0.22 update was checked against product revision `9cfb6db8`, including the release tag `v0.22.0-preview.20261103` (`1b338cd8`). The update covers OpenCode setup and capability limits, project-grouped Code chats and search, Tasks scoping and status mapping, and Atlas history retention. Sources include the OpenCode driver and renderer provider descriptor, sidebar grouping implementation, Tasks status-mapping UI, and Atlas history service and tests. This release is a preview outside the stable automatic-update channel.
+
 ## Website link compatibility
 
 The audit covered the website sitemap plus its Work, Atlas, and Bridge pages. These documentation destinations appeared in the live site and remain available in this repository:
