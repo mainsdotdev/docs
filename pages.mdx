@@ -39,7 +39,9 @@ History lists the last version of each of your 10 most recent editing sessions. 
 
 Restoring a version creates a new current version marked **Restored**. The version it replaces stays in history, so you can go back.
 
-On a Page that Bridge has never synced, Mains removes versions that history no longer lists. A synced Page keeps them, because other devices may build on them.
+Mains always preserves the current revision and unresolved conflict revisions, even beyond the 10-session history window.
+
+On a Page that Bridge has never synced, Mains removes revisions outside the retained checkpoints. For synced Pages, it keeps autosaves within retained sessions and removes older history while preserving the current revision and unresolved conflicts.
 
 Page history tracks Page content and title. Your current icon and cover are kept separately.
 

@@ -4,15 +4,21 @@ description: "Find synced issues and live GitHub pull requests in Code mode"
 icon: "list-check"
 ---
 
-Open **Tasks** in Code to browse issues and pull requests. The two tabs have different data sources.
+Open **Tasks** in Code to browse issues and pull requests. Choose a connected service and resource in the sidebar to narrow your scope. Issues use local synced data; GitHub pull requests load live.
 
 ## Issues
 
-The Issues tab lists items synced from your selected [connection resources](/connections). Search and filter the list, then open an item for its detail.
+The Issues list shows items synced from your selected [connection resources](/connections). Search and filter by status, priority, assignee, label, provider, or repository where available. Open an item for its detail.
 
 Link resources to a [project](/projects) to narrow task context to the relevant repository or team. Attach an issue to a workspace prompt when you want the agent to work from it.
 
 Issue data is a local snapshot. Refresh it with a manual sync or Auto Sync when you need current tracker information.
+
+## Map issue statuses
+
+Click **Statuses** to see how your connected service's issue states map to Mains statuses. Select a team, project, or board in the sidebar to scope the mapping. Under **All issues**, the dialog groups states by connection.
+
+For services with configurable states, choose a Mains status or **Automatic** to restore the default mapping. GitHub and GitLab show their fixed open/closed rules instead. These mappings organize imported issues in Mains; they do not change statuses in the source tracker.
 
 ## Pull requests
 
